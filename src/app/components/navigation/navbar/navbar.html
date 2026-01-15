@@ -1,0 +1,81 @@
+<!-- SIDEBAR -->
+<aside class="sidebar" [class.open]="isSidebarOpen">
+  <ul class="sidebar-links">
+    <li>
+      <a routerLink="/admin/users">
+        <fa-icon [icon]="['fas', 'users']"></fa-icon>
+        Utilisateurs
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/support">
+        <fa-icon [icon]="['fas', 'headset']"></fa-icon>
+        Support
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/reports">
+        <fa-icon [icon]="['fas', 'chart-line']"></fa-icon>
+        Rapports
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/programs">
+        <fa-icon [icon]="['fas', 'dumbbell']"></fa-icon>
+        Programmes et contenus
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/billing">
+        <fa-icon [icon]="['fas', 'receipt']"></fa-icon>
+        Facturation
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/settings">
+        <fa-icon [icon]="['fas', 'gear']"></fa-icon>
+        Paramètres
+      </a>
+    </li>
+  </ul>
+</aside>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+  <!-- LEFT -->
+  <div class="nav-left">
+    <button class="btn-menu" (click)="toggleSidebar()">
+      <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+    </button>
+
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png"
+      alt="Logo"
+      class="logo"
+    />
+  </div>
+
+  <!-- CENTER -->
+  <div class="nav-center">
+    <input type="text" placeholder="Rechercher..." />
+  </div>
+
+  <!-- RIGHT -->
+  <div class="nav-right">
+
+    <button class="icon-btn">
+      <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
+    </button>
+
+    <button class="icon-btn">
+      <fa-icon [icon]="['fas', 'bell']"></fa-icon>
+    </button>
+
+    <button class="profile-btn">
+      <fa-icon [icon]="['fas', 'user']"></fa-icon>
+      <span>Nom Prénom</span>
+    </button>
+
+  </div>
+</nav>
