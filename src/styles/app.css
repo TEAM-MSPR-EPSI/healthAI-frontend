@@ -1,3 +1,14 @@
 /* Global app styles (moved) */
 :root { box-sizing: border-box; }
 body { margin: 0; font-family: Inter, system-ui, Arial, sans-serif; }
+
+
+.box-example{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+
+.box-example app-box-example{
+    margin: 10px;
+}
