@@ -1,0 +1,13 @@
+/* Admin page Bootstrap overrides and custom styles */
+.container {
+  max-width: 900px;
+}
+h2 {
+  margin-bottom: 1.5rem;
+}
+.table {
+  margin-bottom: 1.5rem;
+}
+.progress {
+  height: 1.5rem;
+}
