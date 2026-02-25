@@ -1,14 +1,60 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { filter } from 'rxjs/operators';
 
-import { NavbarComponent } from './shared/navbar/navbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('frontend');
+  protected readonly title = signal('HealthAI Coach');
+  protected sidenavOpened = signal(true);
+  protected isMobile = signal(false);
+  protected showShell = signal(true);
+
+  /* Menu items */
+  protected menuItems = [
+    { label: 'Métriques Utilisateurs', icon: 'people', route: '/user-metrics' },
+    { label: 'Analyses Nutritionnelles', icon: 'restaurant', route: '/nutrition' },
+    { label: 'Statistiques Fitness', icon: 'fitness_center', route: '/fitness' },
+    { label: 'KPIs Business', icon: 'bar_chart', route: '/kpi' },
+    { label: 'Validation des données', icon: 'checklist', route: '/data-check' },
+  ];
+
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {
+    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((result) => {
+      this.isMobile.set(result.matches);
+      this.sidenavOpened.set(!result.matches);
+    });
+
+    // Hide toolbar/sidebar on login & register pages
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((e) => {
+        const url = e.urlAfterRedirects || e.url;
+        this.showShell.set(!/^\/(login|register)/.test(url));
+      });
+  }
+
+  toggleSidenav() {
+    this.sidenavOpened.set(!this.sidenavOpened());
+  }
 }

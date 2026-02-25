@@ -1,13 +1,20 @@
-
 import { Routes } from '@angular/router';
-import { AdminPageComponent } from './pages/admin-page.component';
+
+import { UserMetricsComponent } from './pages/user-metrics/user-metrics.component';
+import { NutritionComponent } from './pages/nutrition/nutrition.component';
+import { FitnessComponent } from './pages/fitness/fitness.component';
+import { KpiComponent } from './pages/kpi/kpi.component';
 import { DataCheckingPageComponent } from './pages/data-checking-page.component';
-import { HomeComponent } from './pages/home/home';
+import { LoginComponent } from './pages/login.component';
+import { RegisterComponent } from './pages/register.component';
 
 export const routes: Routes = [
-  // { path: '', component: HomeComponent },
-  { path: '', component: AdminPageComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'admin', component: AdminPageComponent },
-  { path: 'data-check', component: DataCheckingPageComponent }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'user-metrics', component: UserMetricsComponent },
+  { path: 'nutrition', component: NutritionComponent },
+  { path: 'fitness', component: FitnessComponent },
+  { path: 'kpi', component: KpiComponent },
+  { path: 'data-check', component: DataCheckingPageComponent },
 ];

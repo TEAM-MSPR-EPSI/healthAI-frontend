@@ -1,0 +1,139 @@
+/* ===== App Layout ===== */
+.app-toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--admin-primary-500);
+  color: #fff;
+  height: 52px;
+  min-height: 52px;
+  box-shadow: 0 1px 3px rgba(43,54,38,0.08);
+}
+
+.toolbar-title {
+  margin-left: 10px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.toolbar-spacer { flex: 1; }
+
+.sidenav-container {
+  position: absolute;
+  top: 52px;
+  bottom: 0; left: 0; right: 0;
+}
+
+/* ===== Sidebar ===== */
+.sidenav {
+  width: 232px;
+  background: var(--admin-white);
+  border-right: 1px solid var(--admin-gray-200);
+}
+
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--admin-gray-200);
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 0.68rem;
+  color: var(--admin-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Sidebar nav items — Bootstrap btn style ===== */
+.sidenav mat-nav-list {
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidenav a[mat-list-item] {
+  border-radius: 4px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--admin-primary-500);
+  background: var(--admin-gray-100) !important;
+  border: 1px solid var(--admin-gray-200) !important;
+  letter-spacing: 0.01em;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.sidenav a[mat-list-item]:hover {
+  background: var(--admin-primary-300) !important;
+  color: #fff !important;
+  border-color: var(--admin-primary-300) !important;
+}
+
+.sidenav a[mat-list-item] mat-icon {
+  font-size: 19px;
+  width: 19px;
+  height: 19px;
+  margin-right: 10px;
+  color: var(--admin-gray-500);
+  transition: color 0.15s;
+}
+
+.sidenav a[mat-list-item]:hover mat-icon {
+  color: #fff !important;
+}
+
+/* Active link — filled primary */
+.active-link {
+  background: var(--admin-primary-400) !important;
+  color: #fff !important;
+  border-color: var(--admin-primary-400) !important;
+  font-weight: 600 !important;
+}
+
+.active-link mat-icon {
+  color: #fff !important;
+}
+
+/* ===== Main content ===== */
+.main-content {
+  background: var(--admin-gray-50);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .app-toolbar {
+    height: 48px;
+    min-height: 48px;
+  }
+  .sidenav-container {
+    top: 48px;
+  }
+  .sidenav {
+    width: 220px;
+  }
+}

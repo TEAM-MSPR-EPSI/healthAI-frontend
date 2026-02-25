@@ -1,0 +1,24 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <img src="logo.png" alt="HealthAI Coach" class="auth-logo" />
+    <h2>Connexion</h2>
+    <p class="auth-sub">Accédez à votre panneau d'administration</p>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required />
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button" tabindex="-1">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-flat-button class="auth-btn full-width" type="submit">Se connecter</button>
+      <div class="auth-link">
+        <a routerLink="/register">Créer un compte</a>
+      </div>
+    </form>
+  </div>
+</div>

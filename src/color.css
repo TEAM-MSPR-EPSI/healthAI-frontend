@@ -1,18 +1,27 @@
 :root {
-  /* Admin Primary Colors */
-  --admin-primary-100: #aedef3;
-  --admin-primary-200: #5dbde6;
-  --admin-primary-300: #3280ab;
-  --admin-primary-400: #154c70;
-  --admin-primary-500: #0b2638;
+  /* Primary — Olive / Forest green palette */
+  --admin-primary-100: #c5d5a8;
+  --admin-primary-200: #8fa872;
+  --admin-primary-300: #5e7a45;
+  --admin-primary-400: #3a4a2e;
+  --admin-primary-500: #2b3626;
 
-  /* Neutrals */
+  /* Neutrals — warm tones */
   --admin-white: #ffffff;
-  --admin-gray-100: #f4f6f8;
-  --admin-gray-300: #dcdcdc;
-  --admin-gray-500: #9aa0a6;
+  --admin-gray-50: #faf8f4;
+  --admin-gray-100: #f3f1eb;
+  --admin-gray-200: #e4e0d8;
+  --admin-gray-300: #d0ccc4;
+  --admin-gray-500: #9a958c;
+  --admin-gray-700: #5c5850;
+
+  /* Semantic */
+  --admin-success: #5e7a45;
+  --admin-warning: #c9a84c;
+  --admin-danger: #b84a3c;
 
   /* Effects */
-  --admin-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --admin-radius: 8px;
+  --admin-shadow: 0 1px 4px rgba(43, 54, 38, 0.06);
+  --admin-shadow-hover: 0 3px 12px rgba(43, 54, 38, 0.10);
+  --admin-radius: 6px;
 }

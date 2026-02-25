@@ -1,2 +1,51 @@
-<app-navbar></app-navbar>
-<router-outlet />
+<!-- Shell: toolbar + sidebar (hidden on login/register) -->
+@if (showShell()) {
+  <mat-toolbar class="app-toolbar">
+    <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="toolbar-title">Administration</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button routerLink="/login" aria-label="Déconnexion">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      [mode]="isMobile() ? 'over' : 'side'"
+      [opened]="sidenavOpened()"
+      (closed)="sidenavOpened.set(false)"
+      class="sidenav">
+
+      <div class="sidenav-header">
+        <img src="logo.png" alt="HealthAI Coach" class="brand-logo" />
+        <div class="brand-info">
+          <span class="brand-text">HealthAI Coach</span>
+          <span class="brand-sub">Panneau Admin</span>
+        </div>
+      </div>
+
+      <mat-nav-list>
+        @for (item of menuItems; track item.route) {
+          <a mat-list-item
+             [routerLink]="item.route"
+             routerLinkActive="active-link"
+             (click)="isMobile() ? toggleSidenav() : null">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <router-outlet />
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}
+
+<!-- No-shell: login / register pages -->
+@if (!showShell()) {
+  <router-outlet />
+}
