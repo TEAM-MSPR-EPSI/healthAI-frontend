@@ -4,9 +4,9 @@ import { UserMetricsComponent } from './pages/user-metrics/user-metrics.componen
 import { NutritionComponent } from './pages/nutrition/nutrition.component';
 import { FitnessComponent } from './pages/fitness/fitness.component';
 import { KpiComponent } from './pages/kpi/kpi.component';
-import { DataCheckingPageComponent } from './pages/data-checking-page.component';
-import { LoginComponent } from './pages/login.component';
-import { RegisterComponent } from './pages/register.component';
+import { DataCheckingPageComponent } from './pages/data-checking/data-checking-page.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
