@@ -1,25 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, NavigationEnd } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+
+import { SidebarComponent, MenuItem } from './shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
     MatSidenavModule,
     MatToolbarModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
+    SidebarComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -31,7 +31,7 @@ export class App {
   protected showShell = signal(true);
 
   /* Menu items */
-  protected menuItems = [
+  protected menuItems: MenuItem[] = [
     { label: 'Métriques Utilisateurs', icon: 'people', route: '/user-metrics' },
     { label: 'Analyses Nutritionnelles', icon: 'restaurant', route: '/nutrition' },
     { label: 'Statistiques Fitness', icon: 'fitness_center', route: '/fitness' },

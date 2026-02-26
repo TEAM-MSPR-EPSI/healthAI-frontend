@@ -18,25 +18,11 @@
       (closed)="sidenavOpened.set(false)"
       class="sidenav">
 
-      <div class="sidenav-header">
-        <img src="logo.png" alt="HealthAI Coach" class="brand-logo" />
-        <div class="brand-info">
-          <span class="brand-text">HealthAI Coach</span>
-          <span class="brand-sub">Panneau Admin</span>
-        </div>
-      </div>
+      <app-sidebar
+        [menuItems]="menuItems"
+        [isMobile]="isMobile()"
+        (linkClicked)="toggleSidenav()" />
 
-      <mat-nav-list>
-        @for (item of menuItems; track item.route) {
-          <a mat-list-item
-             [routerLink]="item.route"
-             routerLinkActive="active-link"
-             (click)="isMobile() ? toggleSidenav() : null">
-            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-            <span matListItemTitle>{{ item.label }}</span>
-          </a>
-        }
-      </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content class="main-content">

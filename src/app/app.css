@@ -7,7 +7,7 @@
   color: #fff;
   height: 52px;
   min-height: 52px;
-  box-shadow: 0 1px 3px rgba(43,54,38,0.08);
+  box-shadow: 0 1px 3px rgba(43, 54, 38, 0.08);
 }
 
 .toolbar-title {
@@ -25,111 +25,11 @@
   bottom: 0; left: 0; right: 0;
 }
 
-/* ===== Sidebar ===== */
+/* ===== Sidebar shell (width controlled by SidebarComponent) ===== */
 .sidenav {
   width: 232px;
-  background: var(--sidebar-bg); /* Use new functional variable */
+  background: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border);
-}
-
-.sidenav-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 16px 14px;
-  border-bottom: 1px solid var(--sidebar-border);
-}
-
-.brand-logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.brand-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-text {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--sidebar-text-main);
-  line-height: 1.2;
-}
-
-.brand-sub {
-  font-size: 0.68rem;
-  color: var(--sidebar-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.85; /* Increased opacity for RGAA contrast */
-}
-
-/* ===== Sidebar nav items — Bootstrap btn style ===== */
-.sidenav mat-nav-list {
-  padding: 12px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* Maintain gap */
-}
-
-.sidenav a[mat-list-item] {
-  border-radius: 6px !important;
-  height: 48px !important; /* Slightly taller for better touch target */
-  margin: 0 !important;
-  padding: 0 16px !important;
-  font-size: 0.9rem;
-  font-weight: 500;
-  
-  /* Default State: Light button on Light background */
-  background: var(--sidebar-btn-bg) !important; 
-  color: var(--sidebar-btn-text) !important;
-  border: 1px solid var(--sidebar-btn-border) !important;
-  
-  letter-spacing: 0.02em;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04); /* Subtle shadow for depth */
-}
-
-/* Hover State */
-.sidenav a[mat-list-item]:hover {
-  background: var(--sidebar-btn-hover-bg) !important;
-  color: var(--sidebar-btn-hover-text) !important;
-  border-color: var(--sidebar-btn-hover-border) !important;
-  transform: translateY(-1px); /* Subtle lift */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-}
-
-.sidenav a[mat-list-item] mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  color: var(--sidebar-btn-text); 
-  opacity: 0.75;
-  transition: all 0.2s;
-}
-
-/* Hover Icon */
-.sidenav a[mat-list-item]:hover mat-icon {
-  color: var(--sidebar-btn-hover-text) !important;
-  opacity: 1;
-}
-
-/* Active link — Dark Background, Light Text (High Contrast) */
-.active-link {
-  background: var(--sidebar-btn-active-bg) !important;
-  color: var(--sidebar-btn-active-text) !important;
-  border-color: var(--sidebar-btn-active-border) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 2px 6px rgba(43, 54, 38, 0.2) !important; /* Specific shadow */
-}
-
-.active-link mat-icon {
-  color: var(--sidebar-btn-active-text) !important;
-  opacity: 1;
 }
 
 /* ===== Main content ===== */

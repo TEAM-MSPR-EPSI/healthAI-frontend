@@ -6,8 +6,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installation des dépendances
-RUN npm install -g @angular/cli@17
-RUN npm install
+RUN npm install -g @angular/cli@20
+RUN npm install --legacy-peer-deps
 
 # Copie du code source
 COPY . .

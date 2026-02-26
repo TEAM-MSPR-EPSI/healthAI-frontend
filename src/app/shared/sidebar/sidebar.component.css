@@ -1,0 +1,139 @@
+/*
+ * ==========================================================
+ *  SIDEBAR — Variables personnalisables
+ *  Modifiez ces valeurs pour ajuster rapidement le rendu.
+ * ==========================================================
+ */
+:host {
+  /* Dimensions */
+  --sidebar-width: 232px;                 /* Largeur de la sidebar           */
+  --sidebar-header-padding: 18px 16px 14px;/* Padding du header               */
+
+  /* Boutons — Espacement */
+  --sidebar-nav-padding: 12px 12px;       /* Padding autour de la liste       */
+  --sidebar-btn-gap: 8px;                 /* Espace entre les boutons         */
+  --sidebar-btn-height: 44px;             /* Hauteur d'un bouton              */
+  --sidebar-btn-padding: 0 6px;          /* Padding interne d'un bouton      */
+  --sidebar-btn-radius: 6px;              /* Rayon des coins                  */
+  --sidebar-btn-font-size: 0.88rem;       /* Taille du texte                  */
+
+  /* Icônes */
+  --sidebar-icon-size: 20px;              /* Taille de l'icône                */
+  --sidebar-icon-gap: 10px;               /* Espace icône ↔ texte             */
+
+  display: block;
+  width: var(--sidebar-width);
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ===== Header ===== */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--sidebar-header-padding);
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--sidebar-text-main);
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 0.68rem;
+  color: var(--sidebar-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+}
+
+/* ===== Nav list ===== */
+.sidebar-nav {
+  padding: var(--sidebar-nav-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sidebar-btn-gap);
+}
+
+/* ===== Boutons ===== */
+.sidebar-nav a[mat-list-item] {
+  border-radius: var(--sidebar-btn-radius) !important;
+  height: var(--sidebar-btn-height) !important;
+  margin: 0 !important;
+  padding: var(--sidebar-btn-padding) !important;
+  font-size: var(--sidebar-btn-font-size);
+  font-weight: 500;
+
+  /* Couleurs par défaut */
+  background: var(--sidebar-btn-bg) !important;
+  color: var(--sidebar-btn-text) !important;
+  border: 1px solid var(--sidebar-btn-border) !important;
+
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Hover */
+.sidebar-nav a[mat-list-item]:hover {
+  background: var(--sidebar-btn-hover-bg) !important;
+  color: var(--sidebar-btn-hover-text) !important;
+  border-color: var(--sidebar-btn-hover-border) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Icônes */
+.sidebar-nav a[mat-list-item] mat-icon {
+  font-size: var(--sidebar-icon-size);
+  width: var(--sidebar-icon-size);
+  height: var(--sidebar-icon-size);
+  margin-right: var(--sidebar-icon-gap);
+  color: var(--sidebar-btn-text);
+  opacity: 0.75;
+  transition: all 0.2s;
+}
+
+.sidebar-nav a[mat-list-item]:hover mat-icon {
+  color: var(--sidebar-btn-hover-text) !important;
+  opacity: 1;
+}
+
+/* Active */
+.active-link {
+  background: var(--sidebar-btn-active-bg) !important;
+  color: var(--sidebar-btn-active-text) !important;
+  border-color: var(--sidebar-btn-active-border) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 6px rgba(43, 54, 38, 0.2) !important;
+}
+
+.active-link mat-icon {
+  color: var(--sidebar-btn-active-text) !important;
+  opacity: 1;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  :host {
+    --sidebar-width: 220px;
+    --sidebar-btn-height: 42px;
+    --sidebar-btn-font-size: 0.84rem;
+  }
+}
