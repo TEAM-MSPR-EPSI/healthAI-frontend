@@ -67,12 +67,14 @@ export class App {
       this.sidenavOpened.set(!result.matches);
     });
 
-    // Hide toolbar/sidebar on login, register & home pages
+    // Hide toolbar/sidebar on auth, onboarding, splash & home pages
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         const url = e.urlAfterRedirects || e.url;
-        this.showShell.set(!/^\/(login|register)?$/.test(url));
+        const noShellRoutes = /^\/(login|register|welcome|onboarding|lost-account|home)?$/;
+        const noShellPrefixes = /^\/(onboarding)\//;
+        this.showShell.set(!noShellRoutes.test(url) && !noShellPrefixes.test(url));
         this.isAdmin.set(/^\/admin/.test(url));
       });
   }

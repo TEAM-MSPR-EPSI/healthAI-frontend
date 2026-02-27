@@ -1,10 +1,15 @@
 import { Routes } from '@angular/router';
 
-// Auth pages
+// Auth & onboarding pages
+import { SplashComponent } from './pages/splash/splash.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { OnboardingNameComponent } from './pages/onboarding/name/onboarding-name.component';
+import { OnboardingGoalComponent } from './pages/onboarding/goal/onboarding-goal.component';
+import { LostAccountComponent } from './pages/lost-account/lost-account.component';
 
-// Public pages
+// Public / user pages
 import { HomeComponent } from './pages/home/home.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { IngredientsComponent } from './pages/ingredients/ingredients.component';
@@ -24,10 +29,17 @@ import { KpiComponent } from './pages/admin/kpi/kpi.component';
 import { DataCheckingPageComponent } from './pages/admin/data-checking/data-checking-page.component';
 
 export const routes: Routes = [
-  // Public
-  { path: '', component: HomeComponent },
+  // Splash & onboarding flow
+  { path: '', component: SplashComponent },
+  { path: 'welcome', component: WelcomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'onboarding/name', component: OnboardingNameComponent },
+  { path: 'onboarding/goal', component: OnboardingGoalComponent },
+  { path: 'lost-account', component: LostAccountComponent },
+
+  // User pages
+  { path: 'home', component: HomeComponent },
   { path: 'recipes', component: RecipesComponent },
   { path: 'ingredients', component: IngredientsComponent },
   { path: 'profile', component: ProfileComponent },
