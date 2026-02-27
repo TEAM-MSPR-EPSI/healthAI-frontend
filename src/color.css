@@ -54,6 +54,6 @@
   
   /* Button - Active State (High Contrast) */
   --sidebar-btn-active-bg: var(--color-nuit-foret);  /* Dark background for active item */
-  --sidebar-btn-active-text: var(--color-nuit-foret);     /* Light text on dark bg (Contrast 18:1) */
+  --sidebar-btn-active-text: #FFFFFF;                 /* White text on dark bg (High contrast) */
   --sidebar-btn-active-border: var(--color-nuit-foret);
 }

@@ -23,6 +23,9 @@ export class SidebarComponent {
   /** Whether the viewport is mobile (auto-close on click) */
   isMobile = input<boolean>(false);
 
+  /** Subtitle text for the sidebar header */
+  subtitle = input<string>('Panneau Admin');
+
   /** Emitted when a link is clicked on mobile so the parent can close the sidenav */
   linkClicked = output<void>();
 

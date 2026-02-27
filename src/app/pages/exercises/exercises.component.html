@@ -1,0 +1,29 @@
+<div class="page-content">
+  <h1>Exercices</h1>
+  <p class="page-description">Bibliothèque complète des exercices disponibles</p>
+
+  <div class="exercises-grid">
+    @for (ex of exercises; track ex.name) {
+      <mat-card class="exercise-card">
+        <mat-card-content>
+          <div class="exercise-header">
+            <span class="exercise-emoji">{{ ex.icon }}</span>
+            <div>
+              <h3 class="exercise-name">{{ ex.name }}</h3>
+              <span class="exercise-muscle">{{ ex.muscle }}</span>
+            </div>
+          </div>
+          <p class="exercise-desc">{{ ex.description }}</p>
+          <div class="exercise-tags">
+            <mat-chip>
+              <mat-icon>fitness_center</mat-icon> {{ ex.equipment }}
+            </mat-chip>
+            <mat-chip>
+              <mat-icon>signal_cellular_alt</mat-icon> {{ ex.difficulty }}
+            </mat-chip>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>

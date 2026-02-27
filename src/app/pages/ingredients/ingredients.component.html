@@ -1,0 +1,38 @@
+<div class="page-content">
+  <h1>Ingrédients</h1>
+  <p class="page-description">Base de données nutritionnelle des ingrédients (pour 100g)</p>
+
+  <div class="ingredients-grid">
+    @for (item of ingredients; track item.name) {
+      <mat-card class="ingredient-card">
+        <mat-card-content>
+          <div class="ingredient-header">
+            <span class="ingredient-emoji">{{ item.emoji }}</span>
+            <div>
+              <h3 class="ingredient-name">{{ item.name }}</h3>
+              <mat-chip>{{ item.category }}</mat-chip>
+            </div>
+          </div>
+          <div class="macros">
+            <div class="macro">
+              <span class="macro-value">{{ item.calories }}</span>
+              <span class="macro-label">kcal</span>
+            </div>
+            <div class="macro">
+              <span class="macro-value">{{ item.proteins }}g</span>
+              <span class="macro-label">Protéines</span>
+            </div>
+            <div class="macro">
+              <span class="macro-value">{{ item.carbs }}g</span>
+              <span class="macro-label">Glucides</span>
+            </div>
+            <div class="macro">
+              <span class="macro-value">{{ item.fats }}g</span>
+              <span class="macro-label">Lipides</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>

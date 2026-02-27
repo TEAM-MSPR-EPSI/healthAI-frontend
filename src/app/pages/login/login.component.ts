@@ -21,7 +21,7 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   login() {
-    // Placeholder: redirect to dashboard
-    this.router.navigate(['/user-metrics']);
+    // Placeholder: redirect to user dashboard
+    this.router.navigate(['/recipes']);
   }
 }

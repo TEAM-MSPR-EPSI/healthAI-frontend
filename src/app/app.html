@@ -1,12 +1,21 @@
-<!-- Shell: toolbar + sidebar (hidden on login/register) -->
+<!-- Shell: toolbar + sidebar (hidden on login/register/home) -->
 @if (showShell()) {
   <mat-toolbar class="app-toolbar">
     <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu">
       <mat-icon>menu</mat-icon>
     </button>
-    <span class="toolbar-title">Administration</span>
+    <span class="toolbar-title">{{ toolbarTitle() }}</span>
     <span class="toolbar-spacer"></span>
-    <button mat-icon-button routerLink="/login" aria-label="Déconnexion">
+    @if (isAdmin()) {
+      <button mat-icon-button routerLink="/recipes" aria-label="Retour utilisateur" title="Vue utilisateur">
+        <mat-icon>switch_account</mat-icon>
+      </button>
+    } @else {
+      <button mat-icon-button routerLink="/admin" aria-label="Administration" title="Administration">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </button>
+    }
+    <button mat-icon-button routerLink="/" aria-label="Déconnexion">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
@@ -19,8 +28,9 @@
       class="sidenav">
 
       <app-sidebar
-        [menuItems]="menuItems"
+        [menuItems]="currentMenuItems()"
         [isMobile]="isMobile()"
+        [subtitle]="isAdmin() ? 'Panneau Admin' : 'Mon Espace'"
         (linkClicked)="toggleSidenav()" />
 
     </mat-sidenav>
@@ -31,7 +41,7 @@
   </mat-sidenav-container>
 }
 
-<!-- No-shell: login / register pages -->
+<!-- No-shell: login / register / home pages -->
 @if (!showShell()) {
   <router-outlet />
 }

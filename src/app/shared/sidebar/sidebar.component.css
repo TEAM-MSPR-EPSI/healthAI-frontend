@@ -10,9 +10,9 @@
   --sidebar-header-padding: 18px 16px 14px;/* Padding du header               */
 
   /* Boutons — Espacement */
-  --sidebar-nav-padding: 12px 12px;       /* Padding autour de la liste       */
-  --sidebar-btn-gap: 8px;                 /* Espace entre les boutons         */
-  --sidebar-btn-height: 44px;             /* Hauteur d'un bouton              */
+  --sidebar-nav-padding: 8px 8px;         /* Padding autour de la liste       */
+  --sidebar-btn-gap: 4px;                 /* Espace entre les boutons         */
+  --sidebar-btn-height: 40px;             /* Hauteur d'un bouton              */
   --sidebar-btn-padding: 0 6px;          /* Padding interne d'un bouton      */
   --sidebar-btn-radius: 6px;              /* Rayon des coins                  */
   --sidebar-btn-font-size: 0.88rem;       /* Taille du texte                  */
