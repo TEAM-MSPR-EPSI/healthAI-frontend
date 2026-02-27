@@ -1,0 +1,119 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: var(--admin-gray-50, #faf8f4);
+  padding: 80px 24px 36px;
+  text-align: center;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  width: 100%;
+  max-width: 340px;
+}
+
+/* Brand header */
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--admin-primary-500, #2b3626);
+  line-height: 1;
+}
+
+.brand-ai {
+  font-weight: 300;
+}
+
+.brand-coach {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  color: var(--admin-gray-500, #9a958c);
+  margin-top: 1px;
+}
+
+/* Auth method buttons */
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.auth-method {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--admin-white, #fff);
+  border: 1px solid var(--admin-gray-200, #e4e0d8);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--admin-primary-500, #2b3626);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.auth-method:hover {
+  background: var(--color-sauge-pale, #EEF4E0);
+  border-color: var(--admin-primary-100, #c5d5a8);
+}
+
+.auth-method mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--admin-primary-400, #3a4a2e);
+}
+
+/* Footer */
+.login-footer {
+  margin-top: 40px;
+}
+
+.lost-link {
+  font-size: 0.82rem;
+  color: var(--admin-gray-500, #9a958c);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.lost-link:hover {
+  color: var(--admin-primary-300, #5e7a45);
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 60px 20px 28px;
+  }
+}

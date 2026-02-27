@@ -1,0 +1,32 @@
+<div class="login-page">
+  <div class="login-content">
+    <!-- Brand -->
+    <div class="login-brand">
+      <img src="logo.png" alt="" class="brand-icon" />
+      <div class="brand-text">
+        <span class="brand-name">Health<span class="brand-ai">AI</span></span>
+        <span class="brand-coach">COACH</span>
+      </div>
+    </div>
+
+    <!-- Auth buttons -->
+    <div class="auth-buttons">
+      <button class="auth-method" (click)="loginWith('apple')">
+        <mat-icon>apple</mat-icon>
+        <span>Connexion Apple</span>
+      </button>
+      <button class="auth-method" (click)="loginWith('google')">
+        <mat-icon>g_mobiledata</mat-icon>
+        <span>Connexion Google</span>
+      </button>
+      <button class="auth-method" (click)="loginWith('sms')">
+        <mat-icon>sms</mat-icon>
+        <span>Connexion SMS</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="login-footer">
+    <a class="lost-link" routerLink="/lost-account">Perdu mon compte →</a>
+  </div>
+</div>

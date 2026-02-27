@@ -1,0 +1,78 @@
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.program-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.program-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--admin-primary-300);
+}
+
+.program-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 4px;
+}
+
+.program-desc {
+  font-size: 0.82rem;
+  color: var(--admin-gray-700);
+  line-height: 1.45;
+  margin: 0 0 12px;
+}
+
+.program-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.program-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--admin-gray-700);
+}
+
+.program-meta mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--admin-primary-300);
+}
+
+.progress-section {
+  margin-top: 4px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--admin-gray-500);
+  margin-bottom: 6px;
+}
+
+.progress-pct {
+  font-weight: 600;
+  color: var(--admin-primary-400);
+}
+
+@media (max-width: 600px) {
+  .programs-grid {
+    grid-template-columns: 1fr;
+  }
+}

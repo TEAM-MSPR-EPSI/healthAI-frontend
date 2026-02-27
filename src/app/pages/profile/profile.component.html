@@ -1,0 +1,78 @@
+<div class="page-content">
+  <h1>Mon Profil</h1>
+  <p class="page-description">Modifiez vos informations personnelles</p>
+
+  <mat-card class="profile-card">
+    <mat-card-content>
+      <div class="avatar-section">
+        <div class="avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <h2>{{ profile.firstName }} {{ profile.lastName }}</h2>
+        <p class="email-display">{{ profile.email }}</p>
+      </div>
+
+      <form (ngSubmit)="save()" class="profile-form">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Prénom</mat-label>
+            <input matInput [(ngModel)]="profile.firstName" name="firstName" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Nom</mat-label>
+            <input matInput [(ngModel)]="profile.lastName" name="lastName" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="profile.email" name="email" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Téléphone</mat-label>
+            <input matInput [(ngModel)]="profile.phone" name="phone" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="profile.birthDate" name="birthDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Genre</mat-label>
+            <mat-select [(ngModel)]="profile.gender" name="gender">
+              <mat-option value="male">Homme</mat-option>
+              <mat-option value="female">Femme</mat-option>
+              <mat-option value="other">Autre</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Taille (cm)</mat-label>
+            <input matInput type="number" [(ngModel)]="profile.height" name="height" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Objectif</mat-label>
+            <mat-select [(ngModel)]="profile.goal" name="goal">
+              @for (g of goals; track g.value) {
+                <mat-option [value]="g.value">{{ g.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-flat-button class="save-btn" type="submit">
+            <mat-icon>save</mat-icon> Sauvegarder
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,195 @@
+.onboarding-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--admin-gray-50, #faf8f4);
+  padding: 24px 24px 36px;
+}
+
+/* ===== Progress top bar with back button ===== */
+.progress-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 32px;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--admin-gray-200, #e4e0d8);
+  border-radius: 10px;
+  background: var(--admin-white, #fff);
+  color: var(--admin-primary-500, #2b3626);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.back-btn:hover {
+  background: var(--color-sauge-pale, #EEF4E0);
+  border-color: var(--admin-primary-100, #c5d5a8);
+}
+
+.progress-bar {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+
+.progress-step {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--admin-gray-200, #e4e0d8);
+  transition: background 0.3s;
+}
+
+.progress-step.done,
+.progress-step.active {
+  background: var(--admin-primary-300, #5e7a45);
+}
+
+.progress-label {
+  font-size: 0.72rem;
+  color: var(--admin-gray-500, #9a958c);
+  flex-shrink: 0;
+}
+
+/* ===== Content ===== */
+.onboarding-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  max-width: 340px;
+}
+
+.onboarding-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--admin-primary-500, #2b3626);
+  margin: 0 0 6px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.onboarding-sub {
+  font-size: 0.82rem;
+  color: var(--admin-gray-500, #9a958c);
+  margin: 0 0 28px;
+  text-align: center;
+}
+
+/* ===== Goal options ===== */
+.goal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.goal-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--admin-white, #fff);
+  border: 1.5px solid var(--admin-gray-200, #e4e0d8);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--admin-primary-500, #2b3626);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.goal-option:hover {
+  background: var(--color-sauge-pale, #EEF4E0);
+  border-color: var(--admin-primary-100, #c5d5a8);
+}
+
+.goal-option.selected {
+  border-color: var(--admin-primary-300, #5e7a45);
+  background: var(--color-sauge-pale, #EEF4E0);
+}
+
+.goal-label {
+  flex: 1;
+  text-align: left;
+}
+
+.goal-radio {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--admin-gray-300, #d0ccc4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.goal-option.selected .goal-radio {
+  border-color: var(--admin-primary-300, #5e7a45);
+}
+
+.radio-inner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--admin-primary-300, #5e7a45);
+}
+
+/* ===== Footer ===== */
+.onboarding-footer {
+  width: 100%;
+  max-width: 340px;
+  margin-top: 32px;
+}
+
+.btn-continuer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--admin-primary-300, #5e7a45);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  font-family: inherit;
+}
+
+.btn-continuer:hover:not(:disabled) {
+  background: var(--admin-primary-400, #3a4a2e);
+}
+
+.btn-continuer:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .onboarding-page {
+    padding: 20px 20px 28px;
+  }
+  .onboarding-title {
+    font-size: 1.25rem;
+  }
+}

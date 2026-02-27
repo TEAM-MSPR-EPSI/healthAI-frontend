@@ -1,0 +1,32 @@
+<div class="page-content">
+  <h1>Matériel Disponible</h1>
+  <p class="page-description">Inventaire du matériel sportif</p>
+
+  <div class="equipment-grid">
+    @for (item of equipment; track item.name) {
+      <mat-card class="equipment-card" [class.unavailable]="!item.available">
+        <mat-card-content>
+          <div class="equipment-header">
+            <span class="equipment-emoji">{{ item.emoji }}</span>
+            <div class="equipment-title">
+              <h3 class="equipment-name">{{ item.name }}</h3>
+              <div class="equipment-badges">
+                <mat-chip>{{ item.category }}</mat-chip>
+                <span class="availability" [class.avail]="item.available">
+                  <mat-icon>{{ item.available ? 'check_circle' : 'cancel' }}</mat-icon>
+                  {{ item.available ? 'Disponible' : 'Indisponible' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <p class="equipment-desc">{{ item.description }}</p>
+          @if (item.weight !== '-') {
+            <span class="equipment-weight">
+              <mat-icon>scale</mat-icon> {{ item.weight }}
+            </span>
+          }
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>

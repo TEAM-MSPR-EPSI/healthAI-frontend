@@ -1,18 +1,59 @@
 :root {
-  /* Admin Primary Colors */
-  --admin-primary-100: #aedef3;
-  --admin-primary-200: #5dbde6;
-  --admin-primary-300: #3280ab;
-  --admin-primary-400: #154c70;
-  --admin-primary-500: #0b2638;
+  /* Primary — Olive / Forest green palette */
+  --admin-primary-100: #c5d5a8;
+  --admin-primary-200: #8fa872;
+  --admin-primary-300: #5e7a45;
+  --admin-primary-400: #3a4a2e;
+  --admin-primary-500: #2b3626;
 
-  /* Neutrals */
+  /* Neutrals — warm tones */
   --admin-white: #ffffff;
-  --admin-gray-100: #f4f6f8;
-  --admin-gray-300: #dcdcdc;
-  --admin-gray-500: #9aa0a6;
+  --admin-gray-50: #faf8f4;
+  --admin-gray-100: #f3f1eb;
+  --admin-gray-200: #e4e0d8;
+  --admin-gray-300: #d0ccc4;
+  --admin-gray-500: #9a958c;
+  --admin-gray-700: #5c5850;
+
+  /* Semantic */
+  --admin-success: #5B9E6F;
+  --admin-warning: #C4A35A;
+  --admin-danger: #C47A6A;
 
   /* Effects */
-  --admin-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --admin-radius: 8px;
+  --admin-shadow: 0 1px 4px rgba(43, 54, 38, 0.06);
+  --admin-shadow-hover: 0 3px 12px rgba(43, 54, 38, 0.10);
+  --admin-radius: 6px;
+
+  /* === Sidebar Palette (Functional & RGAA Compliant) === */
+  
+  /* Base Colors (Reference) */
+  --color-creme: #FAF8F3;
+  --color-sauge-pale: #EEF4E0;
+  --color-nuit-foret: #1A1C18;
+  --color-surface-sombre: #22251F;
+  --color-charbon: #2A2A25;
+  --color-vert-profond: #2b3626; /* Equivalent to primary-500 */
+
+  /* Functional Mappings (Light Mode Sidebar) */
+  --sidebar-bg: var(--color-creme);                  /* Background: Light Crème */
+  --sidebar-border: #D0D0C8;                         /* Border: Distinct gray for separation */
+  
+  --sidebar-text-main: var(--color-nuit-foret);      /* Text: Almost Black (Contrast 18:1 with bg) */
+  --sidebar-text-muted: #5c5850;                     /* Text: Dark Gray (Contrast 7:1 with bg) */
+  
+  /* Button - Default State */
+  --sidebar-btn-bg: #FFFFFF;                         /* White buttons on Crème bg */
+  --sidebar-btn-text: var(--color-vert-profond);     /* Dark Green text */
+  --sidebar-btn-border: #D8D4CC;                     /* Subtle border */
+  
+  /* Button - Hover State */
+  --sidebar-btn-hover-bg: var(--color-sauge-pale);   /* Light Green hover */
+  --sidebar-btn-hover-text: var(--color-nuit-foret); /* Dark text */
+  --sidebar-btn-hover-border: #c5d5a8;               /* Define border transition */
+  
+  /* Button - Active State (High Contrast) */
+  --sidebar-btn-active-bg: var(--color-nuit-foret);  /* Dark background for active item */
+  --sidebar-btn-active-text: #FFFFFF;                 /* White text on dark bg (High contrast) */
+  --sidebar-btn-active-border: var(--color-nuit-foret);
 }

@@ -1,0 +1,29 @@
+.welcome-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.welcome-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--admin-primary-300);
+  margin-bottom: 16px;
+}
+
+.welcome-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 8px;
+}
+
+.welcome-card p {
+  font-size: 0.85rem;
+  color: var(--admin-gray-500);
+  margin: 0;
+  line-height: 1.5;
+}

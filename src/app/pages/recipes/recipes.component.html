@@ -1,0 +1,32 @@
+<div class="page-content">
+  <h1>Recettes</h1>
+  <p class="page-description">Découvrez nos recettes saines et équilibrées</p>
+
+  <div class="recipe-grid">
+    @for (recipe of recipes; track recipe.name) {
+      <mat-card class="recipe-card">
+        <div class="recipe-emoji">{{ recipe.image }}</div>
+        <mat-card-content>
+          <h3 class="recipe-name">{{ recipe.name }}</h3>
+          <p class="recipe-desc">{{ recipe.description }}</p>
+          <div class="recipe-meta">
+            <span class="meta-item">
+              <mat-icon>local_fire_department</mat-icon> {{ recipe.calories }} kcal
+            </span>
+            <span class="meta-item">
+              <mat-icon>schedule</mat-icon> {{ recipe.time }}
+            </span>
+            <span class="meta-item">
+              <mat-icon>signal_cellular_alt</mat-icon> {{ recipe.difficulty }}
+            </span>
+          </div>
+          <mat-chip-set class="recipe-tags">
+            @for (tag of recipe.tags; track tag) {
+              <mat-chip>{{ tag }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>

@@ -1,0 +1,53 @@
+/* ===== App Layout ===== */
+.app-toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--admin-primary-400);
+  color: #ffffff;
+  height: 52px;
+  min-height: 52px;
+  box-shadow: 0 1px 3px rgba(43, 54, 38, 0.08);
+}
+
+.toolbar-title {
+  margin-left: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+}
+
+.toolbar-spacer { flex: 1; }
+
+.sidenav-container {
+  position: absolute;
+  top: 52px;
+  bottom: 0; left: 0; right: 0;
+}
+
+/* ===== Sidebar shell (width controlled by SidebarComponent) ===== */
+.sidenav {
+  width: 232px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+}
+
+/* ===== Main content ===== */
+.main-content {
+  background: var(--admin-gray-50);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .app-toolbar {
+    height: 48px;
+    min-height: 48px;
+  }
+  .sidenav-container {
+    top: 48px;
+  }
+  .sidenav {
+    width: 220px;
+  }
+}
