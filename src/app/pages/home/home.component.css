@@ -63,17 +63,20 @@
 }
 
 .feature-card {
-  background: #fff;
-  border-radius: var(--admin-radius);
+  background: var(--glass-bg-strong, rgba(255,255,255,0.75));
+  backdrop-filter: var(--glass-blur, blur(16px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
+  border-radius: 16px;
   padding: 28px 20px;
   text-align: center;
-  border: 1px solid var(--admin-gray-200);
-  box-shadow: var(--admin-shadow);
-  transition: box-shadow 0.2s;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.35));
+  box-shadow: var(--glass-shadow, 0 4px 24px rgba(43,54,38,0.08));
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .feature-card:hover {
   box-shadow: var(--admin-shadow-hover);
+  transform: translateY(-2px);
 }
 
 .feature-icon {

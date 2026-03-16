@@ -23,7 +23,14 @@
   /* Effects */
   --admin-shadow: 0 1px 4px rgba(43, 54, 38, 0.06);
   --admin-shadow-hover: 0 3px 12px rgba(43, 54, 38, 0.10);
-  --admin-radius: 6px;
+  --admin-radius: 12px;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-blur: blur(16px);
+  --glass-shadow: 0 4px 24px rgba(43, 54, 38, 0.08);
 
   /* === Sidebar Palette (Functional & RGAA Compliant) === */
   

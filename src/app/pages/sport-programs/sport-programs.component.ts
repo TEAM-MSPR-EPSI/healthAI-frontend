@@ -1,71 +1,42 @@
-import { Component } from '@angular/core';
+// Component: SportPrograms | Purpose: Renders and manages UI behavior for this view.
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-sport-programs',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatChipsModule, MatProgressBarModule],
+  imports: [MatCardModule, MatIconModule, MatChipsModule, MatProgressBarModule, MatButtonModule, RouterLink],
   templateUrl: './sport-programs.component.html',
   styleUrl: './sport-programs.component.css',
 })
-export class SportProgramsComponent {
-  programs = [
-    {
-      name: 'Perte de Poids Express',
-      description: 'Programme intensif de 8 semaines combinant cardio et renforcement.',
-      duration: '8 semaines',
-      sessions: 24,
-      level: 'Intermédiaire',
-      progress: 65,
-      icon: 'local_fire_department',
-    },
-    {
-      name: 'Prise de Masse Musculaire',
-      description: 'Programme progressif axé sur l\'hypertrophie avec charges croissantes.',
-      duration: '12 semaines',
-      sessions: 48,
-      level: 'Avancé',
-      progress: 30,
-      icon: 'fitness_center',
-    },
-    {
-      name: 'Remise en Forme Douce',
-      description: 'Programme accessible pour reprendre le sport en douceur.',
-      duration: '6 semaines',
-      sessions: 18,
-      level: 'Débutant',
-      progress: 100,
-      icon: 'self_improvement',
-    },
-    {
-      name: 'Running Débutant',
-      description: 'Passez de 0 à 5km en 8 semaines avec des séances progressives.',
-      duration: '8 semaines',
-      sessions: 24,
-      level: 'Débutant',
-      progress: 45,
-      icon: 'directions_run',
-    },
-    {
-      name: 'HIIT Total Body',
-      description: 'Sessions courtes et intenses pour brûler un max de calories.',
-      duration: '4 semaines',
-      sessions: 16,
-      level: 'Avancé',
-      progress: 0,
-      icon: 'bolt',
-    },
-    {
-      name: 'Yoga & Flexibilité',
-      description: 'Améliorez votre souplesse et réduisez le stress en 6 semaines.',
-      duration: '6 semaines',
-      sessions: 18,
-      level: 'Débutant',
-      progress: 80,
-      icon: 'spa',
-    },
-  ];
+export class SportProgramsComponent implements OnInit {
+  programs: any[] = [];
+  loading = true;
+
+  constructor(private api: ApiService) {}
+
+  ngOnInit() {
+    this.api.getPrograms().subscribe({
+      next: (data) => {
+        this.programs = data.map((p: any) => ({
+          id: p.sport_program_id,
+          name: p.sport_program_name ?? p.program_name,
+          description: p.sport_program_objective ?? p.program_goal,
+          duration: `${p.sport_program_duration ?? p.program_duration_days ?? '?'} jours`,
+          sessions: p.sport_program_sessions ?? p.program_session_count ?? 0,
+          level: p.sport_program_objective ?? p.program_goal,
+          progress: 0,
+          icon: 'fitness_center',
+        }));
+        this.loading = false;
+      },
+      error: () => { this.loading = false; },
+    });
+  }
 }

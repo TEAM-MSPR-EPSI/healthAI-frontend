@@ -36,7 +36,10 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   text-align: center;
-  background: var(--admin-gray-50);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--admin-radius);
   padding: 10px 8px;
 }

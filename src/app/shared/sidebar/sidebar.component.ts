@@ -1,3 +1,4 @@
+// Component: Sidebar | Purpose: Renders and manages UI behavior for this view.
 import { Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 

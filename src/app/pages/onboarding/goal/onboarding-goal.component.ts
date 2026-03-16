@@ -1,3 +1,4 @@
+// Component: OnboardingGoal | Purpose: Renders and manages UI behavior for this view.
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -25,7 +26,7 @@ export class OnboardingGoalComponent {
   }
 
   next() {
-    // Placeholder: skip remaining onboarding, go to app
+    // Go to main app after onboarding
     this.router.navigate(['/recipes']);
   }
 

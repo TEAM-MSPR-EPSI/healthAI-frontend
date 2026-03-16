@@ -2,6 +2,15 @@
   <h1>Matériel Disponible</h1>
   <p class="page-description">Inventaire du matériel sportif</p>
 
+  <div class="page-nav-links">
+    <a routerLink="/exercises" class="nav-link-pill">
+      <mat-icon>fitness_center</mat-icon> Exercices
+    </a>
+    <a routerLink="/sport-programs" class="nav-link-pill">
+      <mat-icon>emoji_events</mat-icon> Programmes
+    </a>
+  </div>
+
   <div class="equipment-grid">
     @for (item of equipment; track item.name) {
       <mat-card class="equipment-card" [class.unavailable]="!item.available">

@@ -1,0 +1,25 @@
+<section class="all-recipes-section">
+  <h2>Toutes les recettes</h2>
+  @if (recipes.length) {
+    <div class="recipe-grid">
+      @for (recipe of recipes; track recipe.recipe_id) {
+        <a [routerLink]="'/recipes/' + recipe.recipe_id" class="recipe-card-link">
+          <mat-card class="recipe-card">
+            <div class="recipe-emoji">🍽️</div>
+            <mat-card-content>
+              <h3 class="recipe-name">{{ recipe.recipe_name }}</h3>
+              <p class="recipe-desc">{{ recipe.recipe_description }}</p>
+              @if (recipe.recipe_type) {
+                <mat-chip-set class="recipe-tags">
+                  <mat-chip>{{ recipe.recipe_type }}</mat-chip>
+                </mat-chip-set>
+              }
+            </mat-card-content>
+          </mat-card>
+        </a>
+      }
+    </div>
+  } @else if (!loading) {
+    <p class="empty-text">Aucune recette en base de données.</p>
+  }
+</section>

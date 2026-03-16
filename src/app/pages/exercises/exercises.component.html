@@ -2,6 +2,15 @@
   <h1>Exercices</h1>
   <p class="page-description">Bibliothèque complète des exercices disponibles</p>
 
+  <div class="page-nav-links">
+    <a routerLink="/equipment" class="nav-link-pill">
+      <mat-icon>sports_handball</mat-icon> Matériel
+    </a>
+    <a routerLink="/sport-programs" class="nav-link-pill">
+      <mat-icon>emoji_events</mat-icon> Programmes
+    </a>
+  </div>
+
   <div class="exercises-grid">
     @for (ex of exercises; track ex.name) {
       <mat-card class="exercise-card">

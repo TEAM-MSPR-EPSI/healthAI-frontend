@@ -41,16 +41,19 @@ html, body {
   gap: 18px;
 }
 
-/* Global card overrides */
+/* Global card overrides — glassmorphism */
 mat-card, .mat-mdc-card {
   border-radius: var(--admin-radius) !important;
-  box-shadow: var(--admin-shadow) !important;
-  border: 1px solid var(--admin-gray-200);
-  background: var(--admin-white) !important;
-  transition: box-shadow 0.2s ease;
+  box-shadow: var(--glass-shadow) !important;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 mat-card:hover, .mat-mdc-card:hover {
   box-shadow: var(--admin-shadow-hover) !important;
+  transform: translateY(-1px);
 }
 
 /* Square buttons globally */
@@ -115,6 +118,88 @@ mat-card:hover, .mat-mdc-card:hover {
 }
 .stat-trend.up { color: var(--admin-success); }
 .stat-trend.down { color: var(--admin-danger); }
+
+/* Inter-page navigation link pills */
+.page-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.nav-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--admin-primary-400);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-link-pill mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+.nav-link-pill:hover {
+  background: var(--admin-primary-100);
+  transform: translateY(-1px);
+}
+
+/* Profile quick links */
+.profile-links {
+  max-width: 720px;
+  margin: 20px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--admin-radius);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.profile-link:hover {
+  background: var(--admin-primary-100);
+  transform: translateX(4px);
+}
+.profile-link > mat-icon:first-child {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: var(--admin-primary-300);
+}
+.profile-link .link-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.link-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+}
+.link-sub {
+  font-size: 0.78rem;
+  color: var(--admin-gray-500);
+}
+.link-arrow {
+  color: var(--admin-gray-400);
+}
 
 @media (max-width: 768px) {
   .page-content {

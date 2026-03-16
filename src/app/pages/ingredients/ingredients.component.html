@@ -2,6 +2,12 @@
   <h1>Ingrédients</h1>
   <p class="page-description">Base de données nutritionnelle des ingrédients (pour 100g)</p>
 
+  <div class="page-nav-links">
+    <a routerLink="/recipes" class="nav-link-pill">
+      <mat-icon>restaurant_menu</mat-icon> Recettes
+    </a>
+  </div>
+
   <div class="ingredients-grid">
     @for (item of ingredients; track item.name) {
       <mat-card class="ingredient-card">

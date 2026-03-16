@@ -1,0 +1,34 @@
+.btn-primary-custom,
+.btn-secondary-custom {
+  border: 1px solid transparent;
+  border-radius: var(--admin-radius);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary-custom {
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary-custom:hover,
+.btn-primary-custom:focus-visible {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--surface-color);
+}
+
+.btn-secondary-custom {
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  border-color: var(--border-strong-color);
+}
+
+.btn-secondary-custom:hover,
+.btn-secondary-custom:focus-visible {
+  background-color: var(--highlight-soft-color);
+  color: var(--text-color-strong);
+  border-color: var(--secondary-color);
+}

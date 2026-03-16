@@ -1,0 +1,29 @@
+<div class="page-content">
+  <h1>Gestion des données</h1>
+  <p class="page-description">Consultez, modifiez ou supprimez les données du système.</p>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    @for (tab of tabs; track tab.key) {
+      <button class="tab-btn" [class.active]="activeTab === tab.key"
+              (click)="selectTab(tab.key)">
+        <mat-icon>{{ tab.icon }}</mat-icon>
+        <span>{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <app-admin-entity-table
+    [entity]="activeTab"
+    [columns]="getColumns(activeTab)"
+    [rows]="getData(activeTab)"
+    [idKey]="getIdKey(activeTab)"
+    [editingId]="editingId"
+    [editingEntity]="editingEntity"
+    [editBuffer]="editBuffer"
+    (startEditRow)="startEdit(activeTab, $event)"
+    (saveEditRow)="saveEdit()"
+    (cancelEditRow)="cancelEdit()"
+    (deleteRowById)="deleteRow(activeTab, $event)"
+  ></app-admin-entity-table>
+</div>

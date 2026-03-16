@@ -1,3 +1,4 @@
+// Routes: App.routes | Purpose: Defines navigation routes for the application.
 import { Routes } from '@angular/router';
 
 // Auth & onboarding pages
@@ -12,11 +13,14 @@ import { LostAccountComponent } from './pages/lost-account/lost-account.componen
 // Public / user pages
 import { HomeComponent } from './pages/home/home.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
+import { RecipeDetailComponent } from './pages/recipes/recipe-detail.component';
 import { IngredientsComponent } from './pages/ingredients/ingredients.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { BiometricsComponent } from './pages/biometrics/biometrics.component';
 import { SportProgramsComponent } from './pages/sport-programs/sport-programs.component';
+import { ProgramDetailComponent } from './pages/sport-programs/program-detail.component';
 import { SportSessionsComponent } from './pages/sport-sessions/sport-sessions.component';
+import { SessionDetailComponent } from './pages/sport-sessions/session-detail.component';
 import { ExercisesComponent } from './pages/exercises/exercises.component';
 import { EquipmentComponent } from './pages/equipment/equipment.component';
 
@@ -27,6 +31,7 @@ import { NutritionComponent } from './pages/admin/nutrition/nutrition.component'
 import { FitnessComponent } from './pages/admin/fitness/fitness.component';
 import { KpiComponent } from './pages/admin/kpi/kpi.component';
 import { DataCheckingPageComponent } from './pages/admin/data-checking/data-checking-page.component';
+import { AdminManageComponent } from './pages/admin/manage/admin-manage.component';
 
 export const routes: Routes = [
   // Splash & onboarding flow
@@ -41,11 +46,14 @@ export const routes: Routes = [
   // User pages
   { path: 'home', component: HomeComponent },
   { path: 'recipes', component: RecipesComponent },
+  { path: 'recipes/:id', component: RecipeDetailComponent },
   { path: 'ingredients', component: IngredientsComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'biometrics', component: BiometricsComponent },
   { path: 'sport-programs', component: SportProgramsComponent },
+  { path: 'sport-programs/:id', component: ProgramDetailComponent },
   { path: 'sport-sessions', component: SportSessionsComponent },
+  { path: 'sport-sessions/:id', component: SessionDetailComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'equipment', component: EquipmentComponent },
 
@@ -56,4 +64,5 @@ export const routes: Routes = [
   { path: 'admin/fitness', component: FitnessComponent },
   { path: 'admin/kpi', component: KpiComponent },
   { path: 'admin/data-check', component: DataCheckingPageComponent },
+  { path: 'admin/manage', component: AdminManageComponent },
 ];

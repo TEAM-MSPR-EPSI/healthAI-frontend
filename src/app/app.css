@@ -50,4 +50,55 @@
   .sidenav {
     width: 220px;
   }
+  .main-content.mobile-user {
+    padding-bottom: 64px;
+  }
+}
+
+/* ===== Bottom Navigation (Mobile) ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background: var(--glass-bg-strong, rgba(255,255,255,0.75));
+  backdrop-filter: var(--glass-blur, blur(16px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
+  border-top: 1px solid var(--glass-border, rgba(255,255,255,0.35));
+  box-shadow: 0 -2px 12px rgba(43, 54, 38, 0.06);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: 1;
+  padding: 6px 0;
+  text-decoration: none;
+  color: var(--admin-gray-500, #9a958c);
+  font-size: 0.65rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.bottom-nav-item mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.bottom-nav-item.active {
+  color: var(--admin-primary-300, #5e7a45);
+  font-weight: 600;
+}
+
+.bottom-nav-item.active mat-icon {
+  color: var(--admin-primary-300, #5e7a45);
 }

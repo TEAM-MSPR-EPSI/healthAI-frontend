@@ -1,9 +1,11 @@
 <!-- Shell: toolbar + sidebar (hidden on login/register/home) -->
 @if (showShell()) {
   <mat-toolbar class="app-toolbar">
-    <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu">
-      <mat-icon>menu</mat-icon>
-    </button>
+    @if (!isMobile() || isAdmin()) {
+      <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    }
     <span class="toolbar-title">{{ toolbarTitle() }}</span>
     <span class="toolbar-spacer"></span>
     @if (isAdmin()) {
@@ -15,30 +17,48 @@
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
     }
-    <button mat-icon-button routerLink="/" aria-label="Déconnexion">
+    <button mat-icon-button (click)="logout()" aria-label="Déconnexion">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav
-      [mode]="isMobile() ? 'over' : 'side'"
-      [opened]="sidenavOpened()"
-      (closed)="sidenavOpened.set(false)"
-      class="sidenav">
+    <!-- Sidebar: always on desktop, hidden on mobile for user pages -->
+    @if (!isMobile() || isAdmin()) {
+      <mat-sidenav
+        [mode]="isMobile() ? 'over' : 'side'"
+        [opened]="sidenavOpened()"
+        (closed)="sidenavOpened.set(false)"
+        class="sidenav">
 
-      <app-sidebar
-        [menuItems]="currentMenuItems()"
-        [isMobile]="isMobile()"
-        [subtitle]="isAdmin() ? 'Panneau Admin' : 'Mon Espace'"
-        (linkClicked)="toggleSidenav()" />
+        <app-sidebar
+          [menuItems]="currentMenuItems()"
+          [isMobile]="isMobile()"
+          [subtitle]="isAdmin() ? 'Panneau Admin' : 'Mon Espace'"
+          (linkClicked)="toggleSidenav()" />
 
-    </mat-sidenav>
+      </mat-sidenav>
+    }
 
-    <mat-sidenav-content class="main-content">
+    <mat-sidenav-content class="main-content" [class.mobile-user]="isMobile() && !isAdmin()">
       <router-outlet />
     </mat-sidenav-content>
   </mat-sidenav-container>
+
+  <!-- Mobile bottom nav (user pages only, not admin) -->
+  @if (isMobile() && !isAdmin()) {
+    <nav class="bottom-nav">
+      @for (item of bottomNavItems; track item.route) {
+        <a class="bottom-nav-item"
+           [routerLink]="item.route"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: false }">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  }
 }
 
 <!-- No-shell: login / register / home pages -->

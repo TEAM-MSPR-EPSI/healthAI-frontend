@@ -1,5 +1,7 @@
+// Component: Splash | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-splash',
@@ -8,12 +10,15 @@ import { Router } from '@angular/router';
   styleUrl: './splash.component.css',
 })
 export class SplashComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit() {
-    // Auto-redirect after 2.5s
     setTimeout(() => {
-      this.router.navigate(['/welcome']);
+      if (this.auth.isLoggedIn()) {
+        this.router.navigate(['/recipes']);
+      } else {
+        this.router.navigate(['/welcome']);
+      }
     }, 2500);
   }
 }

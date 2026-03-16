@@ -2,31 +2,45 @@
   <h1>Programmes Sportifs</h1>
   <p class="page-description">Choisissez un programme adapté à vos objectifs</p>
 
+  <div class="page-nav-links">
+    <a routerLink="/sport-sessions" class="nav-link-pill">
+      <mat-icon>event</mat-icon> Séances
+    </a>
+    <a routerLink="/exercises" class="nav-link-pill">
+      <mat-icon>fitness_center</mat-icon> Exercices
+    </a>
+    <a routerLink="/equipment" class="nav-link-pill">
+      <mat-icon>sports_handball</mat-icon> Matériel
+    </a>
+  </div>
+
   <div class="programs-grid">
-    @for (prog of programs; track prog.name) {
-      <mat-card class="program-card">
-        <mat-card-content>
-          <div class="program-header">
-            <mat-icon class="program-icon">{{ prog.icon }}</mat-icon>
-            <div>
-              <h3 class="program-name">{{ prog.name }}</h3>
-              <mat-chip>{{ prog.level }}</mat-chip>
+    @for (prog of programs; track prog.id) {
+      <a [routerLink]="'/sport-programs/' + prog.id" class="program-card-link">
+        <mat-card class="program-card">
+          <mat-card-content>
+            <div class="program-header">
+              <mat-icon class="program-icon">{{ prog.icon }}</mat-icon>
+              <div>
+                <h3 class="program-name">{{ prog.name }}</h3>
+                <mat-chip>{{ prog.level }}</mat-chip>
+              </div>
             </div>
-          </div>
-          <p class="program-desc">{{ prog.description }}</p>
-          <div class="program-meta">
-            <span><mat-icon>calendar_today</mat-icon> {{ prog.duration }}</span>
-            <span><mat-icon>repeat</mat-icon> {{ prog.sessions }} séances</span>
-          </div>
-          <div class="progress-section">
-            <div class="progress-label">
-              <span>Progression</span>
-              <span class="progress-pct">{{ prog.progress }}%</span>
+            <p class="program-desc">{{ prog.description }}</p>
+            <div class="program-meta">
+              <span><mat-icon>calendar_today</mat-icon> {{ prog.duration }}</span>
+              <span><mat-icon>repeat</mat-icon> {{ prog.sessions }} séances</span>
             </div>
-            <mat-progress-bar mode="determinate" [value]="prog.progress"></mat-progress-bar>
-          </div>
-        </mat-card-content>
-      </mat-card>
+            <div class="progress-section">
+              <div class="progress-label">
+                <span>Progression</span>
+                <span class="progress-pct">{{ prog.progress }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="prog.progress"></mat-progress-bar>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </a>
     }
   </div>
 </div>

@@ -1,88 +1,59 @@
-import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+// Component: Recipes | Purpose: Renders and manages UI behavior for this view.
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
+import { ApiService } from '../../services/api.service';
+import { RecipeCategoryCarouselComponent } from './components/recipe-category-carousel.component';
+import { RecipesGridComponent } from './components/recipes-grid.component';
 
 @Component({
   selector: 'app-recipes',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatChipsModule],
+  imports: [RouterLink, MatIconModule, RecipeCategoryCarouselComponent, RecipesGridComponent],
   templateUrl: './recipes.component.html',
   styleUrl: './recipes.component.css',
 })
-export class RecipesComponent {
-  recipes = [
+export class RecipesComponent implements OnInit {
+  categories = [
     {
-      name: 'Salade César au Poulet',
-      description: 'Salade croquante avec poulet grillé, parmesan et croûtons maison.',
-      calories: 420,
-      time: '20 min',
-      difficulty: 'Facile',
-      tags: ['Protéiné', 'Salade'],
-      image: '🥗',
+      title: 'Petit Déjeuner',
+      recipes: [
+        { name: 'Porridge', time: '15 min', image: '🥣' },
+        { name: 'Pancakes', time: '20 min', image: '🥞' },
+        { name: 'Œufs brouillés', time: '35 min', image: '🔍' },
+      ],
     },
     {
-      name: 'Bowl Saumon Avocat',
-      description: 'Bol de riz avec saumon frais, avocat, edamame et sauce soja.',
-      calories: 580,
-      time: '25 min',
-      difficulty: 'Facile',
-      tags: ['Oméga-3', 'Bowl'],
-      image: '🍣',
+      title: 'Recettes pour vous',
+      recipes: [
+        { name: 'Salade César', time: '15 min', image: '🥗' },
+        { name: 'Poulet grillé', time: '20 min', image: '🍗' },
+        { name: 'Bowl légumes', time: '35 min', image: '🥙' },
+      ],
     },
     {
-      name: 'Pasta Bolognaise Légère',
-      description: 'Pâtes complètes avec sauce bolognaise allégée à la dinde.',
-      calories: 510,
-      time: '35 min',
-      difficulty: 'Moyen',
-      tags: ['Pâtes', 'Protéiné'],
-      image: '🍝',
-    },
-    {
-      name: 'Smoothie Bowl Fruits Rouges',
-      description: 'Smoothie épais aux fruits rouges, granola, chia et miel.',
-      calories: 320,
-      time: '10 min',
-      difficulty: 'Facile',
-      tags: ['Petit-déj', 'Vegan'],
-      image: '🫐',
-    },
-    {
-      name: 'Poulet Tikka Masala',
-      description: 'Poulet mariné dans une sauce crémeuse aux épices indiennes.',
-      calories: 620,
-      time: '45 min',
-      difficulty: 'Moyen',
-      tags: ['Épicé', 'Protéiné'],
-      image: '🍛',
-    },
-    {
-      name: 'Wrap Végétarien',
-      description: 'Tortilla garnie de houmous, légumes grillés et feta.',
-      calories: 380,
-      time: '15 min',
-      difficulty: 'Facile',
-      tags: ['Végétarien', 'Rapide'],
-      image: '🌯',
-    },
-    {
-      name: 'Soupe Miso au Tofu',
-      description: 'Soupe japonaise légère avec tofu soyeux, algues et oignons verts.',
-      calories: 180,
-      time: '15 min',
-      difficulty: 'Facile',
-      tags: ['Vegan', 'Léger'],
-      image: '🍜',
-    },
-    {
-      name: 'Steak de Thon Grillé',
-      description: 'Thon mi-cuit accompagné de légumes vapeur et sauce ponzu.',
-      calories: 450,
-      time: '20 min',
-      difficulty: 'Moyen',
-      tags: ['Poisson', 'Protéiné'],
-      image: '🐟',
+      title: 'Dîner équilibré',
+      recipes: [
+        { name: 'Pasta légère', time: '25 min', image: '🍝' },
+        { name: 'Saumon vapeur', time: '30 min', image: '🐟' },
+        { name: 'Soupe miso', time: '20 min', image: '🍜' },
+      ],
     },
   ];
+
+  /** Recipes loaded from the API */
+  dbRecipes: any[] = [];
+  loading = true;
+
+  constructor(private api: ApiService) {}
+
+  ngOnInit() {
+    this.api.getRecipes().subscribe({
+      next: (data) => {
+        this.dbRecipes = data;
+        this.loading = false;
+      },
+      error: () => { this.loading = false; },
+    });
+  }
 }

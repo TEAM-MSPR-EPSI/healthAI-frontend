@@ -4,6 +4,11 @@
   gap: 12px;
 }
 
+.session-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .session-card {
   border-left: 4px solid var(--admin-warning) !important;
 }
@@ -62,10 +67,12 @@
   gap: 3px;
   font-size: 0.75rem;
   color: var(--admin-gray-700);
-  background: var(--admin-gray-50);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 4px 8px;
   border-radius: 12px;
-  border: 1px solid var(--admin-gray-200);
+  border: 1px solid var(--glass-border);
 }
 
 .meta-pill mat-icon {

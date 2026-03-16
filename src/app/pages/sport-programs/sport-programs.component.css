@@ -4,6 +4,11 @@
   gap: 16px;
 }
 
+.program-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .program-header {
   display: flex;
   align-items: center;
