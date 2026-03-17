@@ -13,7 +13,22 @@
     }
   </div>
 
-  <app-admin-entity-table
+  <!-- SKELETON TABLE -->
+  @if (isLoading) {
+    <div class="skeleton-table">
+      @for (row of [1, 2, 3, 4, 5]; track row) {
+        <div class="skeleton-row">
+          @for (col of [1, 2, 3, 4]; track col) {
+            <div class="skeleton-cell"></div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- REAL TABLE -->
+  @if (!isLoading) {
+    <app-admin-entity-table
     [entity]="activeTab"
     [columns]="getColumns(activeTab)"
     [rows]="getData(activeTab)"
@@ -26,4 +41,5 @@
     (cancelEditRow)="cancelEdit()"
     (deleteRowById)="deleteRow(activeTab, $event)"
   ></app-admin-entity-table>
+  }
 </div>

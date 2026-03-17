@@ -1,6 +1,24 @@
 <section class="all-recipes-section">
   <h2>Toutes les recettes</h2>
-  @if (recipes.length) {
+
+  <!-- SKELETON LOADING -->
+  @if (loading) {
+    <div class="recipe-grid">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <div class="skeleton-card">
+          <div class="skeleton-emoji"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line" style="width: 70%;"></div>
+            <div class="skeleton-line" style="width: 100%; margin-top: 8px;"></div>
+            <div class="skeleton-line" style="width: 50%; margin-top: 8px;"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- REAL CONTENT -->
+  @if (!loading && recipes.length) {
     <div class="recipe-grid">
       @for (recipe of recipes; track recipe.recipe_id) {
         <a [routerLink]="'/recipes/' + recipe.recipe_id" class="recipe-card-link">
@@ -19,7 +37,7 @@
         </a>
       }
     </div>
-  } @else if (!loading) {
+  } @else if (!loading && !recipes.length) {
     <p class="empty-text">Aucune recette en base de données.</p>
   }
 </section>

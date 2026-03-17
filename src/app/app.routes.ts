@@ -16,6 +16,7 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
 import { RecipeDetailComponent } from './pages/recipes/recipe-detail.component';
 import { IngredientsComponent } from './pages/ingredients/ingredients.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ConsultantProfileComponent } from './pages/consultant-profile/consultant-profile.component';
 import { BiometricsComponent } from './pages/biometrics/biometrics.component';
 import { SportProgramsComponent } from './pages/sport-programs/sport-programs.component';
 import { ProgramDetailComponent } from './pages/sport-programs/program-detail.component';
@@ -49,6 +50,7 @@ export const routes: Routes = [
   { path: 'recipes/:id', component: RecipeDetailComponent },
   { path: 'ingredients', component: IngredientsComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'consultant', component: ConsultantProfileComponent },
   { path: 'biometrics', component: BiometricsComponent },
   { path: 'sport-programs', component: SportProgramsComponent },
   { path: 'sport-programs/:id', component: ProgramDetailComponent },

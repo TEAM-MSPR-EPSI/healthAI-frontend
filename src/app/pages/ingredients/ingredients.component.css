@@ -63,3 +63,77 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ✨ SKELETON LOADING STYLES ✨ */
+.skeleton-card {
+  padding: 14px;
+  border-radius: 4px;
+  background: var(--card-bg-light, #f5f5f5);
+  border: 1px solid var(--skeleton-border, #e0e0e0);
+}
+
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.skeleton-emoji {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  flex-shrink: 0;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+.skeleton-text-col {
+  flex: 1;
+}
+
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+.skeleton-macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.skeleton-macro {
+  height: 48px;
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

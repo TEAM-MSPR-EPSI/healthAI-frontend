@@ -2,29 +2,42 @@
   <h1>KPIs Business</h1>
   <p class="page-description">Indicateurs clés de performance : rétention, conversion, revenus et engagement.</p>
 
-  <!-- KPIs -->
-  <div class="kpi-row">
-    @for (kpi of kpis; track kpi.label) {
-      <mat-card class="kpi-card">
-        <mat-card-content>
-          <div class="kpi-icon-wrap">
-            <mat-icon>{{ kpi.icon }}</mat-icon>
-          </div>
-          <div class="stat-value">{{ kpi.value }}</div>
-          <div class="stat-label">{{ kpi.label }}</div>
-          <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
-        </mat-card-content>
-      </mat-card>
-    }
-  </div>
+  <!-- SKELETON LOADING -->
+  @if (isLoading) {
+    <div class="kpi-row">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <div class="skeleton-card"></div>
+      }
+    </div>
+  }
 
-  <!-- Charts -->
-  <div class="cards-grid">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Rétention mensuelle</mat-card-title>
-        <mat-card-subtitle>Évolution du taux de rétention</mat-card-subtitle>
-      </mat-card-header>
+  <!-- KPIs (une fois chargées) -->
+  @if (!isLoading) {
+    <div class="kpi-row">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+
+  <!-- Charts avec Bootstrap -->
+  @if (!isLoading) {
+    <div class="row g-3">
+    <div class="col-lg-6 col-xl-4">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Rétention mensuelle</mat-card-title>
+          <mat-card-subtitle>Évolution du taux de rétention</mat-card-subtitle>
+        </mat-card-header>
       <mat-card-content>
         <div class="chart-placeholder">
           @for (bar of retentionMonths; track bar.label) {
@@ -39,7 +52,9 @@
         </div>
       </mat-card-content>
     </mat-card>
+    </div>
 
+    <div class="col-lg-6 col-xl-4">
     <mat-card>
       <mat-card-header>
         <mat-card-title>Revenu par offre</mat-card-title>
@@ -59,7 +74,9 @@
         </div>
       </mat-card-content>
     </mat-card>
+    </div>
 
+    <div class="col-lg-6 col-xl-4">
     <mat-card>
       <mat-card-header>
         <mat-card-title>Engagement</mat-card-title>
@@ -79,5 +96,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-  </div>
+    </div>
+    </div>
+  }
 </div>

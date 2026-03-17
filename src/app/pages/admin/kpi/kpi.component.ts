@@ -1,16 +1,18 @@
 // Component: Kpi | Purpose: Renders and manages UI behavior for this view.
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-kpi',
   standalone: true,
-  imports: [MatCardModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatIconModule],
   templateUrl: './kpi.component.html',
   styleUrl: './kpi.component.css',
 })
-export class KpiComponent {
+export class KpiComponent implements OnInit {
+  isLoading = true;
   /* Données d'exemple — seront remplacées par Grafana */
   kpis = [
     { label: 'Rétention mensuelle', value: '82%', trend: '+2%', up: true, icon: 'loyalty' },
@@ -39,4 +41,11 @@ export class KpiComponent {
     { label: 'Utilisation fitness', percent: 60, color: 'var(--admin-primary-200)' },
     { label: 'Satisfaction (NPS)', percent: 72, color: 'var(--admin-primary-300)' },
   ];
+
+  ngOnInit() {
+    // Simule le chargement des données (500ms pour voir l'effet)
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 500);
+  }
 }

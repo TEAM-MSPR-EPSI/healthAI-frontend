@@ -1,5 +1,6 @@
 // Component: AdminManage | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +23,7 @@ import { AdminEntityTableComponent } from './components/admin-entity-table.compo
   selector: 'app-admin-manage',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     MatCardModule,
     MatIconModule,
@@ -37,6 +39,7 @@ import { AdminEntityTableComponent } from './components/admin-entity-table.compo
 })
 export class AdminManageComponent implements OnInit {
   tabs: TabConfig[] = ADMIN_MANAGE_TABS;
+  isLoading = true;
   activeTab = 'recipes';
 
   recipes: any[] = [];
@@ -57,12 +60,16 @@ export class AdminManageComponent implements OnInit {
   }
 
   loadAll() {
-    this.api.getRecipes().subscribe({ next: (d) => (this.recipes = d), error: () => {} });
-    this.api.getFood().subscribe({ next: (d) => (this.ingredients = d), error: () => {} });
-    this.api.getPrograms().subscribe({ next: (d) => (this.programs = d), error: () => {} });
-    this.api.getSessions().subscribe({ next: (d) => (this.sessions = d), error: () => {} });
-    this.api.getExercises().subscribe({ next: (d) => (this.exercises = d), error: () => {} });
-    this.api.getEquipment().subscribe({ next: (d) => (this.equipment = d), error: () => {} });
+    this.api.getRecipes().subscribe({ next: (d) => { this.recipes = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+    this.api.getFood().subscribe({ next: (d) => { this.ingredients = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+    this.api.getPrograms().subscribe({ next: (d) => { this.programs = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+    this.api.getSessions().subscribe({ next: (d) => { this.sessions = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+    this.api.getExercises().subscribe({ next: (d) => { this.exercises = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+    this.api.getEquipment().subscribe({ next: (d) => { this.equipment = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
+  }
+
+  checkLoadingDone() {
+    setTimeout(() => { this.isLoading = false; }, 300);
   }
 
   selectTab(key: string) {

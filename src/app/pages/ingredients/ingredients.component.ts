@@ -1,5 +1,6 @@
 // Component: Ingredients | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,7 +11,7 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'app-ingredients',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule, RouterLink],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule, RouterLink],
   templateUrl: './ingredients.component.html',
   styleUrl: './ingredients.component.css',
 })

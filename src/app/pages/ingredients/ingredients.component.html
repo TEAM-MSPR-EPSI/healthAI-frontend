@@ -8,37 +8,63 @@
     </a>
   </div>
 
-  <div class="ingredients-grid">
-    @for (item of ingredients; track item.name) {
-      <mat-card class="ingredient-card">
-        <mat-card-content>
-          <div class="ingredient-header">
-            <span class="ingredient-emoji">{{ item.emoji }}</span>
-            <div>
-              <h3 class="ingredient-name">{{ item.name }}</h3>
-              <mat-chip>{{ item.category }}</mat-chip>
+  <!-- SKELETON LOADING -->
+  @if (loading) {
+    <div class="ingredients-grid">
+      @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+        <div class="skeleton-card">
+          <div class="skeleton-header">
+            <div class="skeleton-emoji"></div>
+            <div class="skeleton-text-col">
+              <div class="skeleton-line" style="width: 60%; height: 18px;"></div>
+              <div class="skeleton-line" style="width: 40%; height: 10px; margin-top: 6px;"></div>
             </div>
           </div>
-          <div class="macros">
-            <div class="macro">
-              <span class="macro-value">{{ item.calories }}</span>
-              <span class="macro-label">kcal</span>
-            </div>
-            <div class="macro">
-              <span class="macro-value">{{ item.proteins }}g</span>
-              <span class="macro-label">Protéines</span>
-            </div>
-            <div class="macro">
-              <span class="macro-value">{{ item.carbs }}g</span>
-              <span class="macro-label">Glucides</span>
-            </div>
-            <div class="macro">
-              <span class="macro-value">{{ item.fats }}g</span>
-              <span class="macro-label">Lipides</span>
-            </div>
+          <div class="skeleton-macros">
+            <div class="skeleton-macro"></div>
+            <div class="skeleton-macro"></div>
+            <div class="skeleton-macro"></div>
+            <div class="skeleton-macro"></div>
           </div>
-        </mat-card-content>
-      </mat-card>
-    }
-  </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- REAL CONTENT -->
+  @if (!loading) {
+    <div class="ingredients-grid">
+      @for (item of ingredients; track item.name) {
+        <mat-card class="ingredient-card">
+          <mat-card-content>
+            <div class="ingredient-header">
+              <span class="ingredient-emoji">{{ item.emoji }}</span>
+              <div>
+                <h3 class="ingredient-name">{{ item.name }}</h3>
+                <mat-chip>{{ item.category }}</mat-chip>
+              </div>
+            </div>
+            <div class="macros">
+              <div class="macro">
+                <span class="macro-value">{{ item.calories }}</span>
+                <span class="macro-label">kcal</span>
+              </div>
+              <div class="macro">
+                <span class="macro-value">{{ item.proteins }}g</span>
+                <span class="macro-label">Protéines</span>
+              </div>
+              <div class="macro">
+                <span class="macro-value">{{ item.carbs }}g</span>
+                <span class="macro-label">Glucides</span>
+              </div>
+              <div class="macro">
+                <span class="macro-value">{{ item.fats }}g</span>
+                <span class="macro-label">Lipides</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
 </div>

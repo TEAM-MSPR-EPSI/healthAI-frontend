@@ -1,5 +1,6 @@
 // Component: RecipeDetail | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,13 +11,14 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatIconModule, MatButtonModule, MatChipsModule],
+  imports: [CommonModule, RouterLink, MatCardModule, MatIconModule, MatButtonModule, MatChipsModule],
   templateUrl: './recipe-detail.component.html',
   styleUrl: './recipe-detail.component.css',
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: any = null;
   loading = true;
+  isFavorite = false;
 
   constructor(private route: ActivatedRoute, private api: ApiService) {}
 
@@ -31,5 +33,9 @@ export class RecipeDetailComponent implements OnInit {
         error: () => { this.loading = false; },
       });
     }
+  }
+
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite;
   }
 }

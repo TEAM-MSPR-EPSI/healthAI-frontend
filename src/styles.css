@@ -119,6 +119,28 @@ mat-card:hover, .mat-mdc-card:hover {
 .stat-trend.up { color: var(--admin-success); }
 .stat-trend.down { color: var(--admin-danger); }
 
+/* ===== Icon Buttons Global ===== */
+button[mat-icon-button],
+.mat-mdc-icon-button {
+  color: var(--text-color) !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+button[mat-icon-button]:hover,
+.mat-mdc-icon-button:hover {
+  color: var(--admin-primary-300) !important;
+}
+
+.app-toolbar button[mat-icon-button],
+.app-toolbar .mat-mdc-icon-button {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.app-toolbar button[mat-icon-button]:hover,
+.app-toolbar .mat-mdc-icon-button:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
 /* Inter-page navigation link pills */
 .page-nav-links {
   display: flex;
@@ -126,30 +148,47 @@ mat-card:hover, .mat-mdc-card:hover {
   gap: 8px;
   margin-bottom: 20px;
 }
+
 .nav-link-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
   border-radius: 20px;
-  background: var(--glass-bg);
+  background: var(--glass-bg-strong);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  color: var(--admin-primary-400);
+  color: var(--text-color);
   font-size: 0.82rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
+
+.nav-link-pill,
+.nav-link-pill:visited,
+.nav-link-pill:link {
+  color: var(--text-color) !important;
+}
+
 .nav-link-pill mat-icon {
   font-size: 18px;
   width: 18px;
   height: 18px;
+  color: var(--text-color);
 }
+
 .nav-link-pill:hover {
   background: var(--admin-primary-100);
+  color: var(--admin-primary-400) !important;
+  border-color: var(--admin-primary-300);
   transform: translateY(-1px);
+}
+
+.nav-link-pill:hover mat-icon {
+  color: var(--admin-primary-400);
 }
 
 /* Profile quick links */

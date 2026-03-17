@@ -32,3 +32,38 @@
   color: var(--text-color-strong);
   border-color: var(--secondary-color);
 }
+
+/* ===== Material Icon Button - Global Styles ===== */
+button[mat-icon-button],
+.mat-mdc-icon-button {
+  color: var(--text-color) !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    color: var(--admin-primary-300) !important;
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 1;
+  }
+
+  /* Inside toolbar - white */
+  .app-toolbar & {
+    color: rgba(255, 255, 255, 0.95) !important;
+
+    &:hover {
+      color: rgba(255, 255, 255, 1) !important;
+    }
+  }
+
+  /* Inside cards - muted */
+  mat-card &,
+  .mat-mdc-card & {
+    color: var(--text-color-muted) !important;
+
+    &:hover {
+      color: var(--admin-primary-300) !important;
+    }
+  }
+}

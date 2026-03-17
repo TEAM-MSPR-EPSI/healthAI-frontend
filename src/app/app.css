@@ -20,6 +20,15 @@
 
 .toolbar-spacer { flex: 1; }
 
+/* Icon buttons in toolbar - light color */
+.app-toolbar button[mat-icon-button] {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.app-toolbar mat-icon {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
 .sidenav-container {
   position: absolute;
   top: 52px;
