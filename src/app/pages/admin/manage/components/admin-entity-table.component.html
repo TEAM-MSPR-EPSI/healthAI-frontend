@@ -14,9 +14,50 @@
           @for (col of columns; track col.key) {
             <td>
               @if (isEditingRow(row) && isEditable(col.key)) {
-                <input class="cell-input" [(ngModel)]="editBuffer[col.key]" />
+                <!-- Text input (default) -->
+                @if (col.type === 'text' || !col.type) {
+                  <input class="cell-input" type="text" [(ngModel)]="editBuffer[col.key]" />
+                }
+                <!-- Number input -->
+                @if (col.type === 'number') {
+                  <input class="cell-input" type="number" [(ngModel)]="editBuffer[col.key]" />
+                }
+                <!-- Enum select dropdown -->
+                @if (col.type === 'enum' && col.enumValues) {
+                  <select class="cell-select" [(ngModel)]="editBuffer[col.key]">
+                    <option [value]="">-- Sélectionner --</option>
+                    @for (enumVal of col.enumValues; track enumVal) {
+                      <option [value]="enumVal">{{ enumVal }}</option>
+                    }
+                  </select>
+                }
+                <!-- Boolean toggle -->
+                @if (col.type === 'boolean') {
+                  <mat-slide-toggle [(ngModel)]="editBuffer[col.key]"></mat-slide-toggle>
+                }
               } @else {
-                {{ row[col.key] }}
+                <!-- Display value -->
+                @if (col.type === 'relation') {
+                  <!-- Relations: show count + link -->
+                  @if (row[col.key]) {
+                    <button 
+                      class="relation-btn"
+                      (click)="viewRelations.emit({row, column: col})"
+                      title="Voir les relations"
+                    >
+                      @if (Array.isArray(row[col.key])) {
+                        {{ row[col.key].length }}
+                      } @else {
+                        1
+                      }
+                      <mat-icon class="relation-icon">chevron_right</mat-icon>
+                    </button>
+                  } @else {
+                    <span class="text-muted">Aucune</span>
+                  }
+                } @else {
+                  {{ getDisplayValue(row, col) }}
+                }
               }
             </td>
           }

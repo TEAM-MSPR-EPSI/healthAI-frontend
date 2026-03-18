@@ -40,6 +40,65 @@
     (saveEditRow)="saveEdit()"
     (cancelEditRow)="cancelEdit()"
     (deleteRowById)="deleteRow(activeTab, $event)"
+    (viewRelations)="onViewRelations($event)"
   ></app-admin-entity-table>
   }
+
+  <!-- RELATIONS MODAL -->
+  @if (showRelationsModal && selectedRelationColumn) {
+    <div class="modal-overlay" (click)="closeRelationsModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>
+            {{ selectedRelationColumn.label }}
+            <span class="relation-badge">{{ selectedRelationData.length }}</span>
+          </h2>
+          <button mat-icon-button (click)="closeRelationsModal()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          @if (selectedRelationData.length > 0) {
+            <table class="relations-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Détails</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (rel of selectedRelationData; track $index) {
+                  <tr>
+                    <td class="text-mono">
+                      {{ rel['sport_session_id'] || rel['ingredient_id'] || rel['program_sport_session_id'] || rel['recipe_ingredient_id'] }}
+                    </td>
+                    <td>
+                      {{ rel['sport_session']?.sport_session_name || 
+                         rel['ingredient']?.ingredient_name ||
+                         rel['sport_session_name'] ||
+                         rel['ingredient_name'] ||
+                         '—' }}
+                    </td>
+                    <td class="text-mono text-small">
+                      {{ rel['program_sport_session_rank'] ? 'Rank: ' + rel['program_sport_session_rank'] : '' }}
+                      {{ rel['ingredient_quantity'] ? 'Qty: ' + rel['ingredient_quantity'] : '' }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <p class="empty-relations">Aucune relation disponible.</p>
+          }
+        </div>
+
+        <div class="modal-footer">
+          <button mat-raised-button (click)="closeRelationsModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>

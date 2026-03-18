@@ -1,11 +1,11 @@
+@use './bootstrap-overrides';
+@use './colors';
+@use './variables';
+@use './mixins';
+@use './buttons';
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-@import './bootstrap-overrides';
-@import './colors';
-@import './variables';
-@import './mixins';
-@import './buttons';
 
 html,
 body {

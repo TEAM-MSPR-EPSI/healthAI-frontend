@@ -53,6 +53,13 @@ export class AdminManageComponent implements OnInit {
   editingEntity = '';
   editBuffer: any = {};
 
+  // Relations management
+  showRelationsModal = false;
+  selectedRelationEntity = '';
+  selectedRelationColumn: any = null;
+  selectedRelationData: any[] = [];
+  selectedRelationParent: any = null;
+
   constructor(private api: ApiService, private snack: MatSnackBar) {}
 
   ngOnInit() {
@@ -123,5 +130,32 @@ export class AdminManageComponent implements OnInit {
       },
       error: () => this.snack.open('Erreur lors de la suppression', '', { duration: 3000 }),
     });
+  }
+
+  // Relations management
+  onViewRelations(data: { row: any; column: ColumnConfig }) {
+    this.selectedRelationParent = data.row;
+    this.selectedRelationColumn = data.column;
+    this.selectedRelationEntity = this.activeTab;
+
+    const relationKey = data.column.key;
+    const relationArray = data.row[relationKey];
+
+    if (Array.isArray(relationArray)) {
+      this.selectedRelationData = relationArray;
+    } else if (typeof relationArray === 'object' && relationArray) {
+      this.selectedRelationData = [relationArray];
+    } else {
+      this.selectedRelationData = [];
+    }
+
+    this.showRelationsModal = true;
+  }
+
+  closeRelationsModal() {
+    this.showRelationsModal = false;
+    this.selectedRelationData = [];
+    this.selectedRelationParent = null;
+    this.selectedRelationColumn = null;
   }
 }
