@@ -1,0 +1,107 @@
+<div class="page-content">
+  <div class="top-row">
+    <h1>Edition utilisateur</h1>
+    <a mat-stroked-button routerLink="/admin/users">
+      <mat-icon>arrow_back</mat-icon>
+      Retour liste
+    </a>
+  </div>
+
+  @if (loading) {
+    <div class="skeleton-form">
+      @for (row of [1, 2, 3, 4, 5, 6]; track row) {
+        <div class="skeleton-line"></div>
+      }
+    </div>
+  } @else if (notFound) {
+    <mat-card class="not-found-card">
+      <p>Utilisateur introuvable pour cet index.</p>
+      <a mat-flat-button color="primary" routerLink="/admin/users">Retour a la liste</a>
+    </mat-card>
+  } @else {
+    <mat-card class="edit-card">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>ID utilisateur</mat-label>
+          <input matInput [ngModel]="model.user_id" disabled />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="model.user_username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nom</mat-label>
+          <input matInput [(ngModel)]="model.user_lastname" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Prenom</mat-label>
+          <input matInput [(ngModel)]="model.user_firstname" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select [(ngModel)]="model.user_role">
+            @for (role of roleOptions; track role) {
+              <mat-option [value]="role">{{ role }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Genre</mat-label>
+          <mat-select [(ngModel)]="model.user_gender">
+            @for (gender of genderOptions; track gender) {
+              <mat-option [value]="gender">{{ gender }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telephone</mat-label>
+          <input matInput [(ngModel)]="model.user_phone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Ville</mat-label>
+          <input matInput [(ngModel)]="model.user_city" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pays</mat-label>
+          <input matInput [(ngModel)]="model.user_country" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Taille (cm)</mat-label>
+          <input matInput type="number" [(ngModel)]="model.user_size" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Poids (kg)</mat-label>
+          <input matInput type="number" step="0.1" [(ngModel)]="model.user_weight" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Inscription</mat-label>
+          <input matInput [ngModel]="model.user_inscription" disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="readonly-grid">
+        <div><strong>Company ID:</strong> {{ model.company_id ?? '-' }}</div>
+        <div><strong>Program ID:</strong> {{ model.sport_program_id ?? '-' }}</div>
+      </div>
+
+      <div class="actions">
+        <a mat-stroked-button routerLink="/admin/users">Annuler</a>
+        <button mat-flat-button color="primary" (click)="save()" [disabled]="saving">
+          <mat-icon>save</mat-icon>
+          {{ saving ? 'Sauvegarde...' : 'Sauvegarder' }}
+        </button>
+      </div>
+    </mat-card>
+  }
+</div>

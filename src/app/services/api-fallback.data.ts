@@ -304,3 +304,4 @@ export const FALLBACK_SESSION_DETAILS = [
     all_equipment: [{ sport_equipment_id: 3, sport_equipment_name: 'Elastique de resistance' }],
   },
 ];
+

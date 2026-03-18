@@ -33,6 +33,8 @@ import { FitnessComponent } from './pages/admin/fitness/fitness.component';
 import { KpiComponent } from './pages/admin/kpi/kpi.component';
 import { DataCheckingPageComponent } from './pages/admin/data-checking/data-checking-page.component';
 import { AdminManageComponent } from './pages/admin/manage/admin-manage.component';
+import { AdminUsersListComponent } from './pages/admin/users-list/admin-users-list.component';
+import { AdminUserEditComponent } from './pages/admin/user-edit/admin-user-edit.component';
 
 export const routes: Routes = [
   // Splash & onboarding flow
@@ -67,4 +69,6 @@ export const routes: Routes = [
   { path: 'admin/kpi', component: KpiComponent },
   { path: 'admin/data-check', component: DataCheckingPageComponent },
   { path: 'admin/manage', component: AdminManageComponent },
+  { path: 'admin/users', component: AdminUsersListComponent },
+  { path: 'admin/users/:id', component: AdminUserEditComponent },
 ];
