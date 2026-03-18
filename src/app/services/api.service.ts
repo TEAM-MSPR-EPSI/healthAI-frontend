@@ -1,22 +1,19 @@
 // Service: Api | Purpose: Handles shared business logic and API interactions.
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
-import {
-  FALLBACK_EQUIPMENT,
-  FALLBACK_EXERCISES,
-  FALLBACK_FOOD,
-  FALLBACK_PROGRAMS,
-  FALLBACK_PROGRAM_DETAILS,
-  FALLBACK_RECIPES,
-  FALLBACK_RECIPE_DETAILS,
-  FALLBACK_SESSIONS,
-  FALLBACK_SESSION_DETAILS,
-} from './api-fallback.data';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly base = 'http://localhost:5000/api';
+  private readonly base = '/api';
+  private readonly entityRouteMap: Record<string, string> = {
+    recipes: 'recipes',
+    ingredients: 'ingredients',
+    programs: 'sport-programs',
+    sessions: 'sport-sessions',
+    exercises: 'sport-exercises',
+    equipment: 'sport-equipment',
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -48,109 +45,147 @@ export class ApiService {
 
   // --- Data lists ---
   getFood(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/food`),
-      FALLBACK_FOOD,
-      '/data/food',
+    return this.http.get<any[]>(`${this.base}/ingredients`).pipe(
+      map((ingredients) =>
+        ingredients.map((ingredient) => ({
+          ...ingredient,
+          food_name: ingredient.ingredient_name,
+          food_calories_per_100g: ingredient.ingredient_energy_100g,
+          food_protein_per_100g: ingredient.ingredient_protein_100g,
+          food_carbs_per_100g: ingredient.ingredient_carbohydrate_100g,
+          food_fat_per_100g: ingredient.ingredient_fats_100g,
+          food_allergens:
+            Array.isArray(ingredient.allergies) && ingredient.allergies.length
+              ? ingredient.allergies
+                  .map((allergy: any) => allergy.ingredient_allergy_name)
+                  .filter(Boolean)
+                  .join(', ')
+              : 'Aucun',
+        })),
+      ),
     );
   }
 
   getExercises(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/exercises`),
-      FALLBACK_EXERCISES,
-      '/data/exercises',
+    return this.http.get<any[]>(`${this.base}/sport-exercises`).pipe(
+      map((exercises) =>
+        exercises.map((exercise) => ({
+          ...exercise,
+          exercise_name: exercise.sport_exercise_name,
+          exercise_target_muscles: exercise.sport_exercise_muscle_group,
+          exercise_instructions: exercise.sport_exercise_instruction,
+          exercise_difficulty: exercise.sport_exercise_difficulty,
+          equipment_id:
+            Array.isArray(exercise.exerciseEquipments) && exercise.exerciseEquipments.length
+              ? exercise.exerciseEquipments
+                  .map((relation: any) => relation.sportEquipment?.sport_equipment_name)
+                  .filter(Boolean)
+                  .join(', ')
+              : 'Aucun',
+        })),
+      ),
     );
   }
 
   getPrograms(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/programs`),
-      FALLBACK_PROGRAMS,
-      '/data/programs',
-    );
+    return this.http.get<any[]>(`${this.base}/sport-programs`);
   }
 
   getSessions(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/sessions`),
-      FALLBACK_SESSIONS,
-      '/data/sessions',
-    );
+    return this.http.get<any[]>(`${this.base}/sport-sessions`);
   }
 
   getEquipment(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/equipment`),
-      FALLBACK_EQUIPMENT,
-      '/data/equipment',
+    return this.http.get<any[]>(`${this.base}/sport-equipment`).pipe(
+      map((equipment) =>
+        equipment.map((item) => ({
+          ...item,
+          equipment_name: item.sport_equipment_name,
+        })),
+      ),
     );
   }
 
   // --- Detail endpoints ---
   getRecipes(): Observable<any[]> {
-    return this.withFallback(
-      this.http.get<any[]>(`${this.base}/data/recipes`),
-      FALLBACK_RECIPES,
-      '/data/recipes',
-    );
+    return this.http.get<any[]>(`${this.base}/recipes`);
   }
 
   getRecipe(id: number): Observable<any> {
-    return this.withFallback(
-      this.http.get(`${this.base}/data/recipes/${id}`),
-      this.findById(FALLBACK_RECIPE_DETAILS, 'recipe_id', id),
-      `/data/recipes/${id}`,
+    return this.http.get<any>(`${this.base}/recipes/${id}`).pipe(
+      map((recipe) => ({
+        ...recipe,
+        ingredients: Array.isArray(recipe.RecipeIngredients)
+          ? recipe.RecipeIngredients.map((relation: any) => ({
+              ingredient_id: relation.ingredient?.ingredient_id ?? relation.ingredient_id,
+              ingredient_name: relation.ingredient?.ingredient_name ?? '',
+              ingredient_type: relation.ingredient?.ingredient_type ?? '',
+              ingredient_quantity: relation.ingredient_quantity,
+              ingredient_energy_100g: relation.ingredient?.ingredient_energy_100g,
+              ingredient_protein_100g: relation.ingredient?.ingredient_protein_100g,
+              ingredient_carbohydrate_100g: relation.ingredient?.ingredient_carbohydrate_100g,
+              ingredient_fats_100g: relation.ingredient?.ingredient_fats_100g,
+            }))
+          : [],
+      })),
     );
   }
 
   getProgram(id: number): Observable<any> {
-    return this.withFallback(
-      this.http.get(`${this.base}/data/programs/${id}`),
-      this.findById(FALLBACK_PROGRAM_DETAILS, 'sport_program_id', id),
-      `/data/programs/${id}`,
+    return this.http.get<any>(`${this.base}/sport-programs/${id}`).pipe(
+      map((program) => ({
+        ...program,
+        sessions: Array.isArray(program.programSessions)
+          ? program.programSessions.map((relation: any) => ({
+              sport_session_id: relation.sport_session?.sport_session_id ?? relation.sport_session_id,
+              sport_session_name: relation.sport_session?.sport_session_name ?? '',
+              rank: relation.program_sport_session_rank,
+            }))
+          : [],
+      })),
     );
   }
 
   getSession(id: number): Observable<any> {
-    return this.withFallback(
-      this.http.get(`${this.base}/data/sessions/${id}`),
-      this.findById(FALLBACK_SESSION_DETAILS, 'sport_session_id', id),
-      `/data/sessions/${id}`,
+    return this.http.get<any>(`${this.base}/sport-sessions/${id}`).pipe(
+      map((session) => {
+        const exercises = Array.isArray(session.sessionExercises)
+          ? session.sessionExercises.map((relation: any) => ({
+              sport_exercise_id: relation.sportExercise?.sport_exercise_id ?? relation.sport_exercise_id,
+              sport_exercise_name: relation.sportExercise?.sport_exercise_name ?? '',
+              sport_exercise_muscle_group: relation.sportExercise?.sport_exercise_muscle_group ?? '',
+              sport_exercise_difficulty: relation.sportExercise?.sport_exercise_difficulty ?? '',
+              sport_exercise_duration: relation.sportExercise?.sport_exercise_duration,
+              sport_exercise_cal_burned: relation.sportExercise?.sport_exercise_cal_burned,
+              sport_exercise_instruction: relation.sportExercise?.sport_exercise_instruction,
+              rank: relation.sport_session_exercise_rank,
+              equipment: [],
+            }))
+          : [];
+
+        return {
+          ...session,
+          exercises,
+          all_equipment: [],
+        };
+      }),
     );
   }
 
   // --- Admin CRUD ---
   createItem(entity: string, data: any): Observable<any> {
-    return this.http.post(`${this.base}/data/${entity}`, data);
+    return this.http.post(`${this.base}/${this.resolveEntityRoute(entity)}`, data);
   }
 
   updateItem(entity: string, id: number, data: any): Observable<any> {
-    return this.http.put(`${this.base}/data/${entity}/${id}`, data);
+    return this.http.put(`${this.base}/${this.resolveEntityRoute(entity)}/${id}`, data);
   }
 
   deleteItem(entity: string, id: number): Observable<any> {
-    return this.http.delete(`${this.base}/data/${entity}/${id}`);
+    return this.http.delete(`${this.base}/${this.resolveEntityRoute(entity)}/${id}`);
   }
 
-  private withFallback<T>(request: Observable<T>, fallbackData: T, routeLabel: string): Observable<T> {
-    return request.pipe(
-      catchError((error) => {
-        console.warn(`[ApiService] Falling back to example data for ${routeLabel}.`, error);
-        return of(this.cloneData(fallbackData));
-      }),
-    );
-  }
-
-  private findById<T extends Record<string, any>>(items: T[], idKey: keyof T, id: number): T {
-    return items.find((item) => Number(item[idKey]) === id) ?? items[0];
-  }
-
-  private cloneData<T>(data: T): T {
-    if (typeof structuredClone === 'function') {
-      return structuredClone(data);
-    }
-
-    return JSON.parse(JSON.stringify(data)) as T;
+  private resolveEntityRoute(entity: string): string {
+    return this.entityRouteMap[entity] ?? entity;
   }
 }
