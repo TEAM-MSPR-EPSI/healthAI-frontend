@@ -1,0 +1,84 @@
+<div class="relation-editor-overlay" (click)="close.emit()">
+  <div class="relation-editor" (click)="$event.stopPropagation()">
+    <div class="editor-header">
+      <h3>{{ title }}</h3>
+      <button mat-icon-button (click)="close.emit()" title="Fermer">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="editor-body">
+      @if (mode === 'unknown') {
+        <p class="empty-text">Type de relation non pris en charge.</p>
+      } @else {
+        <div class="add-panel">
+          <label>Ajouter un élément</label>
+          <div class="add-row">
+            <select [(ngModel)]="selectedItemId" class="cell-select">
+              <option [ngValue]="null">-- Sélectionner --</option>
+              @for (item of availableItems; track item.sport_session_id || item.ingredient_id || item.sport_exercise_id) {
+                <option [ngValue]="item.sport_session_id || item.ingredient_id || item.sport_exercise_id">
+                  {{ getDisplayName(item) }}
+                </option>
+              }
+            </select>
+
+            @if (mode === 'recipe-ingredient') {
+              <input class="cell-input small" type="number" min="0" [(ngModel)]="addQuantity" placeholder="Quantité" />
+            } @else {
+              <input class="cell-input small" type="number" min="1" [(ngModel)]="addRank" placeholder="Rang" />
+            }
+
+            <button mat-raised-button color="primary" (click)="addRelation()" [disabled]="!selectedItemId || loading">
+              Ajouter
+            </button>
+          </div>
+        </div>
+
+        <div class="list-panel">
+          <h4>Relations actuelles</h4>
+
+          @if (currentRelations.length === 0) {
+            <p class="empty-text">Aucune relation associée.</p>
+          } @else {
+            <table class="relations-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>@if (mode === 'recipe-ingredient') { Quantité } @else { Rang }</th>
+                  <th class="actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (rel of currentRelations; track rel.program_sport_session_id || rel.recipe_ingredient_id || rel.sport_session_exercise_id || $index) {
+                  <tr>
+                    <td>{{ getDisplayName(rel.sport_session || rel.ingredient || rel.sportExercise || rel) }}</td>
+                    <td>
+                      @if (mode === 'recipe-ingredient') {
+                        <input class="cell-input small" type="number" min="0" [(ngModel)]="rel._editQuantity" />
+                      } @else {
+                        <input class="cell-input small" type="number" min="1" [(ngModel)]="rel._editRank" />
+                      }
+                    </td>
+                    <td class="actions">
+                      <button mat-icon-button (click)="updateRelation(rel)" title="Mettre à jour">
+                        <mat-icon>save</mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="editor-footer">
+      <button mat-button (click)="close.emit()">Fermer</button>
+    </div>
+  </div>
+</div>

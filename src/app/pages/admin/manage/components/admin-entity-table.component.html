@@ -13,7 +13,7 @@
         <tr [class.editing]="isEditingRow(row)">
           @for (col of columns; track col.key) {
             <td>
-              @if (isEditingRow(row) && isEditable(col.key)) {
+              @if (isEditingRow(row) && isEditable(col)) {
                 <!-- Text input (default) -->
                 @if (col.type === 'text' || !col.type) {
                   <input class="cell-input" type="text" [(ngModel)]="editBuffer[col.key]" />
@@ -43,13 +43,14 @@
                     <button 
                       class="relation-btn"
                       (click)="viewRelations.emit({row, column: col})"
-                      title="Voir les relations"
+                      title="Gérer les relations"
                     >
                       @if (Array.isArray(row[col.key])) {
                         {{ row[col.key].length }}
                       } @else {
                         1
                       }
+                      Gérer
                       <mat-icon class="relation-icon">chevron_right</mat-icon>
                     </button>
                   } @else {

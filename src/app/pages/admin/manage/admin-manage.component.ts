@@ -18,6 +18,7 @@ import {
   TabConfig,
 } from './admin-manage.config';
 import { AdminEntityTableComponent } from './components/admin-entity-table.component';
+import { RelationEditorComponent } from './components/relation-editor.component';
 
 @Component({
   selector: 'app-admin-manage',
@@ -33,6 +34,7 @@ import { AdminEntityTableComponent } from './components/admin-entity-table.compo
     MatSelectModule,
     MatSnackBarModule,
     AdminEntityTableComponent,
+    RelationEditorComponent,
   ],
   templateUrl: './admin-manage.component.html',
   styleUrl: './admin-manage.component.css',
@@ -40,6 +42,7 @@ import { AdminEntityTableComponent } from './components/admin-entity-table.compo
 export class AdminManageComponent implements OnInit {
   tabs: TabConfig[] = ADMIN_MANAGE_TABS;
   isLoading = true;
+  apiErrorMessage = '';
   activeTab = 'recipes';
 
   recipes: any[] = [];
@@ -53,11 +56,9 @@ export class AdminManageComponent implements OnInit {
   editingEntity = '';
   editBuffer: any = {};
 
-  // Relations management
-  showRelationsModal = false;
+  showRelationEditor = false;
   selectedRelationEntity = '';
-  selectedRelationColumn: any = null;
-  selectedRelationData: any[] = [];
+  selectedRelationColumn: ColumnConfig | null = null;
   selectedRelationParent: any = null;
 
   constructor(private api: ApiService, private snack: MatSnackBar) {}
@@ -67,16 +68,33 @@ export class AdminManageComponent implements OnInit {
   }
 
   loadAll() {
-    this.api.getRecipes().subscribe({ next: (d) => { this.recipes = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-    this.api.getFood().subscribe({ next: (d) => { this.ingredients = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-    this.api.getPrograms().subscribe({ next: (d) => { this.programs = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-    this.api.getSessions().subscribe({ next: (d) => { this.sessions = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-    this.api.getExercises().subscribe({ next: (d) => { this.exercises = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-    this.api.getEquipment().subscribe({ next: (d) => { this.equipment = d; this.checkLoadingDone(); }, error: () => { this.checkLoadingDone(); } });
-  }
+    this.isLoading = true;
+    this.apiErrorMessage = '';
 
-  checkLoadingDone() {
-    setTimeout(() => { this.isLoading = false; }, 300);
+    let remaining = 6;
+    let failures = 0;
+
+    const onDone = () => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        this.isLoading = false;
+        if (failures === 6) {
+          this.apiErrorMessage = 'Impossible de charger les données. Vérifiez que l\'API backend est démarrée et saine.';
+        }
+      }
+    };
+
+    const onError = () => {
+      failures += 1;
+      onDone();
+    };
+
+    this.api.getRecipes().subscribe({ next: (d) => { this.recipes = d; onDone(); }, error: onError });
+    this.api.getFood().subscribe({ next: (d) => { this.ingredients = d; onDone(); }, error: onError });
+    this.api.getPrograms().subscribe({ next: (d) => { this.programs = d; onDone(); }, error: onError });
+    this.api.getSessions().subscribe({ next: (d) => { this.sessions = d; onDone(); }, error: onError });
+    this.api.getExercises().subscribe({ next: (d) => { this.exercises = d; onDone(); }, error: onError });
+    this.api.getEquipment().subscribe({ next: (d) => { this.equipment = d; onDone(); }, error: onError });
   }
 
   selectTab(key: string) {
@@ -132,30 +150,22 @@ export class AdminManageComponent implements OnInit {
     });
   }
 
-  // Relations management
   onViewRelations(data: { row: any; column: ColumnConfig }) {
     this.selectedRelationParent = data.row;
     this.selectedRelationColumn = data.column;
     this.selectedRelationEntity = this.activeTab;
-
-    const relationKey = data.column.key;
-    const relationArray = data.row[relationKey];
-
-    if (Array.isArray(relationArray)) {
-      this.selectedRelationData = relationArray;
-    } else if (typeof relationArray === 'object' && relationArray) {
-      this.selectedRelationData = [relationArray];
-    } else {
-      this.selectedRelationData = [];
-    }
-
-    this.showRelationsModal = true;
+    this.showRelationEditor = true;
   }
 
-  closeRelationsModal() {
-    this.showRelationsModal = false;
-    this.selectedRelationData = [];
+  closeRelationEditor() {
+    this.showRelationEditor = false;
     this.selectedRelationParent = null;
     this.selectedRelationColumn = null;
+    this.selectedRelationEntity = '';
+  }
+
+  onRelationUpdated() {
+    this.loadAll();
+    this.closeRelationEditor();
   }
 }

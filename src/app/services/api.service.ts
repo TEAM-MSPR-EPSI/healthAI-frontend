@@ -172,6 +172,68 @@ export class ApiService {
     );
   }
 
+  // --- Relation CRUD: Program <-> Session ---
+  getAvailableSessionsForProgram(programId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/program-sessions/${programId}/available-sessions`);
+  }
+
+  addSessionToProgram(programId: number, sessionId: number, rank?: number): Observable<any> {
+    return this.http.post(`${this.base}/program-sessions/${programId}/sessions`, {
+      sessionId,
+      ...(rank !== undefined ? { rank } : {}),
+    });
+  }
+
+  removeSessionFromProgram(programId: number, sessionId: number): Observable<any> {
+    return this.http.delete(`${this.base}/program-sessions/${programId}/sessions/${sessionId}`);
+  }
+
+  updateSessionRank(programId: number, sessionId: number, rank: number): Observable<any> {
+    return this.http.put(`${this.base}/program-sessions/${programId}/sessions/${sessionId}`, { rank });
+  }
+
+  // --- Relation CRUD: Recipe <-> Ingredient ---
+  getAvailableIngredientsForRecipe(recipeId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/recipe-ingredients/${recipeId}/available-ingredients`);
+  }
+
+  addIngredientToRecipe(recipeId: number, ingredientId: number, quantity: number): Observable<any> {
+    return this.http.post(`${this.base}/recipe-ingredients/${recipeId}/ingredients`, {
+      ingredientId,
+      quantity,
+    });
+  }
+
+  removeIngredientFromRecipe(recipeId: number, ingredientId: number): Observable<any> {
+    return this.http.delete(`${this.base}/recipe-ingredients/${recipeId}/ingredients/${ingredientId}`);
+  }
+
+  updateIngredientQuantity(recipeId: number, ingredientId: number, quantity: number): Observable<any> {
+    return this.http.put(`${this.base}/recipe-ingredients/${recipeId}/ingredients/${ingredientId}`, {
+      quantity,
+    });
+  }
+
+  // --- Relation CRUD: Session <-> Exercise ---
+  getAvailableExercisesForSession(sessionId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/session-exercises/${sessionId}/available-exercises`);
+  }
+
+  addExerciseToSession(sessionId: number, exerciseId: number, rank?: number): Observable<any> {
+    return this.http.post(`${this.base}/session-exercises/${sessionId}/exercises`, {
+      exerciseId,
+      ...(rank !== undefined ? { rank } : {}),
+    });
+  }
+
+  removeExerciseFromSession(sessionId: number, exerciseId: number): Observable<any> {
+    return this.http.delete(`${this.base}/session-exercises/${sessionId}/exercises/${exerciseId}`);
+  }
+
+  updateExerciseRankInSession(sessionId: number, exerciseId: number, rank: number): Observable<any> {
+    return this.http.put(`${this.base}/session-exercises/${sessionId}/exercises/${exerciseId}`, { rank });
+  }
+
   // --- Admin CRUD ---
   createItem(entity: string, data: any): Observable<any> {
     return this.http.post(`${this.base}/${this.resolveEntityRoute(entity)}`, data);

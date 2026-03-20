@@ -40,8 +40,8 @@ export class AdminEntityTableComponent {
   @Output() deleteRowById = new EventEmitter<any>();
   @Output() viewRelations = new EventEmitter<{row: any, column: ColumnConfig}>();
 
-  isEditable(colKey: string): boolean {
-    return !colKey.endsWith('_id') && colKey !== 'programSessions' && colKey !== 'RecipeIngredients';
+  isEditable(column: ColumnConfig): boolean {
+    return !column.key.endsWith('_id') && column.type !== 'relation';
   }
 
   isEditingRow(row: any): boolean {

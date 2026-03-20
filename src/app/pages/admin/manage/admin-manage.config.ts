@@ -76,6 +76,12 @@ export const ADMIN_MANAGE_COLUMNS: Record<string, ColumnConfig[]> = {
   sessions: [
     { key: 'sport_session_id', label: 'ID', type: 'number' },
     { key: 'sport_session_name', label: 'Nom', type: 'text' },
+    {
+      key: 'sessionExercises',
+      label: 'Exercices liés',
+      type: 'relation',
+      relationEntity: 'sessions'
+    },
   ],
   exercises: [
     { key: 'sport_exercise_id', label: 'ID', type: 'number' },
