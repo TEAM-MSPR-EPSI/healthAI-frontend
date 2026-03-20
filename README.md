@@ -16,21 +16,23 @@ Permet de visualiser les indicateurs clés (métriques utilisateurs, nutrition, 
 
 | Route | Page | Description |
 |---|---|---|
-| `/user-metrics` | Métriques Utilisateurs | Répartition par âge, objectifs, progression |
-| `/nutrition` | Analyses Nutritionnelles | Apports caloriques, macronutriments, tendances |
-| `/fitness` | Statistiques Fitness | Exercices, intensité, progression collective |
-| `/kpi` | KPIs Business | Rétention, conversion, MRR, engagement |
-| `/data-check` | Validation des données | Contrôle qualité avant insertion en BDD |
+| `/admin/user-metrics` | Métriques Utilisateurs | Répartition par âge, objectifs, progression |
+| `/admin/nutrition` | Analyses Nutritionnelles | Apports caloriques, macronutriments, tendances |
+| `/admin/fitness` | Statistiques Fitness | Exercices, intensité, progression collective |
+| `/admin/kpi` | KPIs Business | Rétention, conversion, MRR, engagement |
+| `/admin/data-check` | Validation des données | Contrôle qualité avant insertion en BDD |
 
 ## Palette de couleurs (admin)
 
-```
-#aedef3 — primary-100 (clair)
-#5dbde6 — primary-200
-#3280ab — primary-300
-#154c70 — primary-400
-#0b2638 — primary-500 (foncé)
-```
+La palette d'administration utilise désormais une **thématique vert olive** (teintes de vert/gris) définie via les variables SCSS du thème Angular.
+
+Les valeurs de référence (tokens de couleur) sont centralisées dans les fichiers de thème SCSS, par exemple :
+
+- Palette principale : variables `primary` basées sur un vert olive
+- Palette accent : variables `accent` en vert plus vif
+- Palette d'avertissement : variables `warn` en tons chauds
+
+Pour la liste complète et à jour des couleurs, se référer aux variables définies dans les fichiers SCSS du thème (ex. `src/styles` / fichier de thème Angular).
 
 ## Lancement en développement
 
