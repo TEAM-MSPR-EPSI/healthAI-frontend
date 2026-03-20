@@ -1,0 +1,90 @@
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        @for (col of columns; track col.key) {
+          <th>{{ col.label }}</th>
+        }
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows; track row[idKey]) {
+        <tr [class.editing]="isEditingRow(row)">
+          @for (col of columns; track col.key) {
+            <td>
+              @if (isEditingRow(row) && isEditable(col)) {
+                <!-- Text input (default) -->
+                @if (col.type === 'text' || !col.type) {
+                  <input class="cell-input" type="text" [(ngModel)]="editBuffer[col.key]" />
+                }
+                <!-- Number input -->
+                @if (col.type === 'number') {
+                  <input class="cell-input" type="number" [(ngModel)]="editBuffer[col.key]" />
+                }
+                <!-- Enum select dropdown -->
+                @if (col.type === 'enum' && col.enumValues) {
+                  <select class="cell-select" [(ngModel)]="editBuffer[col.key]">
+                    <option [value]="">-- Sélectionner --</option>
+                    @for (enumVal of col.enumValues; track enumVal) {
+                      <option [value]="enumVal">{{ enumVal }}</option>
+                    }
+                  </select>
+                }
+                <!-- Boolean toggle -->
+                @if (col.type === 'boolean') {
+                  <mat-slide-toggle [(ngModel)]="editBuffer[col.key]"></mat-slide-toggle>
+                }
+              } @else {
+                <!-- Display value -->
+                @if (col.type === 'relation') {
+                  <!-- Relations: show count + link -->
+                  @if (row[col.key]) {
+                    <button 
+                      class="relation-btn"
+                      (click)="viewRelations.emit({row, column: col})"
+                      title="Gérer les relations"
+                    >
+                      @if (Array.isArray(row[col.key])) {
+                        {{ row[col.key].length }}
+                      } @else {
+                        1
+                      }
+                      Gérer
+                      <mat-icon class="relation-icon">chevron_right</mat-icon>
+                    </button>
+                  } @else {
+                    <span class="text-muted">Aucune</span>
+                  }
+                } @else {
+                  {{ getDisplayValue(row, col) }}
+                }
+              }
+            </td>
+          }
+          <td class="actions-cell">
+            @if (isEditingRow(row)) {
+              <button mat-icon-button (click)="saveEditRow.emit()" title="Sauvegarder">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button (click)="cancelEditRow.emit()" title="Annuler">
+                <mat-icon>close</mat-icon>
+              </button>
+            } @else {
+              <button mat-icon-button (click)="startEditRow.emit(row)" title="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteRowById.emit(row)" title="Supprimer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  @if (!rows.length) {
+    <p class="empty-table">Aucune donnée chargée.</p>
+  }
+</div>

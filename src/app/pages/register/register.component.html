@@ -1,0 +1,52 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <img src="logo.png" alt="HealthAI Coach" class="auth-logo" />
+    <h2>Créer un compte</h2>
+    <p class="auth-sub">Rejoignez la plateforme HealthAI Coach</p>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required />
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button" tabindex="-1">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirmer le mot de passe</mat-label>
+        <input matInput [type]="hideConfirm ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+        <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" type="button" tabindex="-1">
+          <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      @if (errorMessage) {
+        <p class="error-msg">{{ errorMessage }}</p>
+      }
+
+      <!-- Inscription par Google / Apple / SMS (désactivé pour le moment)
+      <div class="social-auth">
+        <button type="button" class="social-btn google">
+          <mat-icon>g_mobiledata</mat-icon> Continuer avec Google
+        </button>
+        <button type="button" class="social-btn apple">
+          <mat-icon>apple</mat-icon> Continuer avec Apple
+        </button>
+        <button type="button" class="social-btn sms">
+          <mat-icon>sms</mat-icon> Continuer par SMS
+        </button>
+      </div>
+      -->
+
+      <button mat-flat-button class="auth-btn full-width" type="submit" [disabled]="loading">
+        {{ loading ? 'Création...' : "S'inscrire" }}
+      </button>
+      <div class="auth-link">
+        <a routerLink="/login">Déjà un compte ? Se connecter</a>
+      </div>
+    </form>
+  </div>
+</div>

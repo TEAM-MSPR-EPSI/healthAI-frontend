@@ -1,0 +1,73 @@
+<div class="page-content">
+  <div class="recipe-header-bar">
+    <a routerLink="/recipes" class="back-link">
+      <mat-icon>arrow_back</mat-icon> Retour aux recettes
+    </a>
+    <button mat-icon-button (click)="toggleFavorite()" [class.favorite]="isFavorite" class="favorite-btn" title="Ajouter en favoris">
+      <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  </div>
+
+  <!-- SKELETON LOADING -->
+  @if (loading) {
+    <mat-card class="skeleton-card">
+      <mat-card-content>
+        <div class="skeleton-line" style="width: 60%; height: 32px; margin-bottom: 16px;"></div>
+        <div class="skeleton-line" style="width: 100%; height: 80px; margin-bottom: 16px;"></div>
+        <div class="skeleton-line" style="width: 90%; height: 200px;"></div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (recipe && !loading) {
+    <div class="recipe-header">
+      <h1>{{ recipe.recipe_name }}</h1>
+      @if (recipe.recipe_type) {
+        <mat-chip>{{ recipe.recipe_type }}</mat-chip>
+      }
+    </div>
+
+    @if (recipe.recipe_description) {
+      <p class="recipe-description">{{ recipe.recipe_description }}</p>
+    }
+
+    @if (recipe.recipe_preparation) {
+      <mat-card class="section-card">
+        <mat-card-content>
+          <h3><mat-icon>menu_book</mat-icon> Préparation</h3>
+          <p class="preparation-text">{{ recipe.recipe_preparation }}</p>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    <h2 class="section-title"><mat-icon>egg</mat-icon> Ingrédients</h2>
+
+    @if (recipe.ingredients && recipe.ingredients.length) {
+      <div class="ingredients-list">
+        @for (ing of recipe.ingredients; track ing.ingredient_id) {
+          <mat-card class="ingredient-row">
+            <mat-card-content>
+              <div class="ingredient-info">
+                <span class="ingredient-name">{{ ing.ingredient_name }}</span>
+                <span class="ingredient-type">{{ ing.ingredient_type }}</span>
+              </div>
+              <span class="ingredient-qty">{{ ing.ingredient_quantity }}g</span>
+              <div class="ingredient-macros">
+                <span class="macro" title="Calories">🔥 {{ ing.ingredient_energy_100g }} kcal</span>
+                <span class="macro" title="Protéines">💪 {{ ing.ingredient_protein_100g }}g</span>
+                <span class="macro" title="Glucides">🌾 {{ ing.ingredient_carbohydrate_100g }}g</span>
+                <span class="macro" title="Lipides">💧 {{ ing.ingredient_fats_100g }}g</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <p class="empty-text">Aucun ingrédient associé à cette recette.</p>
+    }
+  }
+
+  @if (!loading && !recipe) {
+    <p class="empty-text">Recette introuvable.</p>
+  }
+</div>

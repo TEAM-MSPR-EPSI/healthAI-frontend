@@ -1,3 +1,260 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--admin-gray-50);
+  color: var(--admin-primary-500);
+  -webkit-font-smoothing: antialiased;
+}
 
+/* Page content padding */
+.page-content {
+  padding: 28px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Page titles */
+.page-content h1 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.page-description {
+  color: var(--admin-gray-500);
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+
+/* Card grid responsive */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+/* Global card overrides — glassmorphism */
+mat-card, .mat-mdc-card {
+  border-radius: var(--admin-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+mat-card:hover, .mat-mdc-card:hover {
+  box-shadow: var(--admin-shadow-hover) !important;
+  transform: translateY(-1px);
+}
+
+/* Square buttons globally */
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-icon-button,
+.mat-mdc-unelevated-button, .mat-mdc-fab, .mat-mdc-mini-fab {
+  border-radius: var(--admin-radius) !important;
+}
+
+/* Example chart bars */
+.chart-placeholder {
+  padding: 12px 0;
+}
+.chart-bar-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+.chart-bar-label {
+  width: 110px;
+  font-size: 0.8rem;
+  color: var(--admin-gray-700);
+  text-align: right;
+  flex-shrink: 0;
+}
+.chart-bar-track {
+  flex: 1;
+  height: 18px;
+  background: var(--admin-gray-200);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.chart-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+.chart-bar-value {
+  width: 55px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--admin-primary-400);
+  flex-shrink: 0;
+}
+
+/* Stat card (KPI mini) */
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--admin-primary-400);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--admin-gray-500);
+  margin-top: 4px;
+}
+.stat-trend {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 6px;
+}
+.stat-trend.up { color: var(--admin-success); }
+.stat-trend.down { color: var(--admin-danger); }
+
+/* ===== Icon Buttons Global ===== */
+button[mat-icon-button],
+.mat-mdc-icon-button {
+  color: var(--text-color) !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+button[mat-icon-button]:hover,
+.mat-mdc-icon-button:hover {
+  color: var(--admin-primary-300) !important;
+}
+
+.app-toolbar button[mat-icon-button],
+.app-toolbar .mat-mdc-icon-button {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.app-toolbar button[mat-icon-button]:hover,
+.app-toolbar .mat-mdc-icon-button:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Inter-page navigation link pills */
+.page-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.nav-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--text-color);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.nav-link-pill,
+.nav-link-pill:visited,
+.nav-link-pill:link {
+  color: var(--text-color) !important;
+}
+
+.nav-link-pill mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-color);
+}
+
+.nav-link-pill:hover {
+  background: var(--admin-primary-100);
+  color: var(--admin-primary-400) !important;
+  border-color: var(--admin-primary-300);
+  transform: translateY(-1px);
+}
+
+.nav-link-pill:hover mat-icon {
+  color: var(--admin-primary-400);
+}
+
+/* Profile quick links */
+.profile-links {
+  max-width: 720px;
+  margin: 20px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--admin-radius);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.profile-link:hover {
+  background: var(--admin-primary-100);
+  transform: translateX(4px);
+}
+.profile-link > mat-icon:first-child {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: var(--admin-primary-300);
+}
+.profile-link .link-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.link-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+}
+.link-sub {
+  font-size: 0.78rem;
+  color: var(--admin-gray-500);
+}
+.link-arrow {
+  color: var(--admin-gray-400);
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 16px;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: 12px;
+  }
+  .chart-bar-label {
+    width: 70px;
+    font-size: 0.75rem;
+  }
+}

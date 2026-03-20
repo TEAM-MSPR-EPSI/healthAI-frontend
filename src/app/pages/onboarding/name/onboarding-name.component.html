@@ -1,0 +1,34 @@
+<div class="onboarding-page">
+  <!-- Progress bar -->
+  <div class="progress-bar">
+    <div class="progress-step done"></div>
+    <div class="progress-step active"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+  </div>
+  <span class="progress-label">2 / 5</span>
+
+  <div class="onboarding-content">
+    <img src="logo.png" alt="HealthAI Coach" class="onboarding-logo" />
+
+    <h1 class="onboarding-title">Comment tu t'appelles ?</h1>
+    <p class="onboarding-sub">Pour personnaliser ton expérience</p>
+
+    <div class="form-group">
+      <label class="form-label" for="firstName">Prénom</label>
+      <input
+        id="firstName"
+        class="form-input"
+        type="text"
+        placeholder="Lucas"
+        [(ngModel)]="firstName"
+        autocomplete="given-name"
+      />
+    </div>
+  </div>
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="next()" [disabled]="!firstName.trim()">Continuer →</button>
+  </div>
+</div>

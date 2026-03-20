@@ -1,0 +1,88 @@
+@use './bootstrap-overrides';
+@use './colors';
+@use './variables';
+@use './mixins';
+@use './buttons';
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-content {
+  padding: 28px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.page-content h1 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.page-description {
+  color: var(--text-color-subtle);
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+mat-card,
+.mat-mdc-card {
+  border-radius: var(--admin-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+mat-card:hover,
+.mat-mdc-card:hover {
+  box-shadow: var(--admin-shadow-hover) !important;
+  transform: translateY(-1px);
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+  border-radius: var(--admin-radius) !important;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 16px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: 12px;
+  }
+}

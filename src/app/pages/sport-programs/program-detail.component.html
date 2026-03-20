@@ -1,0 +1,51 @@
+<div class="page-content">
+  <a routerLink="/sport-programs" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Retour aux programmes
+  </a>
+
+  @if (loading) {
+    <p class="loading-text">Chargement…</p>
+  }
+
+  @if (program) {
+    <div class="program-header">
+      <mat-icon class="program-icon">fitness_center</mat-icon>
+      <div>
+        <h1>{{ program.sport_program_name }}</h1>
+        <div class="program-meta">
+          <mat-chip>{{ program.sport_program_objective }}</mat-chip>
+          @if (program.sport_program_duration) {
+            <span><mat-icon>calendar_today</mat-icon> {{ program.sport_program_duration }} jours</span>
+          }
+          @if (program.sport_program_sessions) {
+            <span><mat-icon>repeat</mat-icon> {{ program.sport_program_sessions }} séances</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title"><mat-icon>event</mat-icon> Séances du programme</h2>
+
+    @if (program.sessions && program.sessions.length) {
+      <div class="sessions-list">
+        @for (s of program.sessions; track s.sport_session_id) {
+          <a [routerLink]="'/sport-sessions/' + s.sport_session_id" class="session-link">
+            <mat-card class="session-row">
+              <mat-card-content>
+                <span class="session-rank">#{{ s.rank }}</span>
+                <span class="session-name">{{ s.sport_session_name }}</span>
+                <mat-icon class="session-arrow">chevron_right</mat-icon>
+              </mat-card-content>
+            </mat-card>
+          </a>
+        }
+      </div>
+    } @else {
+      <p class="empty-text">Aucune séance associée à ce programme.</p>
+    }
+  }
+
+  @if (!loading && !program) {
+    <p class="empty-text">Programme introuvable.</p>
+  }
+</div>

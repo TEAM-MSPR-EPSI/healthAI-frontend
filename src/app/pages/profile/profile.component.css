@@ -1,0 +1,153 @@
+.profile-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.avatar-section {
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--admin-gray-200);
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--admin-primary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.avatar mat-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: var(--admin-primary-400);
+}
+
+.avatar-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 4px;
+}
+
+.email-display {
+  font-size: 0.82rem;
+  color: var(--admin-gray-500);
+  margin: 0;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.save-btn {
+  background: var(--admin-primary-400) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* Profile quick links - fix blue link color */
+.profile-links {
+  max-width: 720px;
+  margin: 20px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--admin-radius);
+  color: var(--text-color) !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.profile-link,
+.profile-link:visited,
+.profile-link:link,
+.profile-link:active {
+  color: var(--text-color) !important;
+}
+
+.profile-link:hover {
+  background: var(--admin-primary-100);
+  border-color: var(--admin-primary-300);
+  transform: translateX(4px);
+}
+
+.profile-link mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: var(--admin-primary-400);
+  flex-shrink: 0;
+}
+
+.profile-link:hover mat-icon {
+  color: var(--admin-primary-500);
+}
+
+.link-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.link-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.link-sub {
+  font-size: 0.75rem;
+  color: var(--text-color-subtle);
+  margin-top: 2px;
+}
+
+.link-arrow {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: var(--text-color-muted) !important;
+  transition: transform 0.2s ease;
+}

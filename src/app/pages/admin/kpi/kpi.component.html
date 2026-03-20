@@ -1,0 +1,102 @@
+<div class="page-content">
+  <h1>KPIs Business</h1>
+  <p class="page-description">Indicateurs clés de performance : rétention, conversion, revenus et engagement.</p>
+
+  <!-- SKELETON LOADING -->
+  @if (isLoading) {
+    <div class="kpi-row">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <div class="skeleton-card"></div>
+      }
+    </div>
+  }
+
+  <!-- KPIs (une fois chargées) -->
+  @if (!isLoading) {
+    <div class="kpi-row">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+
+  <!-- Charts avec Bootstrap -->
+  @if (!isLoading) {
+    <div class="kpi-charts-row">
+    <div class="kpi-chart-col">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Rétention mensuelle</mat-card-title>
+          <mat-card-subtitle>Évolution du taux de rétention</mat-card-subtitle>
+        </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of retentionMonths; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.percent }}%</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+    </div>
+
+    <div class="col-lg-6 col-xl-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Revenu par offre</mat-card-title>
+        <mat-card-subtitle>Répartition du MRR par formule</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of revenueBreakdown; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.value }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+    </div>
+
+    <div class="col-lg-6 col-xl-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Engagement</mat-card-title>
+        <mat-card-subtitle>Indicateurs d'utilisation</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of engagementMetrics; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.percent }}%</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+    </div>
+    </div>
+  }
+</div>

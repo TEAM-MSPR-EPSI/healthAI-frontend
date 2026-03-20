@@ -1,0 +1,58 @@
+<div class="login-page">
+  <div class="login-content">
+    <!-- Brand -->
+    <div class="login-brand">
+      <img src="logo.png" alt="" class="brand-icon" />
+      <div class="brand-text">
+        <span class="brand-name">Health<span class="brand-ai">AI</span></span>
+        <span class="brand-coach">COACH</span>
+      </div>
+    </div>
+
+    <!-- Login form -->
+    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required autocomplete="current-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" tabindex="-1">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      @if (errorMessage) {
+        <p class="error-msg">{{ errorMessage }}</p>
+      }
+
+      <!-- Connexion par Google / Apple / SMS (désactivé pour le moment)
+      <div class="auth-buttons">
+        <button type="button" class="auth-method">
+          <mat-icon>g_mobiledata</mat-icon> Continuer avec Google
+        </button>
+        <button type="button" class="auth-method">
+          <mat-icon>apple</mat-icon> Continuer avec Apple
+        </button>
+        <button type="button" class="auth-method">
+          <mat-icon>sms</mat-icon> Continuer par SMS
+        </button>
+      </div>
+      -->
+
+      <button mat-flat-button class="login-btn full-width" type="submit" [disabled]="loading">
+        {{ loading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+
+      <div class="auth-link">
+        <a routerLink="/register">Pas encore de compte ? S'inscrire</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="login-footer">
+    <a class="lost-link" routerLink="/lost-account">Perdu mon compte →</a>
+  </div>
+</div>

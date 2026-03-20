@@ -1,0 +1,39 @@
+<div class="onboarding-page">
+  <!-- Progress bar -->
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+    </div>
+    <span class="progress-label">3 / 5</span>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="onboarding-title">Ton objectif principal ?</h1>
+    <p class="onboarding-sub">Une seule réponse possible</p>
+
+    <div class="goal-list">
+      @for (goal of goals; track goal.value) {
+        <button
+          class="goal-option"
+          [class.selected]="selectedGoal === goal.value"
+          (click)="selectGoal(goal.value)">
+          <span class="goal-label">{{ goal.label }}</span>
+          <span class="goal-radio">
+            @if (selectedGoal === goal.value) {
+              <span class="radio-inner"></span>
+            }
+          </span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="next()" [disabled]="!selectedGoal">Continuer →</button>
+  </div>
+</div>

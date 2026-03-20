@@ -1,0 +1,110 @@
+<div class="page-content">
+  <h1>Données Biométriques</h1>
+  <p class="page-description">Suivi de votre sommeil, activité physique et poids</p>
+
+  <div class="page-nav-links">
+    <a routerLink="/profile" class="nav-link-pill">
+      <mat-icon>person</mat-icon> Mon profil
+    </a>
+    <a routerLink="/sport-programs" class="nav-link-pill">
+      <mat-icon>fitness_center</mat-icon> Programmes
+    </a>
+  </div>
+
+  <!-- Current stats cards -->
+  <div class="stat-cards">
+    <mat-card class="stat-card sleep">
+      <mat-card-content>
+        <mat-icon>bedtime</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ currentStats.sleep }}</span>
+          <span class="stat-label">Sommeil (dernière nuit)</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card steps">
+      <mat-card-content>
+        <mat-icon>directions_walk</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ currentStats.steps | number }}</span>
+          <span class="stat-label">Pas aujourd'hui</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card weight">
+      <mat-card-content>
+        <mat-icon>monitor_weight</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ currentStats.weight }} kg</span>
+          <span class="stat-label">Poids actuel</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-grid">
+    <!-- Sleep chart -->
+    <mat-card>
+      <mat-card-content>
+        <h3 class="chart-title">
+          <mat-icon>bedtime</mat-icon> Sommeil cette semaine
+        </h3>
+        <div class="chart-placeholder">
+          @for (entry of sleepHistory; track entry.day) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ entry.day }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill sleep-fill"
+                     [style.width]="getBarWidth(entry.hours, maxSleep)"></div>
+              </div>
+              <span class="chart-bar-value">{{ entry.hours }}h</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Steps chart -->
+    <mat-card>
+      <mat-card-content>
+        <h3 class="chart-title">
+          <mat-icon>directions_walk</mat-icon> Pas cette semaine
+        </h3>
+        <div class="chart-placeholder">
+          @for (entry of stepsHistory; track entry.day) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ entry.day }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill steps-fill"
+                     [style.width]="getBarWidth(entry.steps, maxSteps)"></div>
+              </div>
+              <span class="chart-bar-value">{{ entry.steps | number }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Weight chart -->
+    <mat-card>
+      <mat-card-content>
+        <h3 class="chart-title">
+          <mat-icon>monitor_weight</mat-icon> Évolution du poids
+        </h3>
+        <div class="weight-list">
+          @for (entry of weightHistory; track entry.week) {
+            <div class="weight-row">
+              <span class="weight-week">{{ entry.week }}</span>
+              <div class="weight-bar-track">
+                <div class="weight-bar-fill"
+                     [style.width]="getBarWidth(entry.weight, 80)"></div>
+              </div>
+              <span class="weight-value">{{ entry.weight }} kg</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

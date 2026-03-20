@@ -1,0 +1,113 @@
+/* ===== App Layout ===== */
+.app-toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--admin-primary-400);
+  color: #ffffff;
+  height: 52px;
+  min-height: 52px;
+  box-shadow: 0 1px 3px rgba(43, 54, 38, 0.08);
+}
+
+.toolbar-title {
+  margin-left: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+}
+
+.toolbar-spacer { flex: 1; }
+
+/* Icon buttons in toolbar - light color */
+.app-toolbar button[mat-icon-button] {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.app-toolbar mat-icon {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.sidenav-container {
+  position: absolute;
+  top: 52px;
+  bottom: 0; left: 0; right: 0;
+}
+
+/* ===== Sidebar shell (width controlled by SidebarComponent) ===== */
+.sidenav {
+  width: 232px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+}
+
+/* ===== Main content ===== */
+.main-content {
+  background: var(--admin-gray-50);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .app-toolbar {
+    height: 48px;
+    min-height: 48px;
+  }
+  .sidenav-container {
+    top: 48px;
+  }
+  .sidenav {
+    width: 220px;
+  }
+  .main-content.mobile-user {
+    padding-bottom: 64px;
+  }
+}
+
+/* ===== Bottom Navigation (Mobile) ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background: var(--glass-bg-strong, rgba(255,255,255,0.75));
+  backdrop-filter: var(--glass-blur, blur(16px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
+  border-top: 1px solid var(--glass-border, rgba(255,255,255,0.35));
+  box-shadow: 0 -2px 12px rgba(43, 54, 38, 0.06);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: 1;
+  padding: 6px 0;
+  text-decoration: none;
+  color: var(--admin-gray-500, #9a958c);
+  font-size: 0.65rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.bottom-nav-item mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.bottom-nav-item.active {
+  color: var(--admin-primary-300, #5e7a45);
+  font-weight: 600;
+}
+
+.bottom-nav-item.active mat-icon {
+  color: var(--admin-primary-300, #5e7a45);
+}

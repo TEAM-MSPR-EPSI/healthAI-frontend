@@ -1,0 +1,72 @@
+<div class="page-content">
+  <a routerLink="/sport-sessions" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Retour aux séances
+  </a>
+
+  @if (loading) {
+    <p class="loading-text">Chargement…</p>
+  }
+
+  @if (session) {
+    <h1>{{ session.sport_session_name }}</h1>
+
+    <!-- Exercises -->
+    <h2 class="section-title"><mat-icon>fitness_center</mat-icon> Exercices</h2>
+
+    @if (session.exercises && session.exercises.length) {
+      <div class="exercises-list">
+        @for (ex of session.exercises; track ex.sport_exercise_id) {
+          <mat-card class="exercise-row">
+            <mat-card-content>
+              <span class="exercise-rank">#{{ ex.rank }}</span>
+              <div class="exercise-info">
+                <span class="exercise-name">{{ ex.sport_exercise_name }}</span>
+                <span class="exercise-sub">
+                  {{ ex.sport_exercise_muscle_group }} · {{ ex.sport_exercise_difficulty }}
+                </span>
+              </div>
+              <div class="exercise-meta">
+                @if (ex.sport_exercise_duration) {
+                  <span class="meta-pill"><mat-icon>timer</mat-icon> {{ ex.sport_exercise_duration }} min</span>
+                }
+                <span class="meta-pill"><mat-icon>local_fire_department</mat-icon> {{ ex.sport_exercise_cal_burned }} kcal</span>
+              </div>
+              @if (ex.sport_exercise_instruction) {
+                <p class="exercise-instruction">{{ ex.sport_exercise_instruction }}</p>
+              }
+              @if (ex.equipment && ex.equipment.length) {
+                <div class="equipment-tags">
+                  <mat-icon class="equip-icon">build</mat-icon>
+                  @for (eq of ex.equipment; track eq.sport_equipment_id) {
+                    <mat-chip>{{ eq.sport_equipment_name }}</mat-chip>
+                  }
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <p class="empty-text">Aucun exercice associé à cette séance.</p>
+    }
+
+    <!-- All equipment summary -->
+    @if (session.all_equipment && session.all_equipment.length) {
+      <h2 class="section-title"><mat-icon>build</mat-icon> Matériel requis</h2>
+      <div class="equipment-summary">
+        @for (eq of session.all_equipment; track eq.sport_equipment_id) {
+          <mat-card class="equip-card">
+            <mat-card-content>
+              <mat-icon>sports_handball</mat-icon>
+              <span>{{ eq.sport_equipment_name }}</span>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    }
+  }
+
+  @if (!loading && !session) {
+    <p class="empty-text">Séance introuvable.</p>
+  }
+</div>

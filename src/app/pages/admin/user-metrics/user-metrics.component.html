@@ -1,0 +1,84 @@
+<div class="page-content">
+  <h1>Métriques Utilisateurs</h1>
+  <p class="page-description">Suivi de la répartition, des objectifs et de la progression des utilisateurs.</p>
+
+  <!-- KPI row -->
+  <div class="kpi-row">
+    @for (kpi of kpis; track kpi.label) {
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-icon-wrap">
+            <mat-icon>{{ kpi.icon }}</mat-icon>
+          </div>
+          <div class="stat-value">{{ kpi.value }}</div>
+          <div class="stat-label">{{ kpi.label }}</div>
+          <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  <!-- Charts -->
+  <div class="cards-grid">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Répartition par âge</mat-card-title>
+        <mat-card-subtitle>Distribution des utilisateurs par tranche d'âge</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of ageDistribution; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.value }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+<iframe src="https://zeyrox34.grafana.net/dashboard/snapshot/OXohxZ0ycBmBiJ04a89DjW8RrKoMEr3G" width="450" height="200" frameborder="0"></iframe>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Objectifs des utilisateurs</mat-card-title>
+        <mat-card-subtitle>Répartition des objectifs personnels</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of goals; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.percent }}%</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Progression mensuelle</mat-card-title>
+        <mat-card-subtitle>Évolution de la progression des utilisateurs</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-placeholder">
+          @for (bar of progression; track bar.label) {
+            <div class="chart-bar-group">
+              <span class="chart-bar-label">{{ bar.label }}</span>
+              <div class="chart-bar-track">
+                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
+              </div>
+              <span class="chart-bar-value">{{ bar.percent }}%</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

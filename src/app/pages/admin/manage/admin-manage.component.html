@@ -1,0 +1,63 @@
+<div class="page-content">
+  <h1>Gestion des données</h1>
+  <p class="page-description">Consultez, modifiez ou supprimez les données du système.</p>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    @for (tab of tabs; track tab.key) {
+      <button class="tab-btn" [class.active]="activeTab === tab.key"
+              (click)="selectTab(tab.key)">
+        <mat-icon>{{ tab.icon }}</mat-icon>
+        <span>{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- SKELETON TABLE -->
+  @if (isLoading) {
+    <div class="skeleton-table">
+      @for (row of [1, 2, 3, 4, 5]; track row) {
+        <div class="skeleton-row">
+          @for (col of [1, 2, 3, 4]; track col) {
+            <div class="skeleton-cell"></div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- REAL TABLE -->
+  @if (!isLoading) {
+    @if (apiErrorMessage) {
+      <div class="api-error-banner">
+        <mat-icon>error</mat-icon>
+        <span>{{ apiErrorMessage }}</span>
+      </div>
+    }
+    <app-admin-entity-table
+    [entity]="activeTab"
+    [columns]="getColumns(activeTab)"
+    [rows]="getData(activeTab)"
+    [idKey]="getIdKey(activeTab)"
+    [editingId]="editingId"
+    [editingEntity]="editingEntity"
+    [editBuffer]="editBuffer"
+    (startEditRow)="startEdit(activeTab, $event)"
+    (saveEditRow)="saveEdit()"
+    (cancelEditRow)="cancelEdit()"
+    (deleteRowById)="deleteRow(activeTab, $event)"
+    (viewRelations)="onViewRelations($event)"
+  ></app-admin-entity-table>
+  }
+
+  @if (showRelationEditor && selectedRelationColumn && selectedRelationParent) {
+    <app-relation-editor
+      [parentEntity]="selectedRelationEntity"
+      [parentRow]="selectedRelationParent"
+      [relationColumn]="selectedRelationColumn"
+      (close)="closeRelationEditor()"
+      (updated)="onRelationUpdated()"
+    ></app-relation-editor>
+  }
+
+</div>

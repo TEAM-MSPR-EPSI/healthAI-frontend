@@ -1,0 +1,19 @@
+@for (cat of categories; track cat.title) {
+  <section class="category-section">
+    <div class="category-header">
+      <h2>{{ cat.title }}</h2>
+      <a class="see-all">Voir tout →</a>
+    </div>
+    <div class="category-scroll">
+      @for (recipe of cat.recipes; track recipe.name) {
+        <div class="mini-recipe-card">
+          <div class="mini-recipe-icon">{{ recipe.image }}</div>
+          <span class="mini-recipe-name">{{ recipe.name }}</span>
+          <span class="mini-recipe-time">
+            <mat-icon>schedule</mat-icon> {{ recipe.time }}
+          </span>
+        </div>
+      }
+    </div>
+  </section>
+}
