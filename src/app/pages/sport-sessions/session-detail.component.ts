@@ -22,7 +22,7 @@ export class SessionDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
+    if (Number.isFinite(id) && id > 0) {
       this.api.getSession(id).subscribe({
         next: (data) => {
           this.session = data;
@@ -30,6 +30,8 @@ export class SessionDetailComponent implements OnInit {
         },
         error: () => { this.loading = false; },
       });
+    } else {
+      this.loading = false;
     }
   }
 }

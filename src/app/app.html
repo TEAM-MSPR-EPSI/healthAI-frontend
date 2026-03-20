@@ -28,7 +28,7 @@
       <mat-sidenav
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="sidenavOpened()"
-        (closed)="sidenavOpened.set(false)"
+        (openedChange)="sidenavOpened.set($event)"
         class="sidenav">
 
         <app-sidebar

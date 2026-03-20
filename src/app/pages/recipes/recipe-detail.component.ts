@@ -24,7 +24,7 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
+    if (Number.isFinite(id) && id > 0) {
       this.api.getRecipe(id).subscribe({
         next: (data) => {
           this.recipe = data;
@@ -32,6 +32,8 @@ export class RecipeDetailComponent implements OnInit {
         },
         error: () => { this.loading = false; },
       });
+    } else {
+      this.loading = false;
     }
   }
 

@@ -61,6 +61,7 @@
   background: var(--secondary-color);
   border-radius: 16px;
   color: var(--surface-color);
+  text-decoration: none;
   cursor: pointer;
   transition: opacity 0.2s;
 }

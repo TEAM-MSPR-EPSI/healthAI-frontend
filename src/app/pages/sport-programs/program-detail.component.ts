@@ -23,7 +23,7 @@ export class ProgramDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
+    if (Number.isFinite(id) && id > 0) {
       this.api.getProgram(id).subscribe({
         next: (data) => {
           this.program = data;
@@ -31,6 +31,8 @@ export class ProgramDetailComponent implements OnInit {
         },
         error: () => { this.loading = false; },
       });
+    } else {
+      this.loading = false;
     }
   }
 }
