@@ -5,7 +5,7 @@
   justify-content: space-between;
   min-height: 100vh;
   background: var(--admin-gray-50, #faf8f4);
-  padding: 60px 24px 36px;
+  /* padding: 60px 24px 36px; */
   text-align: center;
   animation: fadeIn 0.5s ease;
 }
@@ -92,6 +92,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  margin: 32px;
 }
 
 .welcome-legal {

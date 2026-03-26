@@ -5,7 +5,6 @@
   justify-content: space-between;
   min-height: 100vh;
   background: var(--admin-gray-50, #faf8f4);
-  padding: 80px 24px 36px;
   text-align: center;
 }
 
@@ -17,6 +16,7 @@
   justify-content: center;
   width: 100%;
   max-width: 340px;
+  padding: 80px 24px 36px;
 }
 
 /* Brand header */
@@ -116,6 +116,7 @@
 /* Footer */
 .login-footer {
   margin-top: 40px;
+  margin-bottom: 32px;
 }
 
 .lost-link {
@@ -130,7 +131,7 @@
 }
 
 @media (max-width: 480px) {
-  .login-page {
+  .login-content {
     padding: 60px 20px 28px;
   }
 }
