@@ -65,57 +65,10 @@
   color: var(--admin-primary-300);
 }
 
-/* Colored bar fills */
-.sleep-fill {
-  background: linear-gradient(90deg, #a78bfa, #7c6dc7);
-}
-
-.steps-fill {
-  background: linear-gradient(90deg, #86d993, var(--admin-success));
-}
-
-/* Weight evolution */
-.weight-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.weight-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.weight-week {
-  width: 60px;
-  font-size: 0.8rem;
-  color: var(--admin-gray-700);
-  text-align: right;
-  flex-shrink: 0;
-}
-
-.weight-bar-track {
-  flex: 1;
-  height: 18px;
-  background: var(--admin-gray-200);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.weight-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--admin-warning), #d4a843);
-  border-radius: 3px;
-  transition: width 0.6s ease;
-}
-
-.weight-value {
-  width: 60px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--admin-primary-400);
-  flex-shrink: 0;
+canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 8px;
 }
 
 @media (max-width: 768px) {

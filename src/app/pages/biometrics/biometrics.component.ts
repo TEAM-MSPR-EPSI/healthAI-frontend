@@ -4,11 +4,13 @@ import { DecimalPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartConfiguration, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-biometrics',
   standalone: true,
-  imports: [DecimalPipe, MatCardModule, MatIconModule, RouterLink],
+  imports: [DecimalPipe, MatCardModule, MatIconModule, RouterLink, NgChartsModule],
   templateUrl: './biometrics.component.html',
   styleUrl: './biometrics.component.css',
 })
@@ -48,10 +50,47 @@ export class BiometricsComponent {
     { week: 'Sem 6', weight: 74.2 },
   ];
 
-  maxSteps = 12000;
-  maxSleep = 10;
+  sleepChartType: ChartType = 'bar';
+  stepsChartType: ChartType = 'bar';
+  weightChartType: ChartType = 'line';
 
-  getBarWidth(value: number, max: number): string {
-    return Math.min((value / max) * 100, 100) + '%';
-  }
+  sleepChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: this.sleepHistory.map((entry) => entry.day),
+    datasets: [
+      {
+        label: 'Heures de sommeil',
+        data: this.sleepHistory.map((entry) => entry.hours),
+        backgroundColor: 'rgba(124, 109, 199, 0.72)',
+        borderRadius: 8,
+      },
+    ],
+  };
+
+  stepsChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: this.stepsHistory.map((entry) => entry.day),
+    datasets: [
+      {
+        label: 'Pas',
+        data: this.stepsHistory.map((entry) => entry.steps),
+        backgroundColor: 'rgba(67, 160, 71, 0.72)',
+        borderRadius: 8,
+      },
+    ],
+  };
+
+  weightChartData: ChartConfiguration<'line'>['data'] = {
+    labels: this.weightHistory.map((entry) => entry.week),
+    datasets: [
+      {
+        label: 'Poids (kg)',
+        data: this.weightHistory.map((entry) => entry.weight),
+        borderColor: 'rgba(249, 168, 37, 1)',
+        backgroundColor: 'rgba(249, 168, 37, 0.2)',
+        fill: true,
+        tension: 0.32,
+        pointRadius: 4,
+      },
+    ],
+  };
+
 }

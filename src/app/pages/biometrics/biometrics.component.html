@@ -50,18 +50,12 @@
         <h3 class="chart-title">
           <mat-icon>bedtime</mat-icon> Sommeil cette semaine
         </h3>
-        <div class="chart-placeholder">
-          @for (entry of sleepHistory; track entry.day) {
-            <div class="chart-bar-group">
-              <span class="chart-bar-label">{{ entry.day }}</span>
-              <div class="chart-bar-track">
-                <div class="chart-bar-fill sleep-fill"
-                     [style.width]="getBarWidth(entry.hours, maxSleep)"></div>
-              </div>
-              <span class="chart-bar-value">{{ entry.hours }}h</span>
-            </div>
-          }
-        </div>
+        <canvas
+          baseChart
+          [data]="sleepChartData"
+          [type]="sleepChartType"
+          [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
+        ></canvas>
       </mat-card-content>
     </mat-card>
 
@@ -71,18 +65,12 @@
         <h3 class="chart-title">
           <mat-icon>directions_walk</mat-icon> Pas cette semaine
         </h3>
-        <div class="chart-placeholder">
-          @for (entry of stepsHistory; track entry.day) {
-            <div class="chart-bar-group">
-              <span class="chart-bar-label">{{ entry.day }}</span>
-              <div class="chart-bar-track">
-                <div class="chart-bar-fill steps-fill"
-                     [style.width]="getBarWidth(entry.steps, maxSteps)"></div>
-              </div>
-              <span class="chart-bar-value">{{ entry.steps | number }}</span>
-            </div>
-          }
-        </div>
+        <canvas
+          baseChart
+          [data]="stepsChartData"
+          [type]="stepsChartType"
+          [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
+        ></canvas>
       </mat-card-content>
     </mat-card>
 
@@ -92,18 +80,12 @@
         <h3 class="chart-title">
           <mat-icon>monitor_weight</mat-icon> Évolution du poids
         </h3>
-        <div class="weight-list">
-          @for (entry of weightHistory; track entry.week) {
-            <div class="weight-row">
-              <span class="weight-week">{{ entry.week }}</span>
-              <div class="weight-bar-track">
-                <div class="weight-bar-fill"
-                     [style.width]="getBarWidth(entry.weight, 80)"></div>
-              </div>
-              <span class="weight-value">{{ entry.weight }} kg</span>
-            </div>
-          }
-        </div>
+        <canvas
+          baseChart
+          [data]="weightChartData"
+          [type]="weightChartType"
+          [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+        ></canvas>
       </mat-card-content>
     </mat-card>
   </div>
