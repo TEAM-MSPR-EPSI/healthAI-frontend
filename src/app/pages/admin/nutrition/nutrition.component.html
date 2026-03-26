@@ -2,82 +2,75 @@
   <h1>Analyses Nutritionnelles</h1>
   <p class="page-description">Tendances alimentaires, apports caloriques et répartition des macronutriments.</p>
 
-  <!-- KPIs -->
-  <div class="kpi-row">
-    @for (kpi of kpis; track kpi.label) {
-      <mat-card class="kpi-card">
+  @if (isLoading) {
+    <div class="skeleton-kpi-row">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="skeleton-kpi"></div>
+      }
+    </div>
+    <div class="skeleton-metrics-row">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton-metrics-card"></div>
+      }
+    </div>
+  } @else {
+    <div class="kpi-row">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    <div class="cards-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Répartition macronutriments</mat-card-title>
+          <mat-card-subtitle>Protéines, glucides, lipides</mat-card-subtitle>
+        </mat-card-header>
         <mat-card-content>
-          <div class="kpi-icon-wrap">
-            <mat-icon>{{ kpi.icon }}</mat-icon>
-          </div>
-          <div class="stat-value">{{ kpi.value }}</div>
-          <div class="stat-label">{{ kpi.label }}</div>
-          <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          <canvas baseChart
+            [data]="macroChartData"
+            [type]="macroChartType"
+            [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"
+          ></canvas>
         </mat-card-content>
       </mat-card>
-    }
-  </div>
 
-  <!-- Charts -->
-  <div class="cards-grid">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Répartition macronutriments</mat-card-title>
-        <mat-card-subtitle>Protéines, glucides, lipides</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="chart-placeholder">
-          @for (bar of macroBreakdown; track bar.label) {
-            <div class="chart-bar-group">
-              <span class="chart-bar-label">{{ bar.label }}</span>
-              <div class="chart-bar-track">
-                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
-              </div>
-              <span class="chart-bar-value">{{ bar.percent }}%</span>
-            </div>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Calories quotidiennes</mat-card-title>
+          <mat-card-subtitle>Estimation hebdomadaire issue des données ingrédients</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="caloriesChartData"
+            [type]="caloriesChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
 
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Calories quotidiennes</mat-card-title>
-        <mat-card-subtitle>Moyenne des apports par jour de la semaine</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="chart-placeholder">
-          @for (bar of dailyCalories; track bar.label) {
-            <div class="chart-bar-group">
-              <span class="chart-bar-label">{{ bar.label }}</span>
-              <div class="chart-bar-track">
-                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
-              </div>
-              <span class="chart-bar-value">{{ bar.value }}</span>
-            </div>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Aliments les plus consommés</mat-card-title>
-        <mat-card-subtitle>Top 5 des aliments préférés</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="chart-placeholder">
-          @for (bar of topFoods; track bar.label) {
-            <div class="chart-bar-group">
-              <span class="chart-bar-label">{{ bar.label }}</span>
-              <div class="chart-bar-track">
-                <div class="chart-bar-fill" [style.width.%]="bar.percent" [style.background]="bar.color"></div>
-              </div>
-              <span class="chart-bar-value">{{ bar.percent }}%</span>
-            </div>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Aliments énergétiques</mat-card-title>
+          <mat-card-subtitle>Top 5 par calories/100g</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="topFoodsChartData"
+            [type]="topFoodsChartType"
+            [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
 </div>

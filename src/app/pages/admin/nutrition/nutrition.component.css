@@ -1,9 +1,19 @@
-/* KPI row */
+.page-content {
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
 .kpi-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px;
   margin-bottom: 22px;
+}
+
+.kpi-card {
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .kpi-card .mat-mdc-card-content {
@@ -15,16 +25,92 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 6px;
-  background: var(--admin-primary-100);
-  color: var(--admin-primary-400);
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #e3f2fd;
+  color: #1565c0;
   margin-bottom: 8px;
 }
 
-@media (max-width: 480px) {
-  .kpi-row {
-    grid-template-columns: repeat(2, 1fr);
+.stat-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.stat-trend {
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.stat-trend.up {
+  color: #15803d;
+}
+
+.stat-trend.down {
+  color: #b91c1c;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.25rem;
+}
+
+mat-card {
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 0.8rem;
+}
+
+.skeleton-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.skeleton-kpi {
+  height: 110px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #e3e3e3 25%, #f5f5f5 50%, #e3e3e3 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.2s infinite linear;
+}
+
+.skeleton-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.25rem;
+}
+
+.skeleton-metrics-card {
+  height: 260px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #e3e3e3 25%, #f5f5f5 50%, #e3e3e3 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.2s infinite linear;
+}
+
+@keyframes skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 900px) {
+  .cards-grid,
+  .skeleton-metrics-row {
+    grid-template-columns: 1fr;
   }
 }
