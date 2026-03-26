@@ -1,3 +1,32 @@
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.admin-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.admin-card {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.admin-card-link:hover .admin-card,
+.admin-card-link:focus-visible .admin-card {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.admin-card-link:focus-visible {
+  outline: none;
+}
+
 .welcome-card {
   display: flex;
   flex-direction: column;
@@ -26,4 +55,10 @@
   color: var(--admin-gray-500);
   margin: 0;
   line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
 }

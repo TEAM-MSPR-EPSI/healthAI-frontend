@@ -1,0 +1,72 @@
+<div class="page-content">
+  <h1>Profils utilisateurs</h1>
+  <p class="page-description">Liste des utilisateurs de la plateforme avec acces a la modification.</p>
+
+  @if (loading) {
+    <div class="skeleton-table">
+      @for (row of [1, 2, 3, 4, 5, 6]; track row) {
+        <div class="skeleton-row">
+          @for (col of [1, 2, 3, 4, 5, 6]; track col) {
+            <div class="skeleton-cell"></div>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    @if (apiError) {
+      <mat-card class="empty-state">
+        <p>Erreur API: la liste utilisateurs n est pas accessible actuellement.</p>
+      </mat-card>
+    }
+
+    @if (users.length) {
+      <div class="table-wrap">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Role</th>
+              <th>Genre</th>
+              <th>Ville</th>
+              <th>Pays</th>
+              <th>Telephone</th>
+              <th>Taille</th>
+              <th>Poids</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users; track trackById($index, user)) {
+              <tr>
+                <td>{{ user.user_id }}</td>
+                <td>{{ user.user_username }}</td>
+                <td>{{ user.user_lastname }}</td>
+                <td>{{ user.user_firstname }}</td>
+                <td><span class="role-pill">{{ user.user_role || 'user' }}</span></td>
+                <td>{{ user.user_gender }}</td>
+                <td>{{ user.user_city || '-' }}</td>
+                <td>{{ user.user_country || '-' }}</td>
+                <td>{{ user.user_phone }}</td>
+                <td>{{ user.user_size }}</td>
+                <td>{{ user.user_weight }}</td>
+                <td>
+                  <a mat-stroked-button color="primary" [routerLink]="['/admin/users', user.user_id]">
+                    <mat-icon>visibility</mat-icon>
+                    Detail
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else if (!apiError) {
+      <mat-card class="empty-state">
+        <p>Aucun utilisateur trouve.</p>
+      </mat-card>
+    }
+  }
+</div>

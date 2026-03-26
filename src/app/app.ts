@@ -37,6 +37,7 @@ export class App {
   /* Admin menu items */
   protected adminMenuItems: MenuItem[] = [
     { label: 'Dashboard Admin', icon: 'dashboard', route: '/admin' },
+    { label: 'Liste des Utilisateurs', icon: 'manage_accounts', route: '/admin/user-list' },
     { label: 'Métriques Utilisateurs', icon: 'people', route: '/admin/user-metrics' },
     { label: 'Analyses Nutritionnelles', icon: 'restaurant', route: '/admin/nutrition' },
     { label: 'Statistiques Fitness', icon: 'fitness_center', route: '/admin/fitness' },

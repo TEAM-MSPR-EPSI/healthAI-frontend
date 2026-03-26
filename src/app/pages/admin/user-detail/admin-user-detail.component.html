@@ -1,0 +1,121 @@
+<div class="page-content">
+  <div class="header-row">
+    <div>
+      <h1>Detail utilisateur #{{ userId }}</h1>
+      <p class="page-description">Modifiez les informations du profil (hors mot de passe).</p>
+    </div>
+    <a mat-stroked-button routerLink="/admin/user-list">
+      <mat-icon>arrow_back</mat-icon>
+      Retour a la liste
+    </a>
+  </div>
+
+  @if (loading) {
+    <mat-card class="state-card">
+      <p>Chargement des informations utilisateur...</p>
+    </mat-card>
+  } @else if (loadError) {
+    <mat-card class="state-card error-state">
+      <p>Impossible de charger ce profil utilisateur.</p>
+    </mat-card>
+  } @else {
+    <mat-card class="form-card">
+      <mat-card-content>
+        <form class="user-form" (ngSubmit)="save()">
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Username</mat-label>
+              <input matInput [(ngModel)]="user.user_username" name="user_username" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" [(ngModel)]="user.user_email" name="user_email" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput [(ngModel)]="user.user_lastname" name="user_lastname" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Prenom</mat-label>
+              <input matInput [(ngModel)]="user.user_firstname" name="user_firstname" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Role</mat-label>
+              <mat-select [(ngModel)]="user.user_role" name="user_role" required>
+                @for (role of roleOptions; track role.value) {
+                  <mat-option [value]="role.value">{{ role.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Genre</mat-label>
+              <mat-select [(ngModel)]="user.user_gender" name="user_gender" required>
+                @for (gender of genderOptions; track gender.value) {
+                  <mat-option [value]="gender.value">{{ gender.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Date de naissance</mat-label>
+              <input matInput type="date" [(ngModel)]="user.user_birth" name="user_birth" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Telephone</mat-label>
+              <input matInput [(ngModel)]="user.user_phone" name="user_phone" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Ville</mat-label>
+              <input matInput [(ngModel)]="user.user_city" name="user_city" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Pays</mat-label>
+              <input matInput [(ngModel)]="user.user_country" name="user_country" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Taille (cm)</mat-label>
+              <input matInput type="number" [(ngModel)]="user.user_size" name="user_size" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Poids (kg)</mat-label>
+              <input matInput type="number" step="0.1" [(ngModel)]="user.user_weight" name="user_weight" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Dernier poids (kg)</mat-label>
+              <input matInput type="number" step="0.1" [(ngModel)]="user.user_last_weight" name="user_last_weight" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>ID Programme sport</mat-label>
+              <input matInput type="number" [(ngModel)]="user.sport_program_id" name="sport_program_id" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>ID Company</mat-label>
+              <input matInput type="number" [(ngModel)]="user.company_id" name="company_id" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-stroked-button type="button" routerLink="/admin/user-list">Annuler</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+              <mat-icon>save</mat-icon>
+              {{ saving ? 'Sauvegarde...' : 'Enregistrer les modifications' }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>
