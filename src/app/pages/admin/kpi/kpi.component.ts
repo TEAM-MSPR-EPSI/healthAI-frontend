@@ -19,7 +19,6 @@ export class KpiComponent implements OnInit {
   isLoading = true;
   kpis: any[] = [];
   users: any[] = [];
-  subscriptions: any[] = [];
   // Chart.js configs
   revenueChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
   revenueChartType: ChartType = 'bar';

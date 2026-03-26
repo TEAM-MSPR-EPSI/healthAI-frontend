@@ -156,7 +156,7 @@ export class AdminUserDetailComponent implements OnInit {
     this.api.updateUser(this.userId, payload).subscribe({
       next: () => {
         this.saving = false;
-        this.snack.open('Utilisateur mis a jour avec succes.', '', { duration: 2500 });
+        this.snack.open('Utilisateur mis à jour avec succès.', '', { duration: 2500 });
       },
       error: () => {
         this.saving = false;

@@ -25,12 +25,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "20.3.17",
-    "@angular/cdk": "20.2.14",
+    "@angular/cdk": "20.3.17",
     "@angular/common": "20.3.17",
     "@angular/compiler": "20.3.17",
     "@angular/core": "20.3.17",
     "@angular/forms": "20.3.17",
-    "@angular/material": "20.2.14",
+    "@angular/material": "20.3.17",
     "@angular/platform-browser": "20.3.17",
     "@angular/router": "20.3.17",
     "@fortawesome/angular-fontawesome": "^3.0.0",
@@ -44,8 +44,8 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "20.3.13",
-    "@angular/cli": "20.3.9",
+    "@angular/build": "20.3.17",
+    "@angular/cli": "20.3.17",
     "@angular/compiler-cli": "20.3.17",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.9.0",
