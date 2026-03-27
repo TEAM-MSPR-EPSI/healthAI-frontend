@@ -1,0 +1,48 @@
+<div class="onboarding-page">
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+    </div>
+    <span class="progress-label">1 / 5</span>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="onboarding-title">Quel est votre profil ?</h1>
+    <p class="onboarding-sub">Ce choix adapte votre parcours dans l'application.</p>
+
+    <div class="role-list">
+      <button
+        class="role-option"
+        [class.selected]="selectedRole === 'user'"
+        (click)="selectRole('user')"
+      >
+        <span class="role-title">Client HealthAI</span>
+        <span class="role-text">Je souhaite un suivi nutrition et sport personnalise.</span>
+      </button>
+
+      <button
+        class="role-option"
+        [class.selected]="selectedRole === 'company_admin'"
+        (click)="selectRole('company_admin')"
+      >
+        <span class="role-title">Admin entreprise</span>
+        <span class="role-text">Je gere des collaborateurs et un admin me contactera pour la suite.</span>
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="next()" [disabled]="!selectedRole || saving">
+      {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
+    </button>
+  </div>
+</div>
