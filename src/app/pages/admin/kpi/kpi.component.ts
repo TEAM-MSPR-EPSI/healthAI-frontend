@@ -1,51 +1,83 @@
 // Component: Kpi | Purpose: Renders and manages UI behavior for this view.
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { NgChartsModule } from 'ng2-charts';
+import { ApiService } from '../../../services/api.service';
+import { ChartConfiguration, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-kpi',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, NgChartsModule],
   templateUrl: './kpi.component.html',
   styleUrl: './kpi.component.css',
 })
 export class KpiComponent implements OnInit {
   isLoading = true;
-  /* Données d'exemple — seront remplacées par Grafana */
-  kpis = [
-    { label: 'Rétention mensuelle', value: '82%', trend: '+2%', up: true, icon: 'loyalty' },
-    { label: 'Abonnés Premium', value: '320', trend: '+18', up: true, icon: 'star' },
-    { label: 'MRR', value: '4 800 €', trend: '+6%', up: true, icon: 'attach_money' },
-    { label: 'Taux conversion', value: '12%', trend: '0%', up: true, icon: 'trending_up' },
-  ];
+  kpis: any[] = [];
+  users: any[] = [];
+  // Chart.js configs
+  revenueChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+  revenueChartType: ChartType = 'bar';
+  retentionChartData: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [] };
+  retentionChartType: ChartType = 'line';
 
-  retentionMonths = [
-    { label: 'Sept.', percent: 75, color: 'var(--admin-primary-100)' },
-    { label: 'Oct.', percent: 78, color: 'var(--admin-primary-200)' },
-    { label: 'Nov.', percent: 80, color: 'var(--admin-primary-200)' },
-    { label: 'Déc.', percent: 82, color: 'var(--admin-primary-300)' },
-  ];
-
-  revenueBreakdown = [
-    { label: 'Freemium', percent: 0, value: '0 €', color: 'var(--admin-gray-300)' },
-    { label: 'Premium', percent: 55, value: '2 640 €', color: 'var(--admin-primary-200)' },
-    { label: 'Premium+', percent: 35, value: '1 680 €', color: 'var(--admin-primary-300)' },
-    { label: 'B2B', percent: 10, value: '480 €', color: 'var(--admin-primary-400)' },
-  ];
-
-  engagementMetrics = [
-    { label: 'Connexions / jour', percent: 65, color: 'var(--admin-primary-200)' },
-    { label: 'Utilisation suivi nutri.', percent: 78, color: 'var(--admin-primary-300)' },
-    { label: 'Utilisation fitness', percent: 60, color: 'var(--admin-primary-200)' },
-    { label: 'Satisfaction (NPS)', percent: 72, color: 'var(--admin-primary-300)' },
-  ];
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
-    // Simule le chargement des données (500ms pour voir l'effet)
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = true;
+    // Charger les utilisateurs et abonnements pour les KPIs
+    this.api.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.kpis = [
+          { label: 'Utilisateurs', value: users.length, trend: '', up: true, icon: 'people' },
+        ];
+        // Charger les abonnements pour compléter les KPIs business
+        this.api.getPrograms().subscribe({
+          next: (programs) => {
+            this.kpis.push({ label: 'Programmes sport', value: programs.length, trend: '', up: true, icon: 'fitness_center' });
+            // Simuler la répartition abonnés (à remplacer par l'API réelle si dispo)
+            const premium = users.filter(u => u.user_role === 'premium').length;
+            const freemium = users.filter(u => u.user_role === 'user').length;
+            const b2b = users.filter(u => u.user_role === 'company_admin').length;
+            this.revenueChartData = {
+              labels: ['Freemium', 'Premium', 'B2B'],
+              datasets: [
+                {
+                  label: 'Abonnés',
+                  data: [freemium, premium, b2b],
+                  backgroundColor: [
+                    'rgba(120, 144, 156, 0.7)',
+                    'rgba(33, 150, 243, 0.7)',
+                    'rgba(255, 193, 7, 0.7)'
+                  ],
+                },
+              ],
+            };
+            // Simuler la rétention mensuelle (à remplacer par l'API réelle si dispo)
+            this.retentionChartData = {
+              labels: ['Sept.', 'Oct.', 'Nov.', 'Déc.'],
+              datasets: [
+                {
+                  label: 'Rétention (%)',
+                  data: [75, 78, 80, 82],
+                  borderColor: 'rgba(33, 150, 243, 1)',
+                  backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                  fill: true,
+                  tension: 0.3,
+                },
+              ],
+            };
+            this.isLoading = false;
+          },
+          error: () => { this.isLoading = false; },
+        });
+      },
+      error: () => { this.isLoading = false; },
+    });
   }
 }
