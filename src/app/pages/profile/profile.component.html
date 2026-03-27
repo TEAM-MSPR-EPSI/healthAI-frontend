@@ -65,8 +65,19 @@
 
         <div class="form-row">
           <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Ville</mat-label>
+            <input matInput [(ngModel)]="profile.city" name="city" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Pays</mat-label>
+            <input matInput [(ngModel)]="profile.country" name="country" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
             <mat-label>Programme sportif</mat-label>
-            <mat-select [(ngModel)]="profile.sportProgramId" name="sportProgramId">
+            <mat-select [(ngModel)]="profile.sportProgramId" name="sportProgramId" (selectionChange)="onProgramChange()">
               <mat-option [value]="null">Aucun programme</mat-option>
               @for (program of sportPrograms; track program.sport_program_id) {
                 <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
@@ -81,6 +92,15 @@
               }
             </mat-select>
           </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          @if (profile.sportProgramName) {
+            <mat-form-field appearance="outline" class="form-field" [class.readonly]="true">
+              <mat-label>Préférence sportive</mat-label>
+              <input matInput [(ngModel)]="profile.sportProgramName" name="sportProgramName" disabled />
+            </mat-form-field>
+          }
         </div>
 
         <div class="form-actions">

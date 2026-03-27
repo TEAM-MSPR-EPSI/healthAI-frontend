@@ -53,6 +53,7 @@ export class AdminUserDetailComponent implements OnInit {
   deleting = false;
   loadError = false;
   userId = '';
+  sportProgramName = '';
   sportPrograms: Array<{ sport_program_id: number; sport_program_name: string }> = [];
 
   readonly roleOptions = [
@@ -133,11 +134,20 @@ export class AdminUserDetailComponent implements OnInit {
     this.api.getPrograms().subscribe({
       next: (programs) => {
         this.sportPrograms = programs ?? [];
+        const selected = this.sportPrograms.find(p => p.sport_program_id === this.user.sport_program_id);
+        if (selected) {
+          this.sportProgramName = selected.sport_program_name;
+        }
       },
       error: () => {
         this.sportPrograms = [];
       },
     });
+  }
+
+  onProgramChange() {
+    const selected = this.sportPrograms.find(p => p.sport_program_id === this.user.sport_program_id);
+    this.sportProgramName = selected?.sport_program_name ?? '';
   }
 
   save(): void {

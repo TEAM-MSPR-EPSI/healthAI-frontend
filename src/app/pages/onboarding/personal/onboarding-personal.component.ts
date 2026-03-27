@@ -14,6 +14,8 @@ export class OnboardingPersonalComponent {
   phone = '';
   birthDate = '';
   gender = '';
+  city = '';
+  country = '';
   saving = false;
   errorMessage = '';
 
@@ -32,6 +34,8 @@ export class OnboardingPersonalComponent {
     this.phone = user?.user_phone ?? '';
     this.birthDate = user?.user_birth ?? '';
     this.gender = user?.user_gender ?? '';
+    this.city = user?.user_city ?? '';
+    this.country = user?.user_country ?? '';
   }
 
   async next() {
@@ -48,6 +52,14 @@ export class OnboardingPersonalComponent {
     }
     if (this.gender) {
       payload['user_gender'] = this.gender;
+    }
+    const trimmedCity = this.city.trim();
+    if (trimmedCity) {
+      payload['user_city'] = trimmedCity;
+    }
+    const trimmedCountry = this.country.trim();
+    if (trimmedCountry) {
+      payload['user_country'] = trimmedCountry;
     }
 
     try {

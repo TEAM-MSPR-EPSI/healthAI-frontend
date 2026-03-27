@@ -2,7 +2,7 @@
   <div class="header-row">
     <div>
       <h1>Détail utilisateur #{{ userId }}</h1>
-      <p class="page-description">Modifiez les informations du profil (hors mot de passe).</p>
+      <p class="page-description">Modifiez les informations du profil.</p>
     </div>
     <a mat-stroked-button routerLink="/admin/user-list">
       <mat-icon>arrow_back</mat-icon>
@@ -98,13 +98,20 @@
 
             <mat-form-field appearance="outline">
               <mat-label>Programme sportif</mat-label>
-              <mat-select [(ngModel)]="user.sport_program_id" name="sport_program_id">
+              <mat-select [(ngModel)]="user.sport_program_id" name="sport_program_id" (selectionChange)="onProgramChange()">
                 <mat-option [value]="null">Aucun programme</mat-option>
                 @for (program of sportPrograms; track program.sport_program_id) {
                   <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
+
+            <!-- @if (sportProgramName) {
+              <mat-form-field appearance="outline" disabled>
+                <mat-label>Préférence sportive détectée</mat-label>
+                <input matInput [value]="sportProgramName" />
+              </mat-form-field>
+            } -->
 
             <mat-form-field appearance="outline">
               <mat-label>ID Company</mat-label>
