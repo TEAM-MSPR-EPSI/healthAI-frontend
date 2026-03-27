@@ -28,7 +28,13 @@
     </div>
   </div>
 
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
   <div class="onboarding-footer">
-    <button class="btn-continuer" (click)="next()" [disabled]="!firstName.trim()">Continuer →</button>
+    <button class="btn-continuer" (click)="next()" [disabled]="!firstName.trim() || saving">
+      {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
+    </button>
   </div>
 </div>
