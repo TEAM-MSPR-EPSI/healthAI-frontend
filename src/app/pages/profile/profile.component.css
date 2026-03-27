@@ -3,6 +3,11 @@
   margin: 0 auto;
 }
 
+.page-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .avatar-section {
   text-align: center;
   padding: 20px 0;
@@ -69,10 +74,137 @@
   font-weight: 600 !important;
 }
 
+.data-section {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--admin-gray-200);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.allergies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.allergy-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--admin-gray-200);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: var(--admin-gray-50);
+}
+
+.biometric-input-row,
+.consume-input-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.small-field {
+  min-width: 140px;
+  flex: 1;
+}
+
+.large-field {
+  min-width: 220px;
+  flex: 2;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid var(--admin-gray-200);
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.data-table th {
+  color: var(--text-color-subtle);
+  font-weight: 600;
+}
+
+.empty-state {
+  margin: 10px 0 0;
+  color: var(--text-color-subtle);
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.skeleton-grid.chips {
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+}
+
+.skeleton-line,
+.skeleton-chip {
+  height: 46px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 25%,
+    rgba(0, 0, 0, 0.1) 37%,
+    rgba(0, 0, 0, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.2s ease-in-out infinite;
+}
+
+.skeleton-chip {
+  height: 34px;
+}
+
+.skeleton-table {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+
+  .skeleton-grid {
+    grid-template-columns: 1fr;
   }
 }
 

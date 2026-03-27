@@ -251,6 +251,57 @@ export class ApiService {
     return this.http.delete(`${this.base}/${this.resolveEntityRoute(entity)}/${id}`);
   }
 
+  // --- Allergies ---
+  getUserAllergies(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-allergies/${userId}`);
+  }
+
+  setUserAllergies(userId: string, allergies: string[]): Observable<any> {
+    return this.http.post(`${this.base}/user-allergies/${userId}`, { allergies });
+  }
+
+  // --- User Biometric ---
+  getUserBiometrics(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-biometrics/user/${userId}`);
+  }
+
+  getUserBiometric(id: number): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-biometrics/${id}`);
+  }
+
+  createUserBiometric(data: any): Observable<any> {
+    return this.http.post(`${this.base}/user-biometrics`, data);
+  }
+
+  updateUserBiometric(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/user-biometrics/${id}`, data);
+  }
+
+  deleteUserBiometric(id: number): Observable<any> {
+    return this.http.delete(`${this.base}/user-biometrics/${id}`);
+  }
+
+  // --- Consume (Food tracking) ---
+  getUserConsumes(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/consumes/user/${userId}`);
+  }
+
+  getConsume(id: number): Observable<any> {
+    return this.http.get<any>(`${this.base}/consumes/${id}`);
+  }
+
+  createConsume(data: any): Observable<any> {
+    return this.http.post(`${this.base}/consumes`, data);
+  }
+
+  updateConsume(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/consumes/${id}`, data);
+  }
+
+  deleteConsume(id: number): Observable<any> {
+    return this.http.delete(`${this.base}/consumes/${id}`);
+  }
+
   private resolveEntityRoute(entity: string): string {
     return this.entityRouteMap[entity] ?? entity;
   }

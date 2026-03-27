@@ -69,3 +69,169 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+/* Data sections */
+.data-section {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--admin-gray-100);
+  border-radius: 6px;
+  background: var(--admin-gray-50);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: var(--text-color);
+}
+
+.section-title mat-icon {
+  font-size: 1.3rem;
+  width: auto;
+  height: auto;
+}
+
+/* Allergies section */
+.allergies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.allergy-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--admin-gray-200);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.allergy-checkbox:hover {
+  background: var(--admin-gray-50);
+  border-color: var(--admin-primary-300);
+}
+
+.allergy-checkbox input {
+  cursor: pointer;
+  margin: 0;
+}
+
+.allergy-checkbox span {
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.save-allergies-btn {
+  margin-top: 8px;
+}
+
+/* Biometric section */
+.biometric-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.small-field {
+  flex: 1;
+  min-width: 120px;
+}
+
+.add-btn {
+  align-self: flex-end;
+}
+
+/* Data tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: var(--admin-gray-100);
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--admin-gray-100);
+}
+
+.data-table th {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.data-table tbody tr:hover {
+  background: var(--admin-gray-50);
+}
+
+.data-table button {
+  padding: 4px;
+}
+
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-color-subtle);
+  font-style: italic;
+}
+
+.biometric-list,
+.consume-list {
+  overflow-x: auto;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.skeleton-chip,
+.skeleton-line {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 25%,
+    rgba(0, 0, 0, 0.1) 37%,
+    rgba(0, 0, 0, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.2s ease-in-out infinite;
+}
+
+.skeleton-chip {
+  height: 34px;
+}
+
+.skeleton-table {
+  display: grid;
+  gap: 8px;
+}
+
+.skeleton-line {
+  height: 42px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
