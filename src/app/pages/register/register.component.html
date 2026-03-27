@@ -3,28 +3,28 @@
     <img src="logo.png" alt="HealthAI Coach" class="auth-logo" />
     <h2>Créer un compte</h2>
     <p class="auth-sub">Rejoignez la plateforme HealthAI Coach</p>
-    <form (ngSubmit)="register()" #registerForm="ngForm">
+    <form (ngSubmit)="register()" #registerForm="ngForm" novalidate [attr.aria-busy]="loading">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" />
+        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Mot de passe</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required />
-        <button mat-icon-button matSuffix (click)="hide = !hide" type="button" tabindex="-1">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="hide ? 'Afficher le mot de passe' : 'Masquer le mot de passe'">
+          <mat-icon aria-hidden="true">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirmer le mot de passe</mat-label>
-        <input matInput [type]="hideConfirm ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required />
-        <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" type="button" tabindex="-1">
-          <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input matInput [type]="hideConfirm ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
+        <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" type="button" [attr.aria-label]="hideConfirm ? 'Afficher la confirmation du mot de passe' : 'Masquer la confirmation du mot de passe'">
+          <mat-icon aria-hidden="true">{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
 
       @if (errorMessage) {
-        <p class="error-msg">{{ errorMessage }}</p>
+        <p class="error-msg" id="register-error" role="alert" aria-live="assertive">{{ errorMessage }}</p>
       }
 
       <!-- Inscription par Google / Apple / SMS (désactivé pour le moment)
