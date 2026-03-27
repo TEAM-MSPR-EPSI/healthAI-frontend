@@ -39,6 +39,7 @@ import { DataCheckingPageComponent } from './pages/admin/data-checking/data-chec
 import { AdminManageComponent } from './pages/admin/manage/admin-manage.component';
 import { AdminUsersListComponent } from './pages/admin/user-list/admin-users-list.component';
 import { AdminUserDetailComponent } from './pages/admin/user-detail/admin-user-detail.component';
+import { adminOnlyGuard } from './guards/admin-only.guard';
 
 export const routes: Routes = [
   // Splash & onboarding flow
@@ -70,13 +71,13 @@ export const routes: Routes = [
   { path: 'equipment', component: EquipmentComponent },
 
   // Admin
-  { path: 'admin', component: AdminDashboardComponent },
-  { path: 'admin/user-list', component: AdminUsersListComponent},
-  { path: 'admin/users/:id', component: AdminUserDetailComponent },
-  { path: 'admin/user-metrics', component: UserMetricsComponent },
-  { path: 'admin/nutrition', component: NutritionComponent },
-  { path: 'admin/fitness', component: FitnessComponent },
-  { path: 'admin/kpi', component: KpiComponent },
-  { path: 'admin/data-check', component: DataCheckingPageComponent },
-  { path: 'admin/manage', component: AdminManageComponent },
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/user-list', component: AdminUsersListComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/users/:id', component: AdminUserDetailComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/user-metrics', component: UserMetricsComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/nutrition', component: NutritionComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/fitness', component: FitnessComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/kpi', component: KpiComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/data-check', component: DataCheckingPageComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/manage', component: AdminManageComponent, canActivate: [adminOnlyGuard] },
 ];
