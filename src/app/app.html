@@ -2,23 +2,23 @@
 @if (showShell()) {
   <mat-toolbar class="app-toolbar">
     @if (!isMobile() || isAdmin()) {
-      <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu">
-        <mat-icon>menu</mat-icon>
+      <button mat-icon-button (click)="toggleSidenav()" aria-label="Ouvrir le menu de navigation">
+        <mat-icon aria-hidden="true">menu</mat-icon>
       </button>
     }
     <span class="toolbar-title">{{ toolbarTitle() }}</span>
     <span class="toolbar-spacer"></span>
     @if (isAdmin()) {
-      <button mat-icon-button routerLink="/recipes" aria-label="Retour utilisateur" title="Vue utilisateur">
-        <mat-icon>switch_account</mat-icon>
+      <button mat-icon-button routerLink="/recipes" aria-label="Retour à la vue utilisateur" title="Vue utilisateur">
+        <mat-icon aria-hidden="true">switch_account</mat-icon>
       </button>
     } @else {
-      <button mat-icon-button routerLink="/admin" aria-label="Administration" title="Administration">
-        <mat-icon>admin_panel_settings</mat-icon>
+      <button mat-icon-button routerLink="/admin" aria-label="Accéder au panneau d'administration" title="Administration">
+        <mat-icon aria-hidden="true">admin_panel_settings</mat-icon>
       </button>
     }
-    <button mat-icon-button (click)="logout()" aria-label="Déconnexion">
-      <mat-icon>logout</mat-icon>
+    <button mat-icon-button (click)="logout()" aria-label="Se déconnecter">
+      <mat-icon aria-hidden="true">logout</mat-icon>
     </button>
   </mat-toolbar>
 
@@ -47,13 +47,14 @@
 
   <!-- Mobile bottom nav (user pages only, not admin) -->
   @if (isMobile() && !isAdmin()) {
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" aria-label="Navigation principale mobile">
       @for (item of bottomNavItems; track item.route) {
         <a class="bottom-nav-item"
            [routerLink]="item.route"
            routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: false }">
-          <mat-icon>{{ item.icon }}</mat-icon>
+           [routerLinkActiveOptions]="{ exact: false }"
+           [attr.aria-label]="'Aller à ' + item.label">
+          <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
           <span>{{ item.label }}</span>
         </a>
       }

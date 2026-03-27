@@ -3,7 +3,7 @@
   <p class="page-description">Liste des utilisateurs de la plateforme avec acces a la modification.</p>
 
   @if (loading) {
-    <div class="skeleton-table">
+    <div class="skeleton-table" role="status" aria-live="polite" aria-busy="true" aria-label="Chargement de la liste des utilisateurs">
       @for (row of [1, 2, 3, 4, 5, 6]; track row) {
         <div class="skeleton-row">
           @for (col of [1, 2, 3, 4, 5, 6]; track col) {
@@ -15,27 +15,28 @@
   } @else {
     @if (apiError) {
       <mat-card class="empty-state">
-        <p>Erreur API: la liste utilisateurs n'est pas accessible actuellement.</p>
+        <p role="alert" aria-live="assertive">Erreur API: la liste utilisateurs n'est pas accessible actuellement.</p>
       </mat-card>
     }
 
     @if (users.length) {
       <div class="table-wrap">
-        <table class="users-table">
+        <table class="users-table" role="table">
+          <caption class="sr-only">Liste des utilisateurs enregistrés sur la plateforme</caption>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Nom</th>
-              <th>Prenom</th>
-              <th>Role</th>
-              <th>Genre</th>
-              <th>Ville</th>
-              <th>Pays</th>
-              <th>Telephone</th>
-              <th>Taille</th>
-              <th>Poids</th>
-              <th>Action</th>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">Role</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Ville</th>
+              <th scope="col">Pays</th>
+              <th scope="col">Telephone</th>
+              <th scope="col">Taille</th>
+              <th scope="col">Poids</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -53,8 +54,9 @@
                 <td>{{ user.user_size }}</td>
                 <td>{{ user.user_weight }}</td>
                 <td>
-                  <a mat-stroked-button color="primary" [routerLink]="['/admin/users', user.user_id]">
-                    <mat-icon>visibility</mat-icon>
+                  <a mat-stroked-button color="primary" [routerLink]="['/admin/users', user.user_id]"
+                     [attr.aria-label]="'Voir le détail de l\'utilisateur ' + user.user_username">
+                    <mat-icon aria-hidden="true">visibility</mat-icon>
                     Detail
                   </a>
                 </td>
@@ -65,7 +67,7 @@
       </div>
     } @else if (!apiError) {
       <mat-card class="empty-state">
-        <p>Aucun utilisateur trouve.</p>
+        <p role="status" aria-live="polite">Aucun utilisateur trouve.</p>
       </mat-card>
     }
   }

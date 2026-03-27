@@ -2,7 +2,7 @@
   <div class="login-content">
     <!-- Brand -->
     <div class="login-brand">
-      <img src="logo.png" alt="" class="brand-icon" />
+      <img src="logo.png" alt="Logo HealthAI Coach" class="brand-icon" />
       <div class="brand-text">
         <span class="brand-name">Health<span class="brand-ai">AI</span></span>
         <span class="brand-coach">COACH</span>
@@ -10,22 +10,22 @@
     </div>
 
     <!-- Login form -->
-    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm" novalidate [attr.aria-busy]="loading">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" />
+        <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" aria-required="true" [attr.aria-describedby]="errorMessage ? 'login-error' : null" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Mot de passe</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required autocomplete="current-password" />
-        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" tabindex="-1">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required autocomplete="current-password" aria-required="true" [attr.aria-describedby]="errorMessage ? 'login-error' : null" />
+        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="hide ? 'Afficher le mot de passe' : 'Masquer le mot de passe'">
+          <mat-icon aria-hidden="true">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
 
       @if (errorMessage) {
-        <p class="error-msg">{{ errorMessage }}</p>
+        <p class="error-msg" id="login-error" role="alert" aria-live="assertive">{{ errorMessage }}</p>
       }
 
       <!-- Connexion par Google / Apple / SMS (désactivé pour le moment)
