@@ -58,6 +58,22 @@
             <input matInput type="number" [(ngModel)]="profile.height" name="height" />
           </mat-form-field>
           <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Poids (kg)</mat-label>
+            <input matInput type="number" step="0.1" [(ngModel)]="profile.weight" name="weight" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Programme sportif</mat-label>
+            <mat-select [(ngModel)]="profile.sportProgramId" name="sportProgramId">
+              <mat-option [value]="null">Aucun programme</mat-option>
+              @for (program of sportPrograms; track program.sport_program_id) {
+                <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field">
             <mat-label>Objectif</mat-label>
             <mat-select [(ngModel)]="profile.goal" name="goal">
               @for (g of goals; track g.value) {

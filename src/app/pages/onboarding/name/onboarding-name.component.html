@@ -1,13 +1,15 @@
 <div class="onboarding-page">
-  <!-- Progress bar -->
-  <div class="progress-bar">
-    <div class="progress-step done"></div>
-    <div class="progress-step active"></div>
-    <div class="progress-step"></div>
-    <div class="progress-step"></div>
-    <div class="progress-step"></div>
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+    </div>
+    <span class="progress-label">2 / 5</span>
   </div>
-  <span class="progress-label">2 / 5</span>
 
   <div class="onboarding-content">
     <img src="logo.png" alt="HealthAI Coach" class="onboarding-logo" />
@@ -26,6 +28,18 @@
         autocomplete="given-name"
       />
     </div>
+
+    <div class="form-group">
+      <label class="form-label" for="lastName">Nom</label>
+      <input
+        id="lastName"
+        class="form-input"
+        type="text"
+        placeholder="Dupont"
+        [(ngModel)]="lastName"
+        autocomplete="family-name"
+      />
+    </div>
   </div>
 
   @if (errorMessage) {
@@ -33,7 +47,7 @@
   }
 
   <div class="onboarding-footer">
-    <button class="btn-continuer" (click)="next()" [disabled]="!firstName.trim() || saving">
+    <button class="btn-continuer" (click)="next()" [disabled]="!firstName.trim() || !lastName.trim() || saving">
       {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
     </button>
   </div>

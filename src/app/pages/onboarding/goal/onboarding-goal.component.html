@@ -5,16 +5,16 @@
     <div class="progress-bar">
       <div class="progress-step done"></div>
       <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
       <div class="progress-step active"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
     </div>
-    <span class="progress-label">3 / 5</span>
+    <span class="progress-label">5 / 5</span>
   </div>
 
   <div class="onboarding-content">
     <h1 class="onboarding-title">Ton objectif principal ?</h1>
-    <p class="onboarding-sub">Une seule réponse possible</p>
+    <p class="onboarding-sub">Le programme sportif est facultatif et modifiable plus tard.</p>
 
     <div class="goal-list">
       @for (goal of goals; track goal.value) {
@@ -31,9 +31,25 @@
         </button>
       }
     </div>
+
+    <!-- <mat-form-field appearance="outline" class="program-select">
+      <mat-label>Programme sportif (facultatif)</mat-label>
+      <mat-select [(ngModel)]="selectedProgramId" name="selectedProgramId">
+        <mat-option [value]="null">Aucun programme pour le moment</mat-option>
+        @for (program of programOptions; track program.sport_program_id) {
+          <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field> -->
   </div>
 
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
   <div class="onboarding-footer">
-    <button class="btn-continuer" (click)="next()" [disabled]="!selectedGoal">Continuer →</button>
+    <button class="btn-continuer" (click)="next()" [disabled]="!selectedGoal || saving">
+      {{ saving ? 'Sauvegarde...' : 'Terminer →' }}
+    </button>
   </div>
 </div>

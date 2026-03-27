@@ -6,8 +6,12 @@ import { SplashComponent } from './pages/splash/splash.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { OnboardingRoleComponent } from './pages/onboarding/role/onboarding-role.component';
 import { OnboardingNameComponent } from './pages/onboarding/name/onboarding-name.component';
+import { OnboardingPersonalComponent } from './pages/onboarding/personal/onboarding-personal.component';
+import { OnboardingMetricsComponent } from './pages/onboarding/metrics/onboarding-metrics.component';
 import { OnboardingGoalComponent } from './pages/onboarding/goal/onboarding-goal.component';
+import { OnboardingCompanyContactComponent } from './pages/onboarding/company-contact/onboarding-company-contact.component';
 import { LostAccountComponent } from './pages/lost-account/lost-account.component';
 
 // Public / user pages
@@ -42,8 +46,12 @@ export const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'onboarding/role', component: OnboardingRoleComponent },
   { path: 'onboarding/name', component: OnboardingNameComponent },
+  { path: 'onboarding/personal', component: OnboardingPersonalComponent },
+  { path: 'onboarding/metrics', component: OnboardingMetricsComponent },
   { path: 'onboarding/goal', component: OnboardingGoalComponent },
+  { path: 'onboarding/company-contact', component: OnboardingCompanyContactComponent },
   { path: 'lost-account', component: LostAccountComponent },
 
   // User pages

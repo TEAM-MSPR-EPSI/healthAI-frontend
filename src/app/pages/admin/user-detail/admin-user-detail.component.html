@@ -97,8 +97,13 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-              <mat-label>ID Programme sport</mat-label>
-              <input matInput type="number" [(ngModel)]="user.sport_program_id" name="sport_program_id" />
+              <mat-label>Programme sportif</mat-label>
+              <mat-select [(ngModel)]="user.sport_program_id" name="sport_program_id">
+                <mat-option [value]="null">Aucun programme</mat-option>
+                @for (program of sportPrograms; track program.sport_program_id) {
+                  <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
+                }
+              </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -108,8 +113,12 @@
           </div>
 
           <div class="form-actions">
+            <button mat-flat-button color="warn" type="button" (click)="deleteUser()" [disabled]="saving || deleting">
+              <mat-icon>delete</mat-icon>
+              {{ deleting ? 'Suppression...' : 'Supprimer le compte' }}
+            </button>
             <button mat-stroked-button type="button" routerLink="/admin/user-list">Annuler</button>
-            <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+            <button mat-flat-button color="primary" type="submit" [disabled]="saving || deleting">
               <mat-icon>save</mat-icon>
               {{ saving ? 'Sauvegarde...' : 'Enregistrer les modifications' }}
             </button>

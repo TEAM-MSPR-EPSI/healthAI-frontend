@@ -1,0 +1,48 @@
+<div class="onboarding-page">
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+      <div class="progress-step"></div>
+    </div>
+    <span class="progress-label">3 / 5</span>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="onboarding-title">Quelques infos personnelles</h1>
+    <p class="onboarding-sub">Telephone, date de naissance et genre sont facultatifs.</p>
+
+    <div class="form-group">
+      <label class="form-label" for="phone">Telephone (facultatif)</label>
+      <input id="phone" class="form-input" type="tel" [(ngModel)]="phone" autocomplete="tel" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="birthDate">Date de naissance (facultatif)</label>
+      <input id="birthDate" class="form-input" type="date" [(ngModel)]="birthDate" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="gender">Genre (facultatif)</label>
+      <select id="gender" class="form-input" [(ngModel)]="gender">
+        <option value="">Je choisis plus tard</option>
+        @for (option of genderOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="next()" [disabled]="saving">
+      {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
+    </button>
+  </div>
+</div>

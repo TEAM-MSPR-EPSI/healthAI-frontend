@@ -42,7 +42,7 @@ export class RegisterComponent {
     this.loading = true;
     try {
       await this.auth.register(this.email, this.password);
-      this.router.navigate(['/onboarding/name']);
+      this.router.navigate(['/onboarding/role']);
     } catch {
       this.errorMessage = 'Erreur lors de la création du compte.';
     } finally {

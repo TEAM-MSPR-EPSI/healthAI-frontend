@@ -1,0 +1,30 @@
+<div class="onboarding-page">
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+    </div>
+    <span class="progress-label">5 / 5</span>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="onboarding-title">Bienvenue, admin entreprise</h1>
+    <p class="onboarding-sub">Votre demande est bien prise en compte.</p>
+
+    <div class="contact-card">
+      <h2 class="card-title">Prochaine etape</h2>
+      <p class="card-text">
+        Un administrateur HealthAI vous contactera rapidement pour echanger sur vos besoins,
+        activer votre espace entreprise et planifier la suite.
+      </p>
+    </div>
+  </div>
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="finish()">Acceder a l'application →</button>
+  </div>
+</div>

@@ -41,9 +41,13 @@ export class ProfileComponent implements OnInit {
     phone: '',
     birthDate: null as Date | null,
     gender: '',
-    height: 0,
+    height: null as number | null,
+    weight: null as number | null,
+    sportProgramId: null as number | null,
     goal: '',
   };
+
+  sportPrograms: Array<{ sport_program_id: number; sport_program_name: string }> = [];
 
   goals = [
     { value: 'weight_loss', label: 'Perte de poids' },
@@ -69,12 +73,23 @@ export class ProfileComponent implements OnInit {
         lastName: user.user_lastname ?? '',
         email: user.user_email ?? '',
         phone: user.user_phone ?? '',
-        birthDate: user.user_birthdate ? new Date(user.user_birthdate) : null,
+        birthDate: user.user_birth ? new Date(user.user_birth) : null,
         gender: user.user_gender ?? '',
-        height: user.user_height ?? 0,
+        height: user.user_size ? Number(user.user_size) : null,
+        weight: user.user_weight ? Number(user.user_weight) : null,
+        sportProgramId: user.sport_program_id ? Number(user.sport_program_id) : null,
         goal: '',
       };
     }
+
+    this.api.getPrograms().subscribe({
+      next: (programs) => {
+        this.sportPrograms = programs ?? [];
+      },
+      error: () => {
+        this.sportPrograms = [];
+      },
+    });
   }
 
   save() {
@@ -84,9 +99,12 @@ export class ProfileComponent implements OnInit {
       user_lastname: this.profile.lastName,
       user_email: this.profile.email,
       user_phone: this.profile.phone,
-      user_birthdate: this.profile.birthDate?.toISOString().split('T')[0],
+      user_birth: this.profile.birthDate?.toISOString().split('T')[0],
       user_gender: this.profile.gender,
-      user_height: this.profile.height,
+      user_size: this.profile.height,
+      user_weight: this.profile.weight,
+      user_last_weight: this.profile.weight,
+      sport_program_id: this.profile.sportProgramId,
     };
     this.api.updateUser(this.userId, payload).subscribe({
       next: () => this.snackBar.open('Profil sauvegardé', 'OK', { duration: 2500 }),

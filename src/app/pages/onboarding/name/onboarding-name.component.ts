@@ -13,6 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class OnboardingNameComponent {
   firstName = '';
+  lastName = '';
   saving = false;
   errorMessage = '';
 
@@ -20,7 +21,9 @@ export class OnboardingNameComponent {
 
   async next() {
     const trimmedFirstName = this.firstName.trim();
-    if (!trimmedFirstName) {
+    const trimmedLastName = this.lastName.trim();
+
+    if (!trimmedFirstName || !trimmedLastName) {
       return;
     }
 
@@ -28,12 +31,19 @@ export class OnboardingNameComponent {
     this.errorMessage = '';
 
     try {
-      await this.auth.updateCurrentUserFirstName(trimmedFirstName);
-      this.router.navigate(['/onboarding/goal']);
+      await this.auth.updateCurrentUserProfile({
+        user_firstname: trimmedFirstName,
+        user_lastname: trimmedLastName,
+      });
+      this.router.navigate(['/onboarding/personal']);
     } catch {
-      this.errorMessage = 'Impossible de sauvegarder le prenom.';
+      this.errorMessage = 'Impossible de sauvegarder votre identite.';
     } finally {
       this.saving = false;
     }
+  }
+
+  back() {
+    this.router.navigate(['/onboarding/role']);
   }
 }

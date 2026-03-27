@@ -38,8 +38,8 @@ export class AuthService {
       password,
       user_email: email,
       user_username: `${usernamePrefix}${fallbackDate}`,
-      user_lastname: 'User',
-      user_firstname: 'HealthAI',
+      user_lastname: 'Lastname',
+      user_firstname: 'Firstname',
       user_birth: '2000-01-01',
       user_gender: 'prefer_not_to_say',
       user_phone: '0000000000',
@@ -61,7 +61,7 @@ export class AuthService {
     return !!this._currentUser();
   }
 
-  async updateCurrentUserFirstName(firstName: string): Promise<void> {
+  async updateCurrentUserProfile(data: Record<string, any>): Promise<void> {
     const currentUser = this._currentUser();
     const userId = Number(currentUser?.user_id);
 
@@ -69,11 +69,16 @@ export class AuthService {
       throw new Error('No authenticated user');
     }
 
-    const updatedUser = await firstValueFrom(
-      this.api.updateUser(String(userId), { user_firstname: firstName }),
-    );
-
+    const updatedUser = await firstValueFrom(this.api.updateUser(String(userId), data));
     this.setUser({ ...currentUser, ...updatedUser });
+  }
+
+  async updateCurrentUserFirstName(firstName: string): Promise<void> {
+    await this.updateCurrentUserProfile({ user_firstname: firstName });
+  }
+
+  async updateCurrentUserRole(role: 'user' | 'company_admin'): Promise<void> {
+    await this.updateCurrentUserProfile({ user_role: role });
   }
 
   private setUser(user: any): void {
