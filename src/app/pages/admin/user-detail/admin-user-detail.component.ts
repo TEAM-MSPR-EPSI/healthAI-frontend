@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -50,8 +50,11 @@ interface AdminUserForm {
 export class AdminUserDetailComponent implements OnInit {
   loading = true;
   saving = false;
+  deleting = false;
   loadError = false;
   userId = '';
+  sportProgramName = '';
+  sportPrograms: Array<{ sport_program_id: number; sport_program_name: string }> = [];
 
   readonly roleOptions = [
     { value: 'user', label: 'User' },
@@ -86,6 +89,7 @@ export class AdminUserDetailComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly api: ApiService,
     private readonly snack: MatSnackBar,
   ) {}
@@ -126,6 +130,24 @@ export class AdminUserDetailComponent implements OnInit {
         this.snack.open('Erreur API: utilisateur introuvable.', '', { duration: 3500 });
       },
     });
+
+    this.api.getPrograms().subscribe({
+      next: (programs) => {
+        this.sportPrograms = programs ?? [];
+        const selected = this.sportPrograms.find(p => p.sport_program_id === this.user.sport_program_id);
+        if (selected) {
+          this.sportProgramName = selected.sport_program_name;
+        }
+      },
+      error: () => {
+        this.sportPrograms = [];
+      },
+    });
+  }
+
+  onProgramChange() {
+    const selected = this.sportPrograms.find(p => p.sport_program_id === this.user.sport_program_id);
+    this.sportProgramName = selected?.sport_program_name ?? '';
   }
 
   save(): void {
@@ -161,6 +183,34 @@ export class AdminUserDetailComponent implements OnInit {
       error: () => {
         this.saving = false;
         this.snack.open('Erreur lors de la sauvegarde utilisateur.', '', { duration: 3500 });
+      },
+    });
+  }
+
+  deleteUser(): void {
+    if (!this.userId || this.deleting) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      'Confirmer la suppression de ce compte utilisateur ? Cette action est irreversible.',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.deleting = true;
+
+    this.api.deleteUser(this.userId).subscribe({
+      next: () => {
+        this.deleting = false;
+        this.snack.open('Compte utilisateur supprime.', '', { duration: 2500 });
+        this.router.navigate(['/admin/user-list']);
+      },
+      error: () => {
+        this.deleting = false;
+        this.snack.open('Erreur lors de la suppression du compte.', '', { duration: 3500 });
       },
     });
   }
