@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApiService } from '../../../services/api.service';
 
@@ -41,6 +42,7 @@ interface AdminUserForm {
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatTooltipModule,
     MatIconModule,
     MatSnackBarModule,
   ],
@@ -51,10 +53,23 @@ export class AdminUserDetailComponent implements OnInit {
   loading = true;
   saving = false;
   deleting = false;
+  loadingAllergies = false;
+  loadingBiometrics = false;
+  loadingConsumes = false;
   loadError = false;
   userId = '';
   sportProgramName = '';
   sportPrograms: Array<{ sport_program_id: number; sport_program_name: string }> = [];
+  userAllergies: string[] = [];
+  userBiometrics: any[] = [];
+  userConsumes: any[] = [];
+  selectedAllergies: string[] = [];
+  newBiometricDate = '';
+  newBiometricSleep: number | null = null;
+  newBiometricSteps: number | null = null;
+  newBiometricWeight: number | null = null;
+
+  readonly allergiesList = ['gluten', 'crustaceans', 'eggs', 'fish', 'peanuts', 'soybeans', 'milk', 'nuts', 'celery', 'mustard', 'sesame', 'sulphites', 'lupin', 'molluscs'];
 
   readonly roleOptions = [
     { value: 'user', label: 'User' },
@@ -143,11 +158,142 @@ export class AdminUserDetailComponent implements OnInit {
         this.sportPrograms = [];
       },
     });
+
+    this.loadUserAllergies();
+    this.loadUserBiometrics();
+    this.loadUserConsumes();
+  }
+
+  private loadUserAllergies(): void {
+    this.loadingAllergies = true;
+    this.api.getUserAllergies(this.userId).subscribe({
+      next: (allergies) => {
+        this.userAllergies = allergies ?? [];
+        this.selectedAllergies = [...this.userAllergies];
+        this.loadingAllergies = false;
+      },
+      error: () => {
+        this.userAllergies = [];
+        this.loadingAllergies = false;
+      },
+    });
+  }
+
+  private loadUserBiometrics(): void {
+    this.loadingBiometrics = true;
+    this.api.getUserBiometrics(this.userId).subscribe({
+      next: (biometrics) => {
+        this.userBiometrics = (biometrics ?? []).sort((a, b) => 
+          new Date(b.biometric_date).getTime() - new Date(a.biometric_date).getTime()
+        );
+        this.loadingBiometrics = false;
+      },
+      error: () => {
+        this.userBiometrics = [];
+        this.loadingBiometrics = false;
+      },
+    });
+  }
+
+  private loadUserConsumes(): void {
+    this.loadingConsumes = true;
+    this.api.getUserConsumes(this.userId).subscribe({
+      next: (consumes) => {
+        this.userConsumes = (consumes ?? []).sort((a, b) => 
+          new Date(b.consume_date).getTime() - new Date(a.consume_date).getTime()
+        ).slice(0, 20);
+        this.loadingConsumes = false;
+      },
+      error: () => {
+        this.userConsumes = [];
+        this.loadingConsumes = false;
+      },
+    });
   }
 
   onProgramChange() {
     const selected = this.sportPrograms.find(p => p.sport_program_id === this.user.sport_program_id);
     this.sportProgramName = selected?.sport_program_name ?? '';
+  }
+
+  saveAllergies(): void {
+    this.api.setUserAllergies(this.userId, this.selectedAllergies).subscribe({
+      next: () => {
+        this.userAllergies = [...this.selectedAllergies];
+        this.snack.open('Allergies mises à jour.', '', { duration: 2500 });
+      },
+      error: () => {
+        this.snack.open('Erreur lors de la mise à jour des allergies.', '', { duration: 3000 });
+      },
+    });
+  }
+
+  addBiometric(): void {
+    if (!this.newBiometricDate) {
+      this.snack.open('Veuillez choisir une date.', '', { duration: 2500 });
+      return;
+    }
+
+    const data = {
+      user_id: this.userId,
+      biometric_date: this.newBiometricDate,
+      biometric_sleep: this.newBiometricSleep,
+      biometric_steps: this.newBiometricSteps,
+      biometric_weight: this.newBiometricWeight,
+    };
+
+    this.api.createUserBiometric(data).subscribe({
+      next: () => {
+        this.newBiometricDate = '';
+        this.newBiometricSleep = null;
+        this.newBiometricSteps = null;
+        this.newBiometricWeight = null;
+        this.loadUserBiometrics();
+        this.snack.open('Donnée biométrique ajoutée.', '', { duration: 2500 });
+      },
+      error: () => {
+        this.snack.open('Erreur lors de l\'ajout.', '', { duration: 3000 });
+      },
+    });
+  }
+
+  deleteBiometric(id: number): void {
+    if (!confirm('Supprimer cette entrée biométrique ?')) return;
+    this.api.deleteUserBiometric(id).subscribe({
+      next: () => {
+        this.loadUserBiometrics();
+        this.snack.open('Entrée biométrique supprimée.', '', { duration: 2500 });
+      },
+      error: () => {
+        this.snack.open('Erreur lors de la suppression.', '', { duration: 3000 });
+      },
+    });
+  }
+
+  deleteConsume(id: number): void {
+    if (!confirm('Supprimer cette consommation ?')) return;
+    this.api.deleteConsume(id).subscribe({
+      next: () => {
+        this.loadUserConsumes();
+        this.snack.open('Consommation supprimée.', '', { duration: 2500 });
+      },
+      error: () => {
+        this.snack.open('Erreur lors de la suppression.', '', { duration: 3000 });
+      },
+    });
+  }
+
+  toggleAllergy(allergy: string): void {
+    const index = this.selectedAllergies.indexOf(allergy);
+    if (index > -1) {
+      this.selectedAllergies.splice(index, 1);
+    } else {
+      this.selectedAllergies.push(allergy);
+    }
+  }
+
+  isAllergySelected(allergy: string): boolean {
+    return this.selectedAllergies.includes(allergy);
   }
 
   save(): void {
