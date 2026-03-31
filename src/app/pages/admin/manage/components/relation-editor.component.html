@@ -2,8 +2,8 @@
   <div class="relation-editor" (click)="$event.stopPropagation()">
     <div class="editor-header">
       <h3>{{ title }}</h3>
-      <button mat-icon-button (click)="close.emit()" title="Fermer">
-        <mat-icon>close</mat-icon>
+      <button mat-icon-button (click)="close.emit()" title="Fermer" aria-label="Fermer l'éditeur de relations">
+        <mat-icon aria-hidden="true">close</mat-icon>
       </button>
     </div>
 
@@ -41,12 +41,13 @@
           @if (currentRelations.length === 0) {
             <p class="empty-text">Aucune relation associée.</p>
           } @else {
-            <table class="relations-table">
+            <table class="relations-table" role="table">
+              <caption class="sr-only">Liste des relations actuellement associées</caption>
               <thead>
                 <tr>
-                  <th>Nom</th>
-                  <th>@if (mode === 'recipe-ingredient') { Quantité } @else { Rang }</th>
-                  <th class="actions">Actions</th>
+                  <th scope="col">Nom</th>
+                  <th scope="col">@if (mode === 'recipe-ingredient') { Quantité } @else { Rang }</th>
+                  <th class="actions" scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,11 +62,11 @@
                       }
                     </td>
                     <td class="actions">
-                      <button mat-icon-button (click)="updateRelation(rel)" title="Mettre à jour">
-                        <mat-icon>save</mat-icon>
+                      <button mat-icon-button (click)="updateRelation(rel)" title="Mettre à jour" aria-label="Mettre à jour la relation">
+                        <mat-icon aria-hidden="true">save</mat-icon>
                       </button>
-                      <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation">
-                        <mat-icon>delete</mat-icon>
+                      <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation" aria-label="Supprimer la relation">
+                        <mat-icon aria-hidden="true">delete</mat-icon>
                       </button>
                     </td>
                   </tr>

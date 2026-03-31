@@ -2,6 +2,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+/* Screen Reader Only - for accessibility (RGAA AA) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Clear visible focus for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--admin-primary-300);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.mat-mdc-button-base:focus-visible {
+  box-shadow: 0 0 0 3px rgba(94, 122, 69, 0.28);
+  border-radius: 8px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
