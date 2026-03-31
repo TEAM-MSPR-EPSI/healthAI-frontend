@@ -1,11 +1,12 @@
 <div class="table-wrap">
-  <table class="data-table">
+  <table class="data-table" role="table">
+    <caption class="sr-only">Tableau des données administrables</caption>
     <thead>
       <tr>
         @for (col of columns; track col.key) {
-          <th>{{ col.label }}</th>
+          <th scope="col">{{ col.label }}</th>
         }
-        <th class="actions-col">Actions</th>
+        <th class="actions-col" scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -64,18 +65,18 @@
           }
           <td class="actions-cell">
             @if (isEditingRow(row)) {
-              <button mat-icon-button (click)="saveEditRow.emit()" title="Sauvegarder">
-                <mat-icon>check</mat-icon>
+              <button mat-icon-button (click)="saveEditRow.emit()" title="Sauvegarder" aria-label="Sauvegarder les modifications de la ligne">
+                <mat-icon aria-hidden="true">check</mat-icon>
               </button>
-              <button mat-icon-button (click)="cancelEditRow.emit()" title="Annuler">
-                <mat-icon>close</mat-icon>
+              <button mat-icon-button (click)="cancelEditRow.emit()" title="Annuler" aria-label="Annuler l'édition de la ligne">
+                <mat-icon aria-hidden="true">close</mat-icon>
               </button>
             } @else {
-              <button mat-icon-button (click)="startEditRow.emit(row)" title="Modifier">
-                <mat-icon>edit</mat-icon>
+              <button mat-icon-button (click)="startEditRow.emit(row)" title="Modifier" aria-label="Modifier la ligne">
+                <mat-icon aria-hidden="true">edit</mat-icon>
               </button>
-              <button mat-icon-button (click)="deleteRowById.emit(row)" title="Supprimer">
-                <mat-icon>delete</mat-icon>
+              <button mat-icon-button (click)="deleteRowById.emit(row)" title="Supprimer" aria-label="Supprimer la ligne">
+                <mat-icon aria-hidden="true">delete</mat-icon>
               </button>
             }
           </td>

@@ -4,24 +4,24 @@
       <h1>Détail utilisateur #{{ userId }}</h1>
       <p class="page-description">Modifiez les informations du profil.</p>
     </div>
-    <a mat-stroked-button routerLink="/admin/user-list">
-      <mat-icon>arrow_back</mat-icon>
+    <a mat-stroked-button routerLink="/admin/user-list" aria-label="Retourner à la liste des utilisateurs">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
       Retour à la liste
     </a>
   </div>
 
   @if (loading) {
     <mat-card class="state-card">
-      <p>Chargement des informations utilisateur...</p>
+      <p role="status" aria-live="polite" aria-busy="true">Chargement des informations utilisateur...</p>
     </mat-card>
   } @else if (loadError) {
     <mat-card class="state-card error-state">
-      <p>Impossible de charger ce profil utilisateur.</p>
+      <p role="alert" aria-live="assertive">Impossible de charger ce profil utilisateur.</p>
     </mat-card>
   } @else {
     <mat-card class="form-card">
       <mat-card-content>
-        <form class="user-form" (ngSubmit)="save()">
+        <form class="user-form" (ngSubmit)="save()" novalidate [attr.aria-busy]="saving">
           <div class="form-grid">
             <mat-form-field appearance="outline">
               <mat-label>Username</mat-label>
@@ -125,8 +125,8 @@
               {{ deleting ? 'Suppression...' : 'Supprimer le compte' }}
             </button>
             <button mat-stroked-button type="button" routerLink="/admin/user-list">Annuler</button>
-            <button mat-flat-button color="primary" type="submit" [disabled]="saving || deleting">
-              <mat-icon>save</mat-icon>
+            <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+              <mat-icon aria-hidden="true">save</mat-icon>
               {{ saving ? 'Sauvegarde...' : 'Enregistrer les modifications' }}
             </button>
           </div>
