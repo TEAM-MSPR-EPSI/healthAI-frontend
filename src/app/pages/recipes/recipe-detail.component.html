@@ -3,7 +3,7 @@
     <a routerLink="/recipes" class="back-link">
       <mat-icon aria-hidden="true">arrow_back</mat-icon> Retour aux recettes
     </a>
-    <button mat-icon-button (click)="toggleFavorite()" [class.favorite]="isFavorite" class="favorite-btn" title="Ajouter en favoris" [attr.aria-label]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+    <button mat-icon-button (click)="toggleFavorite()" [class.favorite]="isFavorite" class="favorite-btn" [attr.title]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'" [attr.aria-label]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'">
       <mat-icon aria-hidden="true">{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
   </div>

@@ -28,12 +28,12 @@
               <th scope="col">ID</th>
               <th scope="col">Username</th>
               <th scope="col">Nom</th>
-              <th scope="col">Prenom</th>
-              <th scope="col">Role</th>
+              <th scope="col">Prénom</th>
+              <th scope="col">Rôle</th>
               <th scope="col">Genre</th>
               <th scope="col">Ville</th>
               <th scope="col">Pays</th>
-              <th scope="col">Telephone</th>
+              <th scope="col">Téléphone</th>
               <th scope="col">Taille</th>
               <th scope="col">Poids</th>
               <th scope="col">Action</th>
@@ -57,7 +57,7 @@
                   <a mat-stroked-button color="primary" [routerLink]="['/admin/users', user.user_id]"
                      [attr.aria-label]="'Voir le détail de l\'utilisateur ' + user.user_username">
                     <mat-icon aria-hidden="true">visibility</mat-icon>
-                    Detail
+                    Détail
                   </a>
                 </td>
               </tr>
@@ -67,7 +67,7 @@
       </div>
     } @else if (!apiError) {
       <mat-card class="empty-state">
-        <p role="status" aria-live="polite">Aucun utilisateur trouve.</p>
+        <p role="status" aria-live="polite">Aucun utilisateur trouvé.</p>
       </mat-card>
     }
   }
