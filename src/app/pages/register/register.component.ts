@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -27,11 +26,10 @@ export class RegisterComponent {
 
   constructor(
     private router: Router,
-    private api: ApiService,
     private auth: AuthService,
   ) {}
 
-  register() {
+  async register() {
     this.errorMessage = '';
     if (!this.email || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Veuillez remplir tous les champs.';
@@ -42,22 +40,13 @@ export class RegisterComponent {
       return;
     }
     this.loading = true;
-    this.api.createUser({
-      user_email: this.email,
-      user_password: this.password,
-    }).subscribe({
-      next: () => {
-        // Auto-login after registration
-        this.auth.login(this.email, this.password).then(() => {
-          this.router.navigate(['/onboarding/name']);
-        }).catch(() => {
-          this.router.navigate(['/login']);
-        });
-      },
-      error: () => {
-        this.errorMessage = 'Erreur lors de la création du compte.';
-        this.loading = false;
-      },
-    });
+    try {
+      await this.auth.register(this.email, this.password);
+      this.router.navigate(['/onboarding/role']);
+    } catch {
+      this.errorMessage = 'Erreur lors de la création du compte.';
+    } finally {
+      this.loading = false;
+    }
   }
 }
