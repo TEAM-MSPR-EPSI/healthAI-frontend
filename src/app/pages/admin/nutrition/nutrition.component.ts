@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartType } from 'chart.js';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 
 @Component({
@@ -32,8 +32,11 @@ export class NutritionComponent implements OnInit {
     forkJoin({
       food: this.api.getFood(),
       users: this.api.getUsers(),
+      dailyCalories: this.api.getDailyCalories().pipe(
+        catchError(() => of({ labels: ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'], data: [0, 0, 0, 0, 0, 0, 0] }))
+      ),
     }).subscribe({
-      next: ({ food, users }) => {
+      next: ({ food, users, dailyCalories }) => {
         const count = Math.max(food.length, 1);
         const avgCalories = this.avg(food, 'food_calories_per_100g');
         const avgProtein = this.avg(food, 'food_protein_per_100g');
@@ -61,13 +64,12 @@ export class NutritionComponent implements OnInit {
           }],
         };
 
-        const weekdays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-        const dailyBaseline = weekdays.map((_, i) => Math.round(avgCalories * (0.88 + (i % 4) * 0.06)));
+        // Données RÉELLES de consommation quotidienne depuis l'API
         this.caloriesChartData = {
-          labels: weekdays,
+          labels: dailyCalories.labels || ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'],
           datasets: [{
-            label: 'Calories estimées',
-            data: dailyBaseline,
+            label: 'Calories consommées',
+            data: dailyCalories.data || [0, 0, 0, 0, 0, 0, 0],
             backgroundColor: 'rgba(30, 136, 229, 0.7)',
             borderRadius: 8,
           }],
@@ -87,7 +89,6 @@ export class NutritionComponent implements OnInit {
           }],
         };
 
-        // No endpoint for real daily consumption timeline; estimated from ingredient averages.
         if (count === 1 && food.length === 0) {
           this.kpis[0].trend = 'Aucune donnée';
         }

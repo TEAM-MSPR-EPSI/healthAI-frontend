@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartType } from 'chart.js';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 
 @Component({
@@ -33,8 +33,11 @@ export class FitnessComponent implements OnInit {
       exercises: this.api.getExercises(),
       sessions: this.api.getSessions(),
       users: this.api.getUsers(),
+      weeklySessions: this.api.getWeeklySessions().pipe(
+        catchError(() => of({ labels: ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'], data: [0, 0, 0, 0] }))
+      ),
     }).subscribe({
-      next: ({ exercises, sessions, users }) => {
+      next: ({ exercises, sessions, users, weeklySessions }) => {
         const avgDuration = this.avg(exercises, 'sport_exercise_duration');
         const avgBurn = this.avg(exercises, 'sport_exercise_cal_burned');
 
@@ -83,16 +86,12 @@ export class FitnessComponent implements OnInit {
           }],
         };
 
-        const labels = ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'];
-        const progressionValues = labels.map((_, idx) => {
-          const limit = Math.ceil(((idx + 1) / labels.length) * sessions.length);
-          return limit;
-        });
+        // Données RÉELLES de sessions cumulées par semaine depuis l'API
         this.progressChartData = {
-          labels,
+          labels: weeklySessions.labels || ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'],
           datasets: [{
             label: 'Sessions cumulées',
-            data: progressionValues,
+            data: weeklySessions.data || [0, 0, 0, 0],
             borderColor: 'rgba(14, 116, 144, 1)',
             backgroundColor: 'rgba(14, 116, 144, 0.2)',
             fill: true,

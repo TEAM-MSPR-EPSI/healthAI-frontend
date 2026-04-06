@@ -302,6 +302,27 @@ export class ApiService {
     return this.http.delete(`${this.base}/consumes/${id}`);
   }
 
+  // --- Analytics Endpoints ---
+  getDailyCalories(): Observable<any> {
+    return this.http.get(`${this.base}/analytics/admin/nutrition/daily-calories`);
+  }
+
+  getWeeklySessions(): Observable<any> {
+    return this.http.get(`${this.base}/analytics/admin/fitness/weekly-sessions`);
+  }
+
+  getMonthlyRetention(): Observable<any> {
+    return this.http.get(`${this.base}/analytics/admin/users/monthly-retention`);
+  }
+
+  getWeightProgression(): Observable<any> {
+    return this.http.get(`${this.base}/analytics/admin/users/weight-progression`);
+  }
+
+  getSubscriptionBreakdown(): Observable<any> {
+    return this.http.get(`${this.base}/analytics/admin/kpi/subscription-breakdown`);
+  }
+
   private resolveEntityRoute(entity: string): string {
     return this.entityRouteMap[entity] ?? entity;
   }

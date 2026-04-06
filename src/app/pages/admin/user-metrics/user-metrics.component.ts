@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NgChartsModule } from 'ng2-charts';
+import { catchError, forkJoin, of } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { ChartConfiguration, ChartType } from 'chart.js';
 
@@ -30,8 +31,13 @@ export class UserMetricsComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-    this.api.getUsers().subscribe({
-      next: (users) => {
+    forkJoin({
+      users: this.api.getUsers(),
+      weightProgression: this.api.getWeightProgression().pipe(
+        catchError(() => of({ labels: ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'], data: [0, 0, 0, 0] }))
+      ),
+    }).subscribe({
+      next: ({ users, weightProgression }) => {
         this.users = users;
         // KPIs
         this.kpis = [
@@ -82,13 +88,13 @@ export class UserMetricsComponent implements OnInit {
             },
           ],
         };
-        // Progression mensuelle (exemple: user_weight par semaine, ici simulé)
+        // Progression pondérale RÉELLE par semaine depuis l'API
         this.progressionChartData = {
-          labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+          labels: weightProgression.labels || ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'],
           datasets: [
             {
-              label: 'Progression moyenne',
-              data: [25, 40, 55, 70],
+              label: 'Poids moyen (kg)',
+              data: weightProgression.data || [0, 0, 0, 0],
               borderColor: 'rgba(33, 150, 243, 1)',
               backgroundColor: 'rgba(33, 150, 243, 0.2)',
               fill: true,
