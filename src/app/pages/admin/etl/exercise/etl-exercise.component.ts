@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { EtlExerciseService } from './etl-exercise.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'etl-exercise',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatCardModule, CommonModule],
+  imports: [MatButtonModule, MatIconModule, MatCardModule, CommonModule, FormsModule],
   templateUrl: './etl-exercise.component.html',
   styleUrls: ['./etl-exercise.component.css'],
 })
@@ -17,6 +18,9 @@ export class EtlExerciseComponent {
   showLogs = false;
   logs: string[] = [];
   isLoading = false;
+  vueActive: 'valid' | 'invalid' | null = null;
+  currentIndexValidExercise = 0;
+  currentIndexInvalidExercise = 0;
 
   constructor(private router: Router, private etlExerciseService: EtlExerciseService) {}
 
@@ -35,6 +39,55 @@ export class EtlExerciseComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  exerciseValid: any[] = [];
+  exerciseInvalid: any[] = [];
+
+  chargerValideExercise() {
+    this.etlExerciseService.getExerciseData().subscribe({
+      next: (result) => {
+        this.exerciseValid = result.csv.exercise_valid?.data ?? [];
+        this.exerciseInvalid = result.csv.exercise_invalid?.data ?? [];
+        this.vueActive = 'valid'; 
+      },
+      error: (err) => this.addLog('Erreur : ' + err.message)
+    });
+  }
+
+  chargerInvalideExercise() {
+    this.etlExerciseService.getExerciseData().subscribe({
+      next: (result) => {
+        this.exerciseValid = result.csv.exercise_valid?.data ?? [];
+        this.exerciseInvalid = result.csv.exercise_invalid?.data ?? [];
+        this.vueActive = 'invalid'; 
+      },
+      error: (err) => this.addLog('Erreur : ' + err.message)
+    });
+  }
+
+  get currentExerciseValid() {
+    return this.exerciseValid[this.currentIndexValidExercise];
+  }
+
+  get currentExerciseInvalid() {
+    return this.exerciseInvalid[this.currentIndexInvalidExercise];
+  }
+
+  precedentValid() {
+    if (this.currentIndexValidExercise > 0) this.currentIndexValidExercise--;
+  }
+
+  suivantValid() {
+    if (this.currentIndexValidExercise < this.exerciseValid.length - 1) this.currentIndexValidExercise++;
+  }
+
+  precedentInvalid() {
+    if (this.currentIndexInvalidExercise > 0) this.currentIndexInvalidExercise--;
+  }
+
+  suivantInvalid() {
+    if (this.currentIndexInvalidExercise < this.exerciseInvalid.length - 1) this.currentIndexInvalidExercise++;
   }
 
   goBack() {

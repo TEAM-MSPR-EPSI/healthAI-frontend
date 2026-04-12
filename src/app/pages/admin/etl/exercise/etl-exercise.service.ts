@@ -15,4 +15,8 @@ export class EtlExerciseService {
     return this.http.post(`${this.baseUrl}/etl/extract-transform/exercise`, {});
   }
 
+  getExerciseData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/csv/exercise`);
+  }
+
 }

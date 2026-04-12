@@ -11,15 +11,15 @@
         <mat-card-title>Extraction des données</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-      <button mat-button color="primary" (click)="lancerExtractionExercise()" [disabled]="isLoading">
-        <mat-icon>{{ isLoading ? 'hourglass_empty' : 'play_arrow' }}</mat-icon>
-        {{ isLoading ? 'En cours...' : 'Lancer l\'extraction' }}
-      </button>
-        <button mat-button>
+        <button mat-button color="primary" (click)="lancerExtractionExercise()" [disabled]="isLoading">
+          <mat-icon>{{ isLoading ? 'hourglass_empty' : 'play_arrow' }}</mat-icon>
+          {{ isLoading ? 'En cours...' : 'Lancer l\'extraction' }}
+        </button>
+        <button mat-button (click)="chargerValideExercise()">
           <mat-icon>check_circle</mat-icon>
           Liste valide
         </button>
-        <button mat-button>
+        <button mat-button (click)="chargerInvalideExercise()">
           <mat-icon>cancel</mat-icon>
           Liste invalide
         </button>
@@ -30,6 +30,84 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
+  @if (vueActive === 'valid') {
+    <mat-card class="data-card">
+      <mat-card-header>
+        <mat-card-title>Exercices valides</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (exerciseValid.length === 0) {
+          <p>Aucun exercice valide</p>
+        } @else {
+          <div class="navigation">
+            <button mat-icon-button (click)="precedentValid()" [disabled]="currentIndexValidExercise === 0">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span>{{ currentIndexValidExercise + 1 }} / {{ exerciseValid.length }}</span>
+            <button mat-icon-button (click)="suivantValid()" [disabled]="currentIndexValidExercise === exerciseValid.length - 1">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+
+          @if (currentExerciseValid) {
+            <div class="exercise-fields">
+
+              <div class="field-block">
+                <label class="field-label">Nom</label>
+                <input matInput [value]="currentExerciseValid.sport_exercise_name" disabled />
+              </div>
+
+              <div class="field-block">
+                <label class="field-label">Instruction</label>
+                <textarea [(ngModel)]="currentExerciseValid.sport_exercise_instruction" rows="6"></textarea>
+              </div>
+
+            </div>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (vueActive === 'invalid') {
+    <mat-card class="data-card">
+      <mat-card-header>
+        <mat-card-title>Exercices invalides</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (exerciseInvalid.length === 0) {
+          <p>Aucun exercice invalide</p>
+        } @else {
+          <div class="navigation">
+            <button mat-icon-button (click)="precedentInvalid()" [disabled]="currentIndexInvalidExercise === 0">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span>{{ currentIndexInvalidExercise + 1 }} / {{ exerciseInvalid.length }}</span>
+            <button mat-icon-button (click)="suivantInvalid()" [disabled]="currentIndexInvalidExercise === exerciseInvalid.length - 1">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+
+          @if (currentExerciseInvalid) {
+            <div class="exercise-fields">
+
+              <div class="field-block">
+                <label class="field-label">Nom</label>
+                <input matInput [value]="currentExerciseInvalid.sport_exercise_name" disabled />
+              </div>
+
+              <div class="field-block">
+                <label class="field-label">Instruction</label>
+                <textarea [(ngModel)]="currentExerciseInvalid.sport_exercise_instruction" rows="6"></textarea>
+              </div>
+
+            </div>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  }
 
   @if (showLogs) {
     <mat-card class="logs-card">

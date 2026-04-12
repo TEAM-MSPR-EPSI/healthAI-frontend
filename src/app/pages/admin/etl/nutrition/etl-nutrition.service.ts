@@ -15,4 +15,11 @@ export class EtlNutritionService {
     return this.http.post(`${this.baseUrl}/etl/extract-transform/ingredient`, {});
   }
 
+  getIngredientData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/csv/ingredient`);
+  }
+
+  saveIngredientData(data: any[]): Observable<any> {
+  return this.http.put(`${this.baseUrl}/csv/ingredient`, { data });
+}
 }
