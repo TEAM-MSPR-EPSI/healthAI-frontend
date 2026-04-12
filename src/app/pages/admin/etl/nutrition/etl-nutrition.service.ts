@@ -22,4 +22,8 @@ export class EtlNutritionService {
   saveIngredientData(data: any[]): Observable<any> {
   return this.http.put(`${this.baseUrl}/csv/ingredient`, { data });
   }
+
+  loadIngredientsToDb(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/etl/load-to-db/ingredient`, {});
+  }
 }

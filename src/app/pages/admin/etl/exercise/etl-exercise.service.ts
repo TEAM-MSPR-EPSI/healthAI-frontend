@@ -22,4 +22,8 @@ export class EtlExerciseService {
   saveExerciseData(data: any[]): Observable<any> {
   return this.http.put(`${this.baseUrl}/csv/exercise`, { data });
   }
+
+  loadExercisesToDb(): Observable<any> {
+  return this.http.post(`${this.baseUrl}/etl/load-to-db/exercise`, {});
+  }
 }

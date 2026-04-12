@@ -14,7 +14,6 @@ import { EtlNutritionService } from './etl-nutrition.service';
   templateUrl: './etl-nutrition.component.html',
   styleUrls: ['./etl-nutrition.component.css'],
 })
-
 export class EtlNutritionComponent {
   showLogs = false;
   logs: string[] = [];
@@ -26,12 +25,15 @@ export class EtlNutritionComponent {
   ingredientValid: any[] = [];
   ingredientInvalid: any[] = [];
 
-  constructor(private router: Router, private etlNutritionService: EtlNutritionService) {}
+  constructor(
+    private router: Router,
+    private etlNutritionService: EtlNutritionService,
+  ) {}
 
   lancerExtractionNutrition() {
     this.isLoading = true;
     this.showLogs = true;
-    this.addLog('Lancement de l\'extraction...');
+    this.addLog("Lancement de l'extraction...");
 
     this.etlNutritionService.extractIngredients().subscribe({
       next: (result) => {
@@ -41,7 +43,7 @@ export class EtlNutritionComponent {
       error: (err) => {
         this.addLog('Erreur : ' + err.message);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -57,7 +59,7 @@ export class EtlNutritionComponent {
         this.currentIndexValidIngredient = 0;
         this.vueActive = 'valid';
       },
-      error: (err) => this.addLog('Erreur : ' + err.message)
+      error: (err) => this.addLog('Erreur : ' + err.message),
     });
   }
 
@@ -73,11 +75,11 @@ export class EtlNutritionComponent {
         this.currentIndexInvalidIngredient = 0;
         this.vueActive = 'invalid';
       },
-      error: (err) => this.addLog('Erreur : ' + err.message)
+      error: (err) => this.addLog('Erreur : ' + err.message),
     });
   }
 
-    get currentIngredientValid() {
+  get currentIngredientValid() {
     return this.ingredientValid[this.currentIndexValidIngredient];
   }
 
@@ -90,7 +92,8 @@ export class EtlNutritionComponent {
   }
 
   suivantValid() {
-    if (this.currentIndexValidIngredient < this.ingredientValid.length - 1) this.currentIndexValidIngredient++;
+    if (this.currentIndexValidIngredient < this.ingredientValid.length - 1)
+      this.currentIndexValidIngredient++;
   }
 
   precedentInvalid() {
@@ -98,18 +101,25 @@ export class EtlNutritionComponent {
   }
 
   suivantInvalid() {
-    if (this.currentIndexInvalidIngredient < this.ingredientInvalid.length - 1) this.currentIndexInvalidIngredient++;
+    if (this.currentIndexInvalidIngredient < this.ingredientInvalid.length - 1)
+      this.currentIndexInvalidIngredient++;
   }
 
   sauvegarderIngredient(liste: 'valid' | 'invalid') {
     const source = liste === 'valid' ? this.ingredientValid : this.ingredientInvalid;
-    const index = liste === 'valid' ? this.currentIndexValidIngredient : this.currentIndexInvalidIngredient;
+    const index =
+      liste === 'valid' ? this.currentIndexValidIngredient : this.currentIndexInvalidIngredient;
     const ingredient = source[index];
 
     const numericFields = [
-      'ingredient_energy_100g', 'ingredient_protein_100g', 'ingredient_carbohydrate_100g',
-      'ingredient_fats_100g', 'ingredient_fiber_100g', 'ingredient_sugars_100g',
-      'ingredient_salt_100g', 'ingredient_saturated_fats_100g'
+      'ingredient_energy_100g',
+      'ingredient_protein_100g',
+      'ingredient_carbohydrate_100g',
+      'ingredient_fats_100g',
+      'ingredient_fiber_100g',
+      'ingredient_sugars_100g',
+      'ingredient_salt_100g',
+      'ingredient_saturated_fats_100g',
     ];
 
     const parsed: any = { ...ingredient };
@@ -128,13 +138,13 @@ export class EtlNutritionComponent {
             this.ingredientInvalid = r.csv.ingredient_invalid?.data ?? [];
             this.currentIndexValidIngredient = 0;
             this.currentIndexInvalidIngredient = 0;
-          }
+          },
         });
       },
       error: (err) => {
         this.showLogs = true;
         this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
-      }
+      },
     });
   }
 
@@ -150,6 +160,24 @@ export class EtlNutritionComponent {
     if (index >= 0 && index < this.ingredientInvalid.length) {
       this.currentIndexInvalidIngredient = index;
     }
+  }
+
+  chargerEnBddIngredient() {
+    this.isLoading = true;
+    this.showLogs = true;
+    this.addLog('Chargement en base de données...');
+
+    this.etlNutritionService.loadIngredientsToDb().subscribe({
+      next: (result) => {
+        result.detailed_logs.forEach((line: string) => this.addLog(line));
+        this.addLog('✅ ' + result.message);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
+        this.isLoading = false;
+      },
+    });
   }
 
   goBack() {
