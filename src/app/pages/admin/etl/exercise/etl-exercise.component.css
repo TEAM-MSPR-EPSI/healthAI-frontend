@@ -87,3 +87,23 @@
   background-color: #f5f5f5;
   color: #333;
 }
+
+.index-input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+/* Chrome, Safari, Edge */
+.index-input::-webkit-outer-spin-button,
+.index-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.index-input {
+  -moz-appearance: textfield;
+}

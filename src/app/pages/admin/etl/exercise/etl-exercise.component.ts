@@ -46,22 +46,32 @@ export class EtlExerciseComponent {
   }
 
   chargerValideExercise() {
+    if (this.vueActive === 'valid') {
+      this.vueActive = null;
+      return;
+    }
     this.etlExerciseService.getExerciseData().subscribe({
       next: (result) => {
         this.exerciseValid = result.csv.exercise_valid?.data ?? [];
         this.exerciseInvalid = result.csv.exercise_invalid?.data ?? [];
-        this.vueActive = 'valid'; 
+        this.currentIndexValidExercise = 0;
+        this.vueActive = 'valid';
       },
       error: (err) => this.addLog('Erreur : ' + err.message)
     });
   }
 
   chargerInvalideExercise() {
+    if (this.vueActive === 'invalid') {
+      this.vueActive = null;
+      return;
+    }
     this.etlExerciseService.getExerciseData().subscribe({
       next: (result) => {
         this.exerciseValid = result.csv.exercise_valid?.data ?? [];
         this.exerciseInvalid = result.csv.exercise_invalid?.data ?? [];
-        this.vueActive = 'invalid'; 
+        this.currentIndexInvalidExercise = 0;
+        this.vueActive = 'invalid';
       },
       error: (err) => this.addLog('Erreur : ' + err.message)
     });
@@ -92,25 +102,61 @@ export class EtlExerciseComponent {
   }
 
   sauvegarderExercise(liste: 'valid' | 'invalid') {
-  const source = liste === 'valid' ? this.exerciseValid : this.exerciseInvalid;
+    const source = liste === 'valid' ? this.exerciseValid : this.exerciseInvalid;
+    const index = liste === 'valid' ? this.currentIndexValidExercise : this.currentIndexInvalidExercise;
+    const exercise = source[index];
 
-  const data = source.map(exercise => ({
-    ...exercise,
-    sport_exercise_instruction: exercise.sport_exercise_instruction ?? null,
-  }));
+    const data = [{
+      ...exercise,
+      sport_exercise_instruction: exercise.sport_exercise_instruction ?? null,
+    }];
 
-  this.etlExerciseService.saveExerciseData(data).subscribe({
-    next: (result) => {
-      this.showLogs = true;
-      this.addLog('✅ ' + result.message);
-    },
-    error: (err) => {
-      this.showLogs = true;
-      this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
-    }
-  });
-}
+    this.etlExerciseService.saveExerciseData(data).subscribe({
+      next: (result) => {
+        this.showLogs = true;
+        this.addLog('✅ ' + result.message);
+        this.etlExerciseService.getExerciseData().subscribe({
+          next: (r) => {
+            this.exerciseValid = r.csv.exercise_valid?.data ?? [];
+            this.exerciseInvalid = r.csv.exercise_invalid?.data ?? [];
+            this.currentIndexValidExercise = 0;
+            this.currentIndexInvalidExercise = 0;
+          }
+        });
+      },
+      error: (err) => {
+        this.showLogs = true;
+        this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
+      }
+    });
+  }
 
+  goToIndexValid(value: number) {
+  if (!value) return;
+
+  let index = value - 1;
+
+  if (index < 0) index = 0;
+  if (index >= this.exerciseValid.length) {
+    index = this.exerciseValid.length - 1;
+  }
+
+  this.currentIndexValidExercise = index;
+  }
+
+  goToIndexInvalid(value: number) {
+  if (!value) return;
+
+  let index = value - 1;
+
+  if (index < 0) index = 0;
+  if (index >= this.exerciseInvalid.length) {
+    index = this.exerciseInvalid.length - 1;
+  }
+
+  this.currentIndexInvalidExercise = index;
+  }
+  
   goBack() {
     this.router.navigate(['/admin/data-check']);
   }

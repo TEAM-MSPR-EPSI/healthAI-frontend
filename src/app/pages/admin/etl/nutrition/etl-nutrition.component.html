@@ -3,7 +3,7 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <h1>ETL - Base nutritionnelle</h1>
-  
+
   <div class="cards-grid">
     <mat-card>
       <mat-card-header>
@@ -32,170 +32,176 @@
   </div>
 
   @if (vueActive === 'valid') {
-    <mat-card class="data-card">
-      <mat-card-header>
-        <mat-card-title>Ingrédients valides</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        @if (ingredientValid.length === 0) {
-          <p>Aucun ingrédient valide</p>
-        } @else {
-          <div class="navigation">
-            <button mat-icon-button (click)="precedentValid()" [disabled]="currentIndexValidIngredient === 0">
-              <mat-icon>chevron_left</mat-icon>
-            </button>
-            <span>{{ currentIndexValidIngredient + 1 }} / {{ ingredientValid.length }}</span>
-            <button mat-icon-button (click)="suivantValid()" [disabled]="currentIndexValidIngredient === ingredientValid.length - 1">
-              <mat-icon>chevron_right</mat-icon>
-            </button>
-          </div>
-
-          @if (currentIngredientValid) {
-            <div class="exercise-fields">
-              <div class="field-block">
-                <label class="field-label">Nom</label>
-                <input [value]="currentIngredientValid.ingredient_name" disabled />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Énergie (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_energy_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Protéines (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_protein_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Glucides (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_carbohydrate_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Lipides (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_fats_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Fibres (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_fiber_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Sucres (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_sugars_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Sel (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_salt_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Graisses saturées (100g)</label>
-                <input [(ngModel)]="currentIngredientValid.ingredient_saturated_fats_100g" type="number" />
-              </div>
-            </div>
-          }
-        }
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="sauvegarderIngredient('valid')">
-          <mat-icon>save</mat-icon>
-          Sauvegarder
+  <mat-card class="data-card">
+    <mat-card-header>
+      <mat-card-title>Ingrédients valides</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (ingredientValid.length === 0) {
+      <p>Aucun ingrédient valide</p>
+      } @else {
+      <div class="navigation">
+        <button mat-icon-button (click)="precedentValid()" [disabled]="currentIndexValidIngredient === 0">
+          <mat-icon>chevron_left</mat-icon>
         </button>
-      </mat-card-actions>
-    </mat-card>
+        <input type="number" [ngModel]="currentIndexValidIngredient + 1" (ngModelChange)="goToIndexValid($event)"
+          [min]="1" [max]="ingredientValid.length" class="index-input" />
+        <span> / {{ ingredientValid.length }}</span>
+        <button mat-icon-button (click)="suivantValid()"
+          [disabled]="currentIndexValidIngredient === ingredientValid.length - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      @if (currentIngredientValid) {
+      <div class="exercise-fields">
+        <div class="field-block">
+          <label class="field-label">Nom</label>
+          <input [value]="currentIngredientValid.ingredient_name" disabled />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Énergie (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_energy_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Protéines (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_protein_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Glucides (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_carbohydrate_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Lipides (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_fats_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Fibres (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_fiber_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Sucres (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_sugars_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Sel (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_salt_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Graisses saturées (100g)</label>
+          <input [(ngModel)]="currentIngredientValid.ingredient_saturated_fats_100g" type="number" />
+        </div>
+      </div>
+      }
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="sauvegarderIngredient('valid')">
+        <mat-icon>save</mat-icon>
+        Sauvegarder
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 
   @if (vueActive === 'invalid') {
-    <mat-card class="data-card">
-      <mat-card-header>
-        <mat-card-title>Ingrédients invalides</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        @if (ingredientInvalid.length === 0) {
-          <p>Aucun ingrédient invalide</p>
-        } @else {
-          <div class="navigation">
-            <button mat-icon-button (click)="precedentInvalid()" [disabled]="currentIndexInvalidIngredient === 0">
-              <mat-icon>chevron_left</mat-icon>
-            </button>
-            <span>{{ currentIndexInvalidIngredient + 1 }} / {{ ingredientInvalid.length }}</span>
-            <button mat-icon-button (click)="suivantInvalid()" [disabled]="currentIndexInvalidIngredient === ingredientInvalid.length - 1">
-              <mat-icon>chevron_right</mat-icon>
-            </button>
-          </div>
-
-          @if (currentIngredientInvalid) {
-            <div class="exercise-fields">
-              <div class="field-block">
-                <label class="field-label">Nom</label>
-                <input [value]="currentIngredientInvalid.ingredient_name" disabled />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Énergie (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_energy_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Protéines (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_protein_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Glucides (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_carbohydrate_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Lipides (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_fats_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Fibres (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_fiber_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Sucres (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_sugars_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Sel (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_salt_100g" type="number" />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Graisses saturées (100g)</label>
-                <input [(ngModel)]="currentIngredientInvalid.ingredient_saturated_fats_100g" type="number" />
-              </div>
-            </div>
-          }
-        }
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="sauvegarderIngredient('invalid')">
-          <mat-icon>save</mat-icon>
-          Sauvegarder
+  <mat-card class="data-card">
+    <mat-card-header>
+      <mat-card-title>Ingrédients invalides</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (ingredientInvalid.length === 0) {
+      <p>Aucun ingrédient invalide</p>
+      } @else {
+      <div class="navigation">
+        <button mat-icon-button (click)="precedentInvalid()" [disabled]="currentIndexInvalidIngredient === 0">
+          <mat-icon>chevron_left</mat-icon>
         </button>
-      </mat-card-actions>
-    </mat-card>
+        <input type="number" [ngModel]="currentIndexInvalidIngredient + 1" (ngModelChange)="goToIndexInvalid($event)"
+          [min]="1" [max]="ingredientInvalid.length" class="index-input" />
+        <span> / {{ ingredientInvalid.length }}</span>
+        <button mat-icon-button (click)="suivantInvalid()"
+          [disabled]="currentIndexInvalidIngredient === ingredientInvalid.length - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      @if (currentIngredientInvalid) {
+      <div class="exercise-fields">
+        <div class="field-block">
+          <label class="field-label">Nom</label>
+          <input [value]="currentIngredientInvalid.ingredient_name" disabled />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Énergie (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_energy_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Protéines (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_protein_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Glucides (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_carbohydrate_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Lipides (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_fats_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Fibres (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_fiber_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Sucres (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_sugars_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Sel (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_salt_100g" type="number" />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Graisses saturées (100g)</label>
+          <input [(ngModel)]="currentIngredientInvalid.ingredient_saturated_fats_100g" type="number" />
+        </div>
+      </div>
+      }
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="sauvegarderIngredient('invalid')">
+        <mat-icon>save</mat-icon>
+        Sauvegarder
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 
   @if (showLogs) {
-    <mat-card class="logs-card">
-      <mat-card-header>
-        <mat-card-title>Historique des logs</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="logs-container">
-          @for (log of logs; track $index) {
-            <div class="log-line">{{ log }}</div>
-          }
-          @if (logs.length === 0) {
-            <div class="log-line empty">Aucun log pour le moment</div>
-          }
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="clearLogs()">
-          <mat-icon>delete</mat-icon>
-          Effacer
-        </button>
-        <button mat-button (click)="toggleLogs()">
-          <mat-icon>close</mat-icon>
-          Fermer
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <mat-card class="logs-card">
+    <mat-card-header>
+      <mat-card-title>Historique des logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="logs-container">
+        @for (log of logs; track $index) {
+        <div class="log-line">{{ log }}</div>
+        }
+        @if (logs.length === 0) {
+        <div class="log-line empty">Aucun log pour le moment</div>
+        }
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="clearLogs()">
+        <mat-icon>delete</mat-icon>
+        Effacer
+      </button>
+      <button mat-button (click)="toggleLogs()">
+        <mat-icon>close</mat-icon>
+        Fermer
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 </div>

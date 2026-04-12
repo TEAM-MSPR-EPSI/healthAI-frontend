@@ -1,3 +1,47 @@
+.logs-card {
+  margin-top: 20px;
+}
+
+.logs-container {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  line-height: 1.5;
+  border-radius: 4px;
+}
+
+.log-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 2px 0;
+}
+
+.log-line.empty {
+  color: #888;
+  font-style: italic;
+}
+
+.logs-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.logs-container::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.logs-container::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.logs-container::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 .navigation {
   display: flex;
   align-items: center;
@@ -28,16 +72,38 @@
   padding-bottom: 4px;
 }
 
-.field-block input {
+.field-block input,
+.field-block textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 14px;
   font-family: inherit;
+  resize: vertical;
 }
 
 .field-block input:disabled {
   background-color: #f5f5f5;
   color: #333;
+}
+
+.index-input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+/* Chrome, Safari, Edge */
+.index-input::-webkit-outer-spin-button,
+.index-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.index-input {
+  -moz-appearance: textfield;
 }

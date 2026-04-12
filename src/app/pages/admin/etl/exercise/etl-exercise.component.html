@@ -3,7 +3,7 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <h1>ETL - Catalogue exercices</h1>
-  
+
   <div class="cards-grid">
     <mat-card>
       <mat-card-header>
@@ -32,114 +32,124 @@
   </div>
 
   @if (vueActive === 'valid') {
-    <mat-card class="data-card">
-      <mat-card-header>
-        <mat-card-title>Exercices valides</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        @if (exerciseValid.length === 0) {
-          <p>Aucun exercice valide</p>
-        } @else {
-          <div class="navigation">
-            <button mat-icon-button (click)="precedentValid()" [disabled]="currentIndexValidExercise === 0">
-              <mat-icon>chevron_left</mat-icon>
-            </button>
-            <span>{{ currentIndexValidExercise + 1 }} / {{ exerciseValid.length }}</span>
-            <button mat-icon-button (click)="suivantValid()" [disabled]="currentIndexValidExercise === exerciseValid.length - 1">
-              <mat-icon>chevron_right</mat-icon>
-            </button>
-          </div>
-
-          @if (currentExerciseValid) {
-            <div class="exercise-fields">
-              <div class="field-block">
-                <label class="field-label">Nom</label>
-                <input matInput [value]="currentExerciseValid.sport_exercise_name" disabled />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Instruction</label>
-                <textarea [(ngModel)]="currentExerciseValid.sport_exercise_instruction" rows="6"></textarea>
-              </div>
-            </div>
-          }
-        }
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="sauvegarderExercise('valid')">
-          <mat-icon>save</mat-icon>
-          Sauvegarder
+  <mat-card class="data-card">
+    <mat-card-header>
+      <mat-card-title>Exercices valides</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (exerciseValid.length === 0) {
+      <p>Aucun exercice valide</p>
+      } @else {
+      <div class="navigation">
+        <button mat-icon-button (click)="precedentValid()" [disabled]="currentIndexValidExercise === 0">
+          <mat-icon>chevron_left</mat-icon>
         </button>
-      </mat-card-actions>
-    </mat-card>
+
+        <input type="number" [ngModel]="currentIndexValidExercise + 1" (ngModelChange)="goToIndexValid($event)"
+          [min]="1" [max]="exerciseValid.length" class="index-input" />
+        <span> / {{ exerciseValid.length }}</span>
+
+        <button mat-icon-button (click)="suivantValid()"
+          [disabled]="currentIndexValidExercise === exerciseValid.length - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      @if (currentExerciseValid) {
+      <div class="exercise-fields">
+        <div class="field-block">
+          <label class="field-label">Nom</label>
+          <input matInput [value]="currentExerciseValid.sport_exercise_name" disabled />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Instruction</label>
+          <textarea [(ngModel)]="currentExerciseValid.sport_exercise_instruction" rows="6"></textarea>
+        </div>
+      </div>
+      }
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="sauvegarderExercise('valid')">
+        <mat-icon>save</mat-icon>
+        Sauvegarder
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 
   @if (vueActive === 'invalid') {
-    <mat-card class="data-card">
-      <mat-card-header>
-        <mat-card-title>Exercices invalides</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        @if (exerciseInvalid.length === 0) {
-          <p>Aucun exercice invalide</p>
-        } @else {
-          <div class="navigation">
-            <button mat-icon-button (click)="precedentInvalid()" [disabled]="currentIndexInvalidExercise === 0">
-              <mat-icon>chevron_left</mat-icon>
-            </button>
-            <span>{{ currentIndexInvalidExercise + 1 }} / {{ exerciseInvalid.length }}</span>
-            <button mat-icon-button (click)="suivantInvalid()" [disabled]="currentIndexInvalidExercise === exerciseInvalid.length - 1">
-              <mat-icon>chevron_right</mat-icon>
-            </button>
-          </div>
-
-          @if (currentExerciseInvalid) {
-            <div class="exercise-fields">
-              <div class="field-block">
-                <label class="field-label">Nom</label>
-                <input matInput [value]="currentExerciseInvalid.sport_exercise_name" disabled />
-              </div>
-              <div class="field-block">
-                <label class="field-label">Instruction</label>
-                <textarea [(ngModel)]="currentExerciseInvalid.sport_exercise_instruction" rows="6"></textarea>
-              </div>
-            </div>
-          }
-        }
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="sauvegarderExercise('invalid')">
-          <mat-icon>save</mat-icon>
-          Sauvegarder
+  <mat-card class="data-card">
+    <mat-card-header>
+      <mat-card-title>Exercices invalides</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (exerciseInvalid.length === 0) {
+      <p>Aucun exercice invalide</p>
+      } @else {
+      <div class="navigation">
+        <button mat-icon-button (click)="precedentInvalid()" [disabled]="currentIndexInvalidExercise === 0">
+          <mat-icon>chevron_left</mat-icon>
         </button>
-      </mat-card-actions>
-    </mat-card>
+
+        <input type="number" [ngModel]="currentIndexInvalidExercise + 1" (ngModelChange)="goToIndexInvalid($event)"
+          [min]="1" [max]="exerciseInvalid.length" class="index-input" />
+        <span> / {{ exerciseInvalid.length }}</span>
+
+        <button mat-icon-button (click)="suivantInvalid()"
+          [disabled]="currentIndexInvalidExercise === exerciseInvalid.length - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      @if (currentExerciseInvalid) {
+      <div class="exercise-fields">
+        <div class="field-block">
+          <label class="field-label">Nom</label>
+          <input matInput [value]="currentExerciseInvalid.sport_exercise_name" disabled />
+        </div>
+        <div class="field-block">
+          <label class="field-label">Instruction</label>
+          <textarea [(ngModel)]="currentExerciseInvalid.sport_exercise_instruction" rows="6"></textarea>
+        </div>
+      </div>
+      }
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="sauvegarderExercise('invalid')">
+        <mat-icon>save</mat-icon>
+        Sauvegarder
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 
   @if (showLogs) {
-    <mat-card class="logs-card">
-      <mat-card-header>
-        <mat-card-title>Historique des logs</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="logs-container">
-          @for (log of logs; track $index) {
-            <div class="log-line">{{ log }}</div>
-          }
-          @if (logs.length === 0) {
-            <div class="log-line empty">Aucun log pour le moment</div>
-          }
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="clearLogs()">
-          <mat-icon>delete</mat-icon>
-          Effacer
-        </button>
-        <button mat-button (click)="toggleLogs()">
-          <mat-icon>close</mat-icon>
-          Fermer
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <mat-card class="logs-card">
+    <mat-card-header>
+      <mat-card-title>Historique des logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="logs-container">
+        @for (log of logs; track $index) {
+        <div class="log-line">{{ log }}</div>
+        }
+        @if (logs.length === 0) {
+        <div class="log-line empty">Aucun log pour le moment</div>
+        }
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="clearLogs()">
+        <mat-icon>delete</mat-icon>
+        Effacer
+      </button>
+      <button mat-button (click)="toggleLogs()">
+        <mat-icon>close</mat-icon>
+        Fermer
+      </button>
+    </mat-card-actions>
+  </mat-card>
   }
 </div>

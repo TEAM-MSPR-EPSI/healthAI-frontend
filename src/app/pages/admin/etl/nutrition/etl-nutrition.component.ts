@@ -46,6 +46,10 @@ export class EtlNutritionComponent {
   }
 
   chargerValideIngredient() {
+    if (this.vueActive === 'valid') {
+      this.vueActive = null;
+      return;
+    }
     this.etlNutritionService.getIngredientData().subscribe({
       next: (result) => {
         this.ingredientValid = result.csv.ingredient_valid?.data ?? [];
@@ -58,6 +62,10 @@ export class EtlNutritionComponent {
   }
 
   chargerInvalideIngredient() {
+    if (this.vueActive === 'invalid') {
+      this.vueActive = null;
+      return;
+    }
     this.etlNutritionService.getIngredientData().subscribe({
       next: (result) => {
         this.ingredientValid = result.csv.ingredient_valid?.data ?? [];
@@ -95,28 +103,53 @@ export class EtlNutritionComponent {
 
   sauvegarderIngredient(liste: 'valid' | 'invalid') {
     const source = liste === 'valid' ? this.ingredientValid : this.ingredientInvalid;
-    
-    const data = source.map(ingredient => ({
-      ...ingredient,
-      ingredient_energy_100g: ingredient.ingredient_energy_100g !== '' && ingredient.ingredient_energy_100g != null ? parseFloat(ingredient.ingredient_energy_100g) : null,
-      ingredient_protein_100g: ingredient.ingredient_protein_100g !== '' && ingredient.ingredient_protein_100g != null ? parseFloat(ingredient.ingredient_protein_100g) : null,
-      ingredient_carbohydrate_100g: ingredient.ingredient_carbohydrate_100g !== '' && ingredient.ingredient_carbohydrate_100g != null ? parseFloat(ingredient.ingredient_carbohydrate_100g) : null,
-      ingredient_fats_100g: ingredient.ingredient_fats_100g !== '' && ingredient.ingredient_fats_100g != null ? parseFloat(ingredient.ingredient_fats_100g) : null,
-      ingredient_fiber_100g: ingredient.ingredient_fiber_100g !== '' && ingredient.ingredient_fiber_100g != null ? parseFloat(ingredient.ingredient_fiber_100g) : null,
-      ingredient_sugars_100g: ingredient.ingredient_sugars_100g !== '' && ingredient.ingredient_sugars_100g != null ? parseFloat(ingredient.ingredient_sugars_100g) : null,
-      ingredient_salt_100g: ingredient.ingredient_salt_100g !== '' && ingredient.ingredient_salt_100g != null ? parseFloat(ingredient.ingredient_salt_100g) : null,
-      ingredient_saturated_fats_100g: ingredient.ingredient_saturated_fats_100g !== '' && ingredient.ingredient_saturated_fats_100g != null ? parseFloat(ingredient.ingredient_saturated_fats_100g) : null,
-    }));
+    const index = liste === 'valid' ? this.currentIndexValidIngredient : this.currentIndexInvalidIngredient;
+    const ingredient = source[index];
 
-    this.etlNutritionService.saveIngredientData(data).subscribe({
+    const numericFields = [
+      'ingredient_energy_100g', 'ingredient_protein_100g', 'ingredient_carbohydrate_100g',
+      'ingredient_fats_100g', 'ingredient_fiber_100g', 'ingredient_sugars_100g',
+      'ingredient_salt_100g', 'ingredient_saturated_fats_100g'
+    ];
+
+    const parsed: any = { ...ingredient };
+    for (const field of numericFields) {
+      const v = ingredient[field];
+      parsed[field] = v !== '' && v != null ? parseFloat(v) : null;
+    }
+
+    this.etlNutritionService.saveIngredientData([parsed]).subscribe({
       next: (result) => {
+        this.showLogs = true;
         this.addLog('✅ ' + result.message);
+        this.etlNutritionService.getIngredientData().subscribe({
+          next: (r) => {
+            this.ingredientValid = r.csv.ingredient_valid?.data ?? [];
+            this.ingredientInvalid = r.csv.ingredient_invalid?.data ?? [];
+            this.currentIndexValidIngredient = 0;
+            this.currentIndexInvalidIngredient = 0;
+          }
+        });
       },
       error: (err) => {
         this.showLogs = true;
         this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
       }
     });
+  }
+
+  goToIndexValid(value: number) {
+    const index = value - 1;
+    if (index >= 0 && index < this.ingredientValid.length) {
+      this.currentIndexValidIngredient = index;
+    }
+  }
+
+  goToIndexInvalid(value: number) {
+    const index = value - 1;
+    if (index >= 0 && index < this.ingredientInvalid.length) {
+      this.currentIndexInvalidIngredient = index;
+    }
   }
 
   goBack() {
