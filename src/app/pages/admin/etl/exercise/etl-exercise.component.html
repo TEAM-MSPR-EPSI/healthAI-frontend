@@ -134,16 +134,6 @@
     <mat-card-header>
       <mat-card-title>Historique des logs</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <div class="logs-container">
-        @for (log of logs; track $index) {
-        <div class="log-line">{{ log }}</div>
-        }
-        @if (logs.length === 0) {
-        <div class="log-line empty">Aucun log pour le moment</div>
-        }
-      </div>
-    </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="clearLogs()">
         <mat-icon>delete</mat-icon>
@@ -154,6 +144,16 @@
         Fermer
       </button>
     </mat-card-actions>
+    <mat-card-content>
+      <div class="logs-container">
+        @for (log of logs; track $index) {
+        <div class="log-line">{{ log }}</div>
+        }
+        @if (logs.length === 0) {
+        <div class="log-line empty">Aucun log pour le moment</div>
+        }
+      </div>
+    </mat-card-content>
   </mat-card>
   }
 </div>
