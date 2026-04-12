@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './etl-exercise.component.html',
   styleUrls: ['./etl-exercise.component.css'],
 })
+
 export class EtlExerciseComponent {
   showLogs = false;
   logs: string[] = [];
@@ -21,6 +22,9 @@ export class EtlExerciseComponent {
   vueActive: 'valid' | 'invalid' | null = null;
   currentIndexValidExercise = 0;
   currentIndexInvalidExercise = 0;
+
+  exerciseValid: any[] = [];
+  exerciseInvalid: any[] = [];
 
   constructor(private router: Router, private etlExerciseService: EtlExerciseService) {}
 
@@ -40,9 +44,6 @@ export class EtlExerciseComponent {
       }
     });
   }
-
-  exerciseValid: any[] = [];
-  exerciseInvalid: any[] = [];
 
   chargerValideExercise() {
     this.etlExerciseService.getExerciseData().subscribe({
@@ -89,6 +90,26 @@ export class EtlExerciseComponent {
   suivantInvalid() {
     if (this.currentIndexInvalidExercise < this.exerciseInvalid.length - 1) this.currentIndexInvalidExercise++;
   }
+
+  sauvegarderExercise(liste: 'valid' | 'invalid') {
+  const source = liste === 'valid' ? this.exerciseValid : this.exerciseInvalid;
+
+  const data = source.map(exercise => ({
+    ...exercise,
+    sport_exercise_instruction: exercise.sport_exercise_instruction ?? null,
+  }));
+
+  this.etlExerciseService.saveExerciseData(data).subscribe({
+    next: (result) => {
+      this.showLogs = true;
+      this.addLog('✅ ' + result.message);
+    },
+    error: (err) => {
+      this.showLogs = true;
+      this.addLog('❌ Erreur : ' + JSON.stringify(err.error));
+    }
+  });
+}
 
   goBack() {
     this.router.navigate(['/admin/data-check']);

@@ -21,5 +21,5 @@ export class EtlNutritionService {
 
   saveIngredientData(data: any[]): Observable<any> {
   return this.http.put(`${this.baseUrl}/csv/ingredient`, { data });
-}
+  }
 }

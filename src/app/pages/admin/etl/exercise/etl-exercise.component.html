@@ -52,21 +52,24 @@
 
           @if (currentExerciseValid) {
             <div class="exercise-fields">
-
               <div class="field-block">
                 <label class="field-label">Nom</label>
                 <input matInput [value]="currentExerciseValid.sport_exercise_name" disabled />
               </div>
-
               <div class="field-block">
                 <label class="field-label">Instruction</label>
                 <textarea [(ngModel)]="currentExerciseValid.sport_exercise_instruction" rows="6"></textarea>
               </div>
-
             </div>
           }
         }
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="sauvegarderExercise('valid')">
+          <mat-icon>save</mat-icon>
+          Sauvegarder
+        </button>
+      </mat-card-actions>
     </mat-card>
   }
 
@@ -91,21 +94,24 @@
 
           @if (currentExerciseInvalid) {
             <div class="exercise-fields">
-
               <div class="field-block">
                 <label class="field-label">Nom</label>
                 <input matInput [value]="currentExerciseInvalid.sport_exercise_name" disabled />
               </div>
-
               <div class="field-block">
                 <label class="field-label">Instruction</label>
                 <textarea [(ngModel)]="currentExerciseInvalid.sport_exercise_instruction" rows="6"></textarea>
               </div>
-
             </div>
           }
         }
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="sauvegarderExercise('invalid')">
+          <mat-icon>save</mat-icon>
+          Sauvegarder
+        </button>
+      </mat-card-actions>
     </mat-card>
   }
 

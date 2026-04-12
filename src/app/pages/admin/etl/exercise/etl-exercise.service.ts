@@ -19,4 +19,7 @@ export class EtlExerciseService {
     return this.http.get(`${this.baseUrl}/csv/exercise`);
   }
 
+  saveExerciseData(data: any[]): Observable<any> {
+  return this.http.put(`${this.baseUrl}/csv/exercise`, { data });
+  }
 }

@@ -14,6 +14,7 @@ import { EtlNutritionService } from './etl-nutrition.service';
   templateUrl: './etl-nutrition.component.html',
   styleUrls: ['./etl-nutrition.component.css'],
 })
+
 export class EtlNutritionComponent {
   showLogs = false;
   logs: string[] = [];
@@ -26,30 +27,6 @@ export class EtlNutritionComponent {
   ingredientInvalid: any[] = [];
 
   constructor(private router: Router, private etlNutritionService: EtlNutritionService) {}
-
-  get currentIngredientValid() {
-    return this.ingredientValid[this.currentIndexValidIngredient];
-  }
-
-  get currentIngredientInvalid() {
-    return this.ingredientInvalid[this.currentIndexInvalidIngredient];
-  }
-
-  precedentValid() {
-    if (this.currentIndexValidIngredient > 0) this.currentIndexValidIngredient--;
-  }
-
-  suivantValid() {
-    if (this.currentIndexValidIngredient < this.ingredientValid.length - 1) this.currentIndexValidIngredient++;
-  }
-
-  precedentInvalid() {
-    if (this.currentIndexInvalidIngredient > 0) this.currentIndexInvalidIngredient--;
-  }
-
-  suivantInvalid() {
-    if (this.currentIndexInvalidIngredient < this.ingredientInvalid.length - 1) this.currentIndexInvalidIngredient++;
-  }
 
   lancerExtractionNutrition() {
     this.isLoading = true;
@@ -90,6 +67,30 @@ export class EtlNutritionComponent {
       },
       error: (err) => this.addLog('Erreur : ' + err.message)
     });
+  }
+
+    get currentIngredientValid() {
+    return this.ingredientValid[this.currentIndexValidIngredient];
+  }
+
+  get currentIngredientInvalid() {
+    return this.ingredientInvalid[this.currentIndexInvalidIngredient];
+  }
+
+  precedentValid() {
+    if (this.currentIndexValidIngredient > 0) this.currentIndexValidIngredient--;
+  }
+
+  suivantValid() {
+    if (this.currentIndexValidIngredient < this.ingredientValid.length - 1) this.currentIndexValidIngredient++;
+  }
+
+  precedentInvalid() {
+    if (this.currentIndexInvalidIngredient > 0) this.currentIndexInvalidIngredient--;
+  }
+
+  suivantInvalid() {
+    if (this.currentIndexInvalidIngredient < this.ingredientInvalid.length - 1) this.currentIndexInvalidIngredient++;
   }
 
   sauvegarderIngredient(liste: 'valid' | 'invalid') {
