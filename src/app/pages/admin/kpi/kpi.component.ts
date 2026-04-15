@@ -38,6 +38,7 @@ export class KpiComponent implements OnInit {
       sessions: this.api.getSessions(),
       exercises: this.api.getExercises(),
       equipment: this.api.getEquipment(),
+      recipes: this.api.getRecipes(),
       retention: this.api.getMonthlyRetention().pipe(
         catchError(() => of({ labels: ['Sept.', 'Oct.', 'Nov.', 'Dec.'], data: [0, 0, 0, 0] }))
       ),
@@ -45,15 +46,27 @@ export class KpiComponent implements OnInit {
         catchError(() => of({ freemium: 0, premium: 0, company_admin: 0 }))
       ),
     }).subscribe({
-      next: ({ users, food, programs, sessions, exercises, equipment, retention, subscriptionBreakdown }) => {
+      next: ({ users, food, programs, sessions, exercises, equipment, recipes, retention, subscriptionBreakdown }) => {
         this.users = users;
+
+        // Calculs utiles pour les KPI
+        const totalUsers = users.length;
+        const totalSubscribed = (subscriptionBreakdown.freemium || 0) + (subscriptionBreakdown.premium || 0) + (subscriptionBreakdown.company_admin || 0);
+        const avgAge = this.getAverageAge(users);
+        const sessionsPerUser = totalUsers > 0 ? (sessions.length / totalUsers).toFixed(1) : '0';
+        const programsPerUser = totalUsers > 0 ? (programs.length / totalUsers).toFixed(1) : '0';
+        const exercisesWithEquipment = exercises.filter((e: any) => e.exerciseEquipments && e.exerciseEquipments.length > 0).length;
+        const equipmentCoverage = exercises.length > 0 ? Math.round((exercisesWithEquipment / exercises.length) * 100) : 0;
+
         this.kpis = [
-          { label: 'Utilisateurs', value: users.length, trend: '', up: true, icon: 'people' },
-          { label: 'Programmes sport', value: programs.length, trend: '', up: true, icon: 'fitness_center' },
-          { label: 'Séances', value: sessions.length, trend: '', up: true, icon: 'event' },
-          { label: 'Exercices', value: exercises.length, trend: '', up: true, icon: 'sports_gymnastics' },
-          { label: 'Ingrédients', value: food.length, trend: '', up: true, icon: 'restaurant' },
-          { label: 'Matériel', value: equipment.length, trend: '', up: true, icon: 'construction' },
+          { label: 'Utilisateurs', value: totalUsers, trend: `${totalSubscribed} abonnés`, up: true, icon: 'people' },
+          { label: 'Âge moyen', value: `${Math.round(avgAge)} ans`, trend: 'Utilisateurs actifs', up: true, icon: 'cake' },
+          { label: 'Programmes sport', value: programs.length, trend: `${programsPerUser} / user`, up: true, icon: 'fitness_center' },
+          { label: 'Séances', value: sessions.length, trend: `${sessionsPerUser} / user`, up: true, icon: 'event' },
+          { label: 'Exercices', value: exercises.length, trend: `${equipmentCoverage}% avec équipement`, up: true, icon: 'sports_gymnastics' },
+          { label: 'Recettes', value: recipes.length, trend: 'Catalogue nutrition', up: true, icon: 'restaurant_menu' },
+          { label: 'Ingrédients', value: food.length, trend: 'Base nutritionnelle', up: true, icon: 'restaurant' },
+          { label: 'Matériel', value: equipment.length, trend: 'Équipements disponibles', up: true, icon: 'construction' },
         ];
 
         // Données RÉELLES de répartition des abonnés
@@ -95,5 +108,24 @@ export class KpiComponent implements OnInit {
       },
       error: () => { this.isLoading = false; },
     });
+  }
+
+  private getAverageAge(users: any[]): number {
+    const ages = users
+      .map((user) => this.getAge(user.user_birth))
+      .filter((age) => age > 0);
+
+    if (!ages.length) {
+      return 0;
+    }
+
+    return ages.reduce((sum, age) => sum + age, 0) / ages.length;
+  }
+
+  private getAge(birth: string): number {
+    if (!birth) return 0;
+    const birthDate = new Date(birth);
+    const diff = Date.now() - birthDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
   }
 }

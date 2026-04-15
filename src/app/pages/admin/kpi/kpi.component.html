@@ -13,7 +13,7 @@
 
   <!-- KPIs (une fois chargées) -->
   @if (!isLoading) {
-    <div class="kpi-row">
+    <div class="kpi-row kpi-expanded">
       @for (kpi of kpis; track kpi.label) {
         <mat-card class="kpi-card">
           <mat-card-content>
