@@ -287,3 +287,26 @@ button[mat-icon-button]:hover,
     font-size: 0.75rem;
   }
 }
+
+/* Relation editor must remain above the mobile sidenav and toolbar layers. */
+body.relation-editor-open .app-toolbar,
+body.relation-editor-open .mat-drawer,
+body.relation-editor-open .mat-drawer-backdrop {
+  z-index: 900 !important;
+}
+
+@media (max-width: 900px) {
+  /* Mobile sidenav backdrop: make it properly opaque for better contrast. */
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgba(17, 24, 16, 0.88) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Keep popup content stacking context above sidenav layers when opened. */
+body.relation-editor-open .mat-drawer-content,
+body.relation-editor-open .mat-sidenav-content,
+body.relation-editor-open .main-content {
+  position: relative;
+  z-index: 3500 !important;
+}

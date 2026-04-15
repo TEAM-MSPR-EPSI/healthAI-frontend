@@ -58,7 +58,14 @@
   }
   .sidenav {
     width: 220px;
+    background: #ece9df !important;
+    opacity: 1 !important;
   }
+
+  .mat-drawer.mat-sidenav {
+    background: #ece9df !important;
+  }
+
   .main-content.mobile-user {
     padding-bottom: 64px;
   }

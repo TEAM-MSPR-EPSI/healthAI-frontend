@@ -1,5 +1,5 @@
 // Component: AdminManage | Purpose: Renders and manages UI behavior for this view.
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -39,7 +39,7 @@ import { RelationEditorComponent } from './components/relation-editor.component'
   templateUrl: './admin-manage.component.html',
   styleUrl: './admin-manage.component.css',
 })
-export class AdminManageComponent implements OnInit {
+export class AdminManageComponent implements OnInit, OnDestroy {
   tabs: TabConfig[] = ADMIN_MANAGE_TABS;
   isLoading = true;
   apiErrorMessage = '';
@@ -65,6 +65,10 @@ export class AdminManageComponent implements OnInit {
 
   ngOnInit() {
     this.loadAll();
+  }
+
+  ngOnDestroy(): void {
+    this.setRelationLayerState(false);
   }
 
   loadAll() {
@@ -155,6 +159,7 @@ export class AdminManageComponent implements OnInit {
     this.selectedRelationColumn = data.column;
     this.selectedRelationEntity = this.activeTab;
     this.showRelationEditor = true;
+    this.setRelationLayerState(true);
   }
 
   closeRelationEditor() {
@@ -162,10 +167,23 @@ export class AdminManageComponent implements OnInit {
     this.selectedRelationParent = null;
     this.selectedRelationColumn = null;
     this.selectedRelationEntity = '';
+    this.setRelationLayerState(false);
   }
 
   onRelationUpdated() {
     this.loadAll();
     this.closeRelationEditor();
+  }
+
+  private setRelationLayerState(isOpen: boolean): void {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    document.body.classList.toggle('relation-editor-open', isOpen);
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('relation-editor-state', { detail: { open: isOpen } }));
+    }
   }
 }
