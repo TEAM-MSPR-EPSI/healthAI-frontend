@@ -62,7 +62,7 @@ export class FitnessComponent implements OnInit {
           datasets: [{
             label: 'Nb exercices',
             data: topGroups.map(([, value]) => value),
-            backgroundColor: 'rgba(67, 56, 202, 0.72)',
+            backgroundColor: '#4f6335',
             borderRadius: 8,
           }],
         };
@@ -77,10 +77,10 @@ export class FitnessComponent implements OnInit {
           datasets: [{
             data: Object.values(byDifficulty),
             backgroundColor: [
-              'rgba(16, 185, 129, 0.75)',
-              'rgba(59, 130, 246, 0.75)',
-              'rgba(239, 68, 68, 0.75)',
-              'rgba(251, 191, 36, 0.75)',
+              'rgba(79, 99, 53, 0.85)',
+              'rgba(159, 180, 109, 0.85)',
+              'rgba(139, 107, 76, 0.85)',
+              'rgba(191, 143, 63, 0.85)',
             ],
             borderWidth: 0,
           }],
@@ -92,8 +92,8 @@ export class FitnessComponent implements OnInit {
           datasets: [{
             label: 'Sessions cumulées',
             data: weeklySessions.data || [0, 0, 0, 0],
-            borderColor: 'rgba(14, 116, 144, 1)',
-            backgroundColor: 'rgba(14, 116, 144, 0.2)',
+            borderColor: '#4f6335',
+            backgroundColor: 'rgba(79, 99, 53, 0.18)',
             fill: true,
             tension: 0.35,
           }],

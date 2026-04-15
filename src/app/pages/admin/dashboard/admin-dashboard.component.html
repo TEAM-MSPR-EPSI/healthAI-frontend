@@ -1,8 +1,70 @@
 <div class="page-content">
   <h1>Bienvenue, Administrateur</h1>
-  <p class="page-description">Accédez rapidement à chaque onglet clé de l’administration HealthAI Coach.</p>
+  <p class="page-description">Vue d'ensemble du catalogue, des abonnements et de la rétention pour piloter l'administration.</p>
 
-  <div class="cards-grid">
+  @if (isLoading) {
+    <div class="overview-grid">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <div class="overview-skeleton"></div>
+      }
+    </div>
+    <div class="charts-grid">
+      <div class="chart-skeleton"></div>
+      <div class="chart-skeleton"></div>
+      <div class="chart-skeleton"></div>
+    </div>
+  }
+
+  @if (!isLoading) {
+    <section class="overview-section">
+      <div class="overview-grid">
+        @for (stat of overviewStats; track stat.label) {
+          <mat-card class="overview-card">
+            <mat-card-content>
+              <div class="overview-icon"><mat-icon>{{ stat.icon }}</mat-icon></div>
+              <div class="overview-value">{{ stat.value }}</div>
+              <div class="overview-label">{{ stat.label }}</div>
+              <div class="overview-hint">{{ stat.hint }}</div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Volume du catalogue</mat-card-title>
+          <mat-card-subtitle>Ce que l’admin doit voir en premier: la quantité de contenu exploitable</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart [data]="contentChartData" [type]="contentChartType" [options]="{ responsive: true, plugins: { legend: { display: false } } }"></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Répartition des abonnements</mat-card-title>
+          <mat-card-subtitle>Lecture rapide des profils business</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart [data]="subscriptionChartData" [type]="subscriptionChartType" [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="chart-card chart-card-wide">
+        <mat-card-header>
+          <mat-card-title>Rétention mensuelle</mat-card-title>
+          <mat-card-subtitle>Le signal le plus utile pour voir si la plateforme garde ses utilisateurs</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart [data]="retentionChartData" [type]="retentionChartType" [options]="{ responsive: true, plugins: { legend: { display: false } } }"></canvas>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  }
+
+  <div class="cards-grid admin-actions-grid">
     <a
       *ngFor="let section of importantSections"
       class="admin-card-link"

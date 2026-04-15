@@ -39,9 +39,11 @@ export class UserMetricsComponent implements OnInit {
     }).subscribe({
       next: ({ users, weightProgression }) => {
         this.users = users;
+        const averageAge = this.getAverageAge(users);
         // KPIs
         this.kpis = [
           { label: 'Utilisateurs actifs', value: users.length, trend: '', up: true, icon: 'people' },
+          { label: 'Âge moyen', value: `${Math.round(averageAge)} ans`, trend: '', up: true, icon: 'cake' },
         ];
         // Répartition par âge (exemple: 18-25, 26-35, 36-50)
         const ageGroups = { '18-25': 0, '26-35': 0, '36-50': 0, '50+': 0 };
@@ -59,10 +61,10 @@ export class UserMetricsComponent implements OnInit {
               label: 'Utilisateurs',
               data: Object.values(ageGroups),
               backgroundColor: [
-                'rgba(33, 150, 243, 0.7)',
-                'rgba(120, 144, 156, 0.7)',
-                'rgba(255, 193, 7, 0.7)',
-                'rgba(76, 175, 80, 0.7)'
+                'rgba(79, 99, 53, 0.82)',
+                'rgba(159, 180, 109, 0.82)',
+                'rgba(139, 107, 76, 0.82)',
+                'rgba(191, 143, 63, 0.82)'
               ],
             },
           ],
@@ -80,10 +82,10 @@ export class UserMetricsComponent implements OnInit {
               label: 'Objectifs',
               data: Object.values(goalGroups),
               backgroundColor: [
-                'rgba(33, 150, 243, 0.7)',
-                'rgba(255, 193, 7, 0.7)',
-                'rgba(76, 175, 80, 0.7)',
-                'rgba(244, 67, 54, 0.7)'
+                'rgba(79, 99, 53, 0.82)',
+                'rgba(191, 143, 63, 0.82)',
+                'rgba(139, 107, 76, 0.82)',
+                'rgba(86, 101, 117, 0.82)'
               ],
             },
           ],
@@ -95,8 +97,8 @@ export class UserMetricsComponent implements OnInit {
             {
               label: 'Poids moyen (kg)',
               data: weightProgression.data || [0, 0, 0, 0],
-              borderColor: 'rgba(33, 150, 243, 1)',
-              backgroundColor: 'rgba(33, 150, 243, 0.2)',
+              borderColor: '#4f6335',
+              backgroundColor: 'rgba(79, 99, 53, 0.18)',
               fill: true,
               tension: 0.3,
             },
@@ -113,5 +115,17 @@ export class UserMetricsComponent implements OnInit {
     const birthDate = new Date(birth);
     const diff = Date.now() - birthDate.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  }
+
+  private getAverageAge(users: any[]): number {
+    const ages = users
+      .map((user) => this.getAge(user.user_birth))
+      .filter((age) => age > 0);
+
+    if (!ages.length) {
+      return 0;
+    }
+
+    return ages.reduce((sum, age) => sum + age, 0) / ages.length;
   }
 }

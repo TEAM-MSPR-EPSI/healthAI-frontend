@@ -29,15 +29,19 @@ export class NutritionComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    const fallbackDailyCalories = {
+      labels: ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'],
+      data: [0, 0, 0, 0, 0, 0, 0],
+    };
+
     forkJoin({
       food: this.api.getFood(),
       users: this.api.getUsers(),
       dailyCalories: this.api.getDailyCalories().pipe(
-        catchError(() => of({ labels: ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'], data: [0, 0, 0, 0, 0, 0, 0] }))
+        catchError(() => of(fallbackDailyCalories)),
       ),
     }).subscribe({
-      next: ({ food, users, dailyCalories }) => {
-        const count = Math.max(food.length, 1);
+      next: ({ food, users, dailyCalories }: { food: any[]; users: any[]; dailyCalories: { labels: string[]; data: number[] } }) => {
         const avgCalories = this.avg(food, 'food_calories_per_100g');
         const avgProtein = this.avg(food, 'food_protein_per_100g');
         const avgCarbs = this.avg(food, 'food_carbs_per_100g');
@@ -53,45 +57,47 @@ export class NutritionComponent implements OnInit {
         const totalMacros = Math.max(avgProtein + avgCarbs + avgFat, 1);
         this.macroChartData = {
           labels: ['Protéines', 'Glucides', 'Lipides'],
-          datasets: [{
-            data: [
-              Math.round((avgProtein / totalMacros) * 100),
-              Math.round((avgCarbs / totalMacros) * 100),
-              Math.round((avgFat / totalMacros) * 100),
-            ],
-            backgroundColor: ['rgba(46, 125, 50, 0.75)', 'rgba(30, 136, 229, 0.75)', 'rgba(251, 140, 0, 0.75)'],
-            borderWidth: 0,
-          }],
+          datasets: [
+            {
+              data: [
+                Math.round((avgProtein / totalMacros) * 100),
+                Math.round((avgCarbs / totalMacros) * 100),
+                Math.round((avgFat / totalMacros) * 100),
+              ],
+              backgroundColor: ['rgba(79, 99, 53, 0.85)', 'rgba(159, 180, 109, 0.85)', 'rgba(191, 143, 63, 0.85)'],
+              borderWidth: 0,
+            },
+          ],
         };
 
-        // Données RÉELLES de consommation quotidienne depuis l'API
         this.caloriesChartData = {
-          labels: dailyCalories.labels || ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'],
-          datasets: [{
-            label: 'Calories consommées',
-            data: dailyCalories.data || [0, 0, 0, 0, 0, 0, 0],
-            backgroundColor: 'rgba(30, 136, 229, 0.7)',
-            borderRadius: 8,
-          }],
+          labels: dailyCalories.labels,
+          datasets: [
+            {
+              label: 'Calories consommées',
+              data: dailyCalories.data,
+              backgroundColor: '#4f6335',
+              borderRadius: 8,
+            },
+          ],
         };
 
         const topFoods = [...food]
-          .sort((a, b) => (this.num(b.food_calories_per_100g) - this.num(a.food_calories_per_100g)))
+          .sort((a, b) => this.num(b.food_calories_per_100g) - this.num(a.food_calories_per_100g))
           .slice(0, 5);
 
         this.topFoodsChartData = {
           labels: topFoods.map((f) => f.food_name || 'Inconnu'),
-          datasets: [{
-            label: 'Calories / 100g',
-            data: topFoods.map((f) => this.num(f.food_calories_per_100g)),
-            backgroundColor: 'rgba(251, 140, 0, 0.7)',
-            borderRadius: 8,
-          }],
+          datasets: [
+            {
+              label: 'Calories / 100g',
+              data: topFoods.map((f) => this.num(f.food_calories_per_100g)),
+              backgroundColor: '#8b6b4c',
+              borderRadius: 8,
+            },
+          ],
         };
 
-        if (count === 1 && food.length === 0) {
-          this.kpis[0].trend = 'Aucune donnée';
-        }
         this.isLoading = false;
       },
       error: () => {

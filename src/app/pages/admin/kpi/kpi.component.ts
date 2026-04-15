@@ -33,7 +33,11 @@ export class KpiComponent implements OnInit {
     // Charger les utilisateurs et les données analytics réelles
     forkJoin({
       users: this.api.getUsers(),
+      food: this.api.getFood(),
       programs: this.api.getPrograms(),
+      sessions: this.api.getSessions(),
+      exercises: this.api.getExercises(),
+      equipment: this.api.getEquipment(),
       retention: this.api.getMonthlyRetention().pipe(
         catchError(() => of({ labels: ['Sept.', 'Oct.', 'Nov.', 'Dec.'], data: [0, 0, 0, 0] }))
       ),
@@ -41,11 +45,15 @@ export class KpiComponent implements OnInit {
         catchError(() => of({ freemium: 0, premium: 0, company_admin: 0 }))
       ),
     }).subscribe({
-      next: ({ users, programs, retention, subscriptionBreakdown }) => {
+      next: ({ users, food, programs, sessions, exercises, equipment, retention, subscriptionBreakdown }) => {
         this.users = users;
         this.kpis = [
           { label: 'Utilisateurs', value: users.length, trend: '', up: true, icon: 'people' },
           { label: 'Programmes sport', value: programs.length, trend: '', up: true, icon: 'fitness_center' },
+          { label: 'Séances', value: sessions.length, trend: '', up: true, icon: 'event' },
+          { label: 'Exercices', value: exercises.length, trend: '', up: true, icon: 'sports_gymnastics' },
+          { label: 'Ingrédients', value: food.length, trend: '', up: true, icon: 'restaurant' },
+          { label: 'Matériel', value: equipment.length, trend: '', up: true, icon: 'construction' },
         ];
 
         // Données RÉELLES de répartition des abonnés
@@ -60,9 +68,9 @@ export class KpiComponent implements OnInit {
               label: 'Abonnés',
               data: [freemium, premium, b2b],
               backgroundColor: [
-                'rgba(120, 144, 156, 0.7)',
-                'rgba(33, 150, 243, 0.7)',
-                'rgba(255, 193, 7, 0.7)'
+                'rgba(159, 180, 109, 0.8)',
+                'rgba(79, 99, 53, 0.85)',
+                'rgba(139, 107, 76, 0.82)'
               ],
             },
           ],
@@ -75,8 +83,8 @@ export class KpiComponent implements OnInit {
             {
               label: 'Rétention (%)',
               data: retention.data || [0, 0, 0, 0],
-              borderColor: 'rgba(33, 150, 243, 1)',
-              backgroundColor: 'rgba(33, 150, 243, 0.2)',
+              borderColor: '#4f6335',
+              backgroundColor: 'rgba(79, 99, 53, 0.18)',
               fill: true,
               tension: 0.3,
             },
