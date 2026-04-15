@@ -7,7 +7,7 @@
   color: #ffffff;
   height: 52px;
   min-height: 52px;
-  box-shadow: 0 1px 3px rgba(43, 54, 38, 0.08);
+  box-shadow: 0 1px 3px rgba(24, 26, 22, 0.10);
 }
 
 .toolbar-title {
@@ -58,12 +58,12 @@
   }
   .sidenav {
     width: 220px;
-    background: #ece9df !important;
+    background: #f3efe5 !important;
     opacity: 1 !important;
   }
 
   .mat-drawer.mat-sidenav {
-    background: #ece9df !important;
+    background: #f3efe5 !important;
   }
 
   .main-content.mobile-user {
@@ -82,11 +82,11 @@
   justify-content: space-around;
   align-items: center;
   height: 60px;
-  background: var(--glass-bg-strong, rgba(255,255,255,0.75));
-  backdrop-filter: var(--glass-blur, blur(16px));
-  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
-  border-top: 1px solid var(--glass-border, rgba(255,255,255,0.35));
-  box-shadow: 0 -2px 12px rgba(43, 54, 38, 0.06);
+  background: var(--glass-bg-strong, #ffffff);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: 1px solid var(--glass-border, #d9d2c2);
+  box-shadow: 0 -2px 12px rgba(24, 26, 22, 0.08);
 }
 
 .bottom-nav-item {
@@ -98,7 +98,7 @@
   flex: 1;
   padding: 6px 0;
   text-decoration: none;
-  color: var(--admin-gray-500, #9a958c);
+  color: var(--admin-gray-700, #2f2d28);
   font-size: 0.65rem;
   font-weight: 500;
   transition: color 0.2s;
@@ -111,10 +111,10 @@
 }
 
 .bottom-nav-item.active {
-  color: var(--admin-primary-300, #5e7a45);
+  color: var(--admin-primary-400, #4f6335);
   font-weight: 600;
 }
 
 .bottom-nav-item.active mat-icon {
-  color: var(--admin-primary-300, #5e7a45);
+  color: var(--admin-primary-400, #4f6335);
 }

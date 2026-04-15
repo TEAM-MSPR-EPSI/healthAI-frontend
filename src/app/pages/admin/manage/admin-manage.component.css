@@ -8,11 +8,11 @@ h1 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 4px;
-  color: var(--text-color);
+  color: var(--text-color-strong);
 }
 
 .page-description {
-  color: var(--text-color-subtle);
+  color: var(--text-color-muted);
   font-size: 0.9rem;
   margin: 0 0 20px;
 }
@@ -36,7 +36,7 @@ h1 {
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-color-subtle);
+  color: var(--text-color-muted);
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
   transition: color 0.2s, border-color 0.2s;
@@ -50,7 +50,7 @@ h1 {
 }
 
 .tab-btn:hover {
-  color: var(--text-color-muted);
+  color: var(--text-color-strong);
 }
 
 .tab-btn.active {
@@ -64,10 +64,10 @@ h1 {
   gap: 8px;
   margin: 0 0 16px;
   padding: 10px 12px;
-  border: 1px solid #f2c6c6;
+  border: 1px solid #d9a8a8;
   border-radius: 8px;
-  color: #9d2f2f;
-  background: #fff5f5;
+  color: #7f2020;
+  background: #fff1f1;
 }
 
 .api-error-banner mat-icon {
@@ -94,7 +94,7 @@ h1 {
 
 .skeleton-cell {
   height: 20px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #ede8de 25%, #ded7ca 50%, #ede8de 75%);
   background-size: 200% 100%;
   animation: pulse 1.5s infinite;
   border-radius: 4px;
