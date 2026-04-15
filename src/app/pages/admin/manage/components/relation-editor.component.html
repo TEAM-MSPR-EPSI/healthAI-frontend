@@ -13,6 +13,12 @@
       } @else {
         <div class="add-panel">
           <label>Ajouter un élément</label>
+          @if (isRankMode) {
+            <div class="rank-alert" role="status" aria-live="polite">
+              <mat-icon aria-hidden="true">info</mat-icon>
+              <span>Le rang est unique. Sélectionnez un ordre disponible.</span>
+            </div>
+          }
           <div class="add-row">
             <select [(ngModel)]="selectedItemId" class="cell-select">
               <option [ngValue]="null">-- Sélectionner --</option>
@@ -26,10 +32,19 @@
             @if (mode === 'recipe-ingredient') {
               <input class="cell-input small" type="number" min="0" [(ngModel)]="addQuantity" placeholder="Quantité" />
             } @else {
-              <input class="cell-input small" type="number" min="1" [(ngModel)]="addRank" placeholder="Rang" />
+              <select class="cell-select small" [(ngModel)]="addRank" aria-label="Rang disponible">
+                @for (rankOption of getAddRankOptions(); track rankOption) {
+                  <option [ngValue]="rankOption">{{ rankOption }}</option>
+                }
+              </select>
             }
 
-            <button mat-raised-button color="primary" (click)="addRelation()" [disabled]="!selectedItemId || loading">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addRelation()"
+              [disabled]="!selectedItemId || loading || ((mode === 'program-session' || mode === 'session-exercise') && !isRankAvailable(addRank))"
+            >
               Ajouter
             </button>
           </div>
@@ -58,11 +73,21 @@
                       @if (mode === 'recipe-ingredient') {
                         <input class="cell-input small" type="number" min="0" [(ngModel)]="rel._editQuantity" />
                       } @else {
-                        <input class="cell-input small" type="number" min="1" [(ngModel)]="rel._editRank" />
+                        <select class="cell-select small" [(ngModel)]="rel._editRank" aria-label="Rang disponible pour la relation">
+                          @for (rankOption of getEditRankOptions(rel); track rankOption) {
+                            <option [ngValue]="rankOption">{{ rankOption }}</option>
+                          }
+                        </select>
                       }
                     </td>
                     <td class="actions">
-                      <button mat-icon-button (click)="updateRelation(rel)" title="Mettre à jour" aria-label="Mettre à jour la relation">
+                      <button
+                        mat-icon-button
+                        (click)="updateRelation(rel)"
+                        title="Mettre à jour"
+                        aria-label="Mettre à jour la relation"
+                        [disabled]="(mode === 'program-session' || mode === 'session-exercise') && !isRankAvailable(rel._editRank, rel)"
+                      >
                         <mat-icon aria-hidden="true">save</mat-icon>
                       </button>
                       <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation" aria-label="Supprimer la relation">

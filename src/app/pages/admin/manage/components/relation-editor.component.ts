@@ -62,12 +62,17 @@ export class RelationEditorComponent implements OnChanges {
     return 'Gérer les relations';
   }
 
+  get isRankMode(): boolean {
+    return this.mode === 'program-session' || this.mode === 'session-exercise';
+  }
+
   refreshData(): void {
     this.currentRelations = this.extractCurrentRelations();
     this.currentRelations.forEach((rel) => {
       rel._editRank = this.getCurrentRank(rel);
       rel._editQuantity = this.getCurrentQuantity(rel);
     });
+    this.addRank = this.getNextAvailableRank();
 
     this.selectedItemId = null;
     this.loading = true;
@@ -87,13 +92,19 @@ export class RelationEditorComponent implements OnChanges {
   addRelation(): void {
     const parentId = this.getParentId();
     const targetId = Number(this.selectedItemId);
+    const rank = Number(this.addRank) || 1;
 
     if (!parentId || !targetId) {
       return;
     }
 
     if (this.mode === 'program-session') {
-      this.api.addSessionToProgram(parentId, targetId, Number(this.addRank) || 1).subscribe({
+      if (!this.isRankAvailable(rank)) {
+        this.snack.open('Ce rang est déjà utilisé. Choisissez un rang unique.', '', { duration: 3000 });
+        return;
+      }
+
+      this.api.addSessionToProgram(parentId, targetId, rank).subscribe({
         next: () => this.afterMutation('Séance ajoutée au programme'),
         error: () => this.snack.open('Erreur lors de l\'ajout de la séance', '', { duration: 3000 }),
       });
@@ -109,7 +120,12 @@ export class RelationEditorComponent implements OnChanges {
     }
 
     if (this.mode === 'session-exercise') {
-      this.api.addExerciseToSession(parentId, targetId, Number(this.addRank) || 1).subscribe({
+      if (!this.isRankAvailable(rank)) {
+        this.snack.open('Ce rang est déjà utilisé. Choisissez un rang unique.', '', { duration: 3000 });
+        return;
+      }
+
+      this.api.addExerciseToSession(parentId, targetId, rank).subscribe({
         next: () => this.afterMutation('Exercice ajouté à la séance'),
         error: () => this.snack.open('Erreur lors de l\'ajout de l\'exercice', '', { duration: 3000 }),
       });
@@ -154,6 +170,11 @@ export class RelationEditorComponent implements OnChanges {
 
     if (this.mode === 'program-session') {
       const rank = Number(relation._editRank) || 1;
+      if (!this.isRankAvailable(rank, relation)) {
+        this.snack.open('Ce rang est déjà utilisé. Choisissez un rang unique.', '', { duration: 3000 });
+        return;
+      }
+
       this.api.updateSessionRank(parentId, targetId, rank).subscribe({
         next: () => this.afterMutation('Rang mis à jour'),
         error: () => this.snack.open('Erreur lors de la mise à jour', '', { duration: 3000 }),
@@ -172,6 +193,11 @@ export class RelationEditorComponent implements OnChanges {
 
     if (this.mode === 'session-exercise') {
       const rank = Number(relation._editRank) || 1;
+      if (!this.isRankAvailable(rank, relation)) {
+        this.snack.open('Ce rang est déjà utilisé. Choisissez un rang unique.', '', { duration: 3000 });
+        return;
+      }
+
       this.api.updateExerciseRankInSession(parentId, targetId, rank).subscribe({
         next: () => this.afterMutation('Rang mis à jour'),
         error: () => this.snack.open('Erreur lors de la mise à jour', '', { duration: 3000 }),
@@ -250,5 +276,77 @@ export class RelationEditorComponent implements OnChanges {
 
   private getCurrentQuantity(relation: any): number {
     return Number(relation?.ingredient_quantity ?? 0) || 0;
+  }
+
+  isRankAvailable(rank: number, relationToIgnore?: any): boolean {
+    if (!this.isRankMode) {
+      return true;
+    }
+
+    const normalizedRank = Number(rank) || 1;
+    return !this.currentRelations.some((relation) => {
+      if (relationToIgnore && this.getTargetId(relation) === this.getTargetId(relationToIgnore)) {
+        return false;
+      }
+
+      return this.getCurrentRank(relation) === normalizedRank;
+    });
+  }
+
+  getAddRankOptions(): number[] {
+    return this.getRankOptions();
+  }
+
+  getEditRankOptions(relation: any): number[] {
+    return this.getRankOptions(relation);
+  }
+
+  private getNextAvailableRank(): number {
+    const options = this.getRankOptions();
+    return options.length > 0 ? options[0] : 1;
+  }
+
+  private getRankOptions(relationToIgnore?: any): number[] {
+    if (!this.isRankMode) {
+      return [1];
+    }
+
+    const usedRanks = this.getUsedRanks(relationToIgnore);
+    const usedRankValues = Array.from(usedRanks.values());
+    const maxUsedRank = usedRankValues.length > 0 ? Math.max(...usedRankValues) : 0;
+    const upperBound = Math.max(this.currentRelations.length + 1, maxUsedRank + 1);
+    const options: number[] = [];
+
+    for (let rank = 1; rank <= upperBound; rank += 1) {
+      if (!usedRanks.has(rank)) {
+        options.push(rank);
+      }
+    }
+
+    if (relationToIgnore) {
+      const currentRank = Number(relationToIgnore._editRank) || this.getCurrentRank(relationToIgnore) || 1;
+      if (!options.includes(currentRank)) {
+        options.push(currentRank);
+      }
+    }
+
+    return options.sort((a, b) => a - b);
+  }
+
+  private getUsedRanks(relationToIgnore?: any): Set<number> {
+    const usedRanks = new Set<number>();
+
+    this.currentRelations.forEach((relation) => {
+      if (relationToIgnore && this.getTargetId(relation) === this.getTargetId(relationToIgnore)) {
+        return;
+      }
+
+      const rank = this.getCurrentRank(relation);
+      if (rank > 0) {
+        usedRanks.add(rank);
+      }
+    });
+
+    return usedRanks;
   }
 }
