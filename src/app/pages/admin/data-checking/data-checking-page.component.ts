@@ -18,13 +18,6 @@ export class DataCheckingPageComponent {
 
   validationSteps = [
     {
-      title: 'Profils utilisateurs',
-      description: 'Vérification de la cohérence des données démographiques (âge, poids, taille)',
-      status: 'En attente',
-      icon: 'person',
-      route: null,
-    },
-    {
       title: 'Base nutritionnelle',
       description: 'Contrôle des valeurs nutritionnelles (calories, macronutriments)',
       status: 'En attente',
@@ -37,14 +30,7 @@ export class DataCheckingPageComponent {
       status: 'En attente',
       icon: 'fitness_center',
       route: '/admin/etl/exercise',
-    },
-    {
-      title: 'Métriques biométriques',
-      description: 'Contrôle des données simulées (poids, sommeil, fréquence cardiaque)',
-      status: 'En attente',
-      icon: 'monitor_heart',
-      route: null,
-    },
+    }
   ];
 
   launchValidation(route: string | null) {
