@@ -39,6 +39,8 @@ import { DataCheckingPageComponent } from './pages/admin/data-checking/data-chec
 import { AdminManageComponent } from './pages/admin/manage/admin-manage.component';
 import { AdminUsersListComponent } from './pages/admin/user-list/admin-users-list.component';
 import { AdminUserDetailComponent } from './pages/admin/user-detail/admin-user-detail.component';
+import { EtlNutritionComponent } from './pages/admin/etl/nutrition/etl-nutrition.component';
+import { EtlExerciseComponent } from './pages/admin/etl/exercise/etl-exercise.component';
 import { adminOnlyGuard } from './guards/admin-only.guard';
 
 export const routes: Routes = [
@@ -79,5 +81,7 @@ export const routes: Routes = [
   { path: 'admin/fitness', component: FitnessComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/kpi', component: KpiComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/data-check', component: DataCheckingPageComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/etl/nutrition', component: EtlNutritionComponent, canActivate: [adminOnlyGuard] },
+  { path: 'admin/etl/exercise', component: EtlExerciseComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/manage', component: AdminManageComponent, canActivate: [adminOnlyGuard] },
 ];
