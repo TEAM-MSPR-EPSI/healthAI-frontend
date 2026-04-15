@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { ApiService } from '../../../../services/api.service';
 import { ColumnConfig } from '../admin-manage.config';
 
-type RelationMode = 'program-session' | 'recipe-ingredient' | 'session-exercise' | 'unknown';
+type RelationMode = 'program-session' | 'recipe-ingredient' | 'session-exercise' | 'exercise-equipment' | 'unknown';
 
 @Component({
   selector: 'app-relation-editor',
@@ -21,6 +21,7 @@ export class RelationEditorComponent implements OnChanges {
   @Input() parentEntity = '';
   @Input() parentRow: any = null;
   @Input() relationColumn: ColumnConfig | null = null;
+  @Input() equipmentCatalog: any[] = [];
 
   @Output() close = new EventEmitter<void>();
   @Output() updated = new EventEmitter<void>();
@@ -52,6 +53,9 @@ export class RelationEditorComponent implements OnChanges {
     if (this.parentEntity === 'sessions' && this.relationColumn?.key === 'sessionExercises') {
       return 'session-exercise';
     }
+    if (this.parentEntity === 'exercises' && this.relationColumn?.key === 'exerciseEquipments') {
+      return 'exercise-equipment';
+    }
     return 'unknown';
   }
 
@@ -59,6 +63,7 @@ export class RelationEditorComponent implements OnChanges {
     if (this.mode === 'program-session') return 'Gérer les séances du programme';
     if (this.mode === 'recipe-ingredient') return 'Gérer les ingrédients de la recette';
     if (this.mode === 'session-exercise') return 'Gérer les exercices de la séance';
+    if (this.mode === 'exercise-equipment') return 'Gérer le matériel de l\'exercice';
     return 'Gérer les relations';
   }
 
@@ -76,6 +81,12 @@ export class RelationEditorComponent implements OnChanges {
 
     this.selectedItemId = null;
     this.loading = true;
+
+    if (this.mode === 'exercise-equipment' && Array.isArray(this.equipmentCatalog) && this.equipmentCatalog.length > 0) {
+      this.availableItems = [...this.equipmentCatalog];
+      this.loading = false;
+      return;
+    }
 
     this.loadAvailableItems().subscribe({
       next: (items) => {
@@ -129,6 +140,14 @@ export class RelationEditorComponent implements OnChanges {
         next: () => this.afterMutation('Exercice ajouté à la séance'),
         error: () => this.snack.open('Erreur lors de l\'ajout de l\'exercice', '', { duration: 3000 }),
       });
+      return;
+    }
+
+    if (this.mode === 'exercise-equipment') {
+      this.api.addEquipmentToExercise(parentId, targetId).subscribe({
+        next: () => this.afterMutation('Matériel ajouté à l\'exercice'),
+        error: () => this.snack.open('Erreur lors de l\'ajout du matériel', '', { duration: 3000 }),
+      });
     }
   }
 
@@ -157,6 +176,14 @@ export class RelationEditorComponent implements OnChanges {
     if (this.mode === 'session-exercise') {
       this.api.removeExerciseFromSession(parentId, targetId).subscribe({
         next: () => this.afterMutation('Exercice retiré de la séance'),
+        error: () => this.snack.open('Erreur lors de la suppression', '', { duration: 3000 }),
+      });
+      return;
+    }
+
+    if (this.mode === 'exercise-equipment') {
+      this.api.removeEquipmentFromExercise(parentId, targetId).subscribe({
+        next: () => this.afterMutation('Matériel retiré de l\'exercice'),
         error: () => this.snack.open('Erreur lors de la suppression', '', { duration: 3000 }),
       });
     }
@@ -202,6 +229,11 @@ export class RelationEditorComponent implements OnChanges {
         next: () => this.afterMutation('Rang mis à jour'),
         error: () => this.snack.open('Erreur lors de la mise à jour', '', { duration: 3000 }),
       });
+      return;
+    }
+
+    if (this.mode === 'exercise-equipment') {
+      return;
     }
   }
 
@@ -210,9 +242,21 @@ export class RelationEditorComponent implements OnChanges {
       item?.sport_session_name ||
       item?.ingredient_name ||
       item?.sport_exercise_name ||
+      item?.sport_equipment_name ||
       item?.name ||
       'Élément'
     );
+  }
+
+  getItemId(item: any): number {
+    return Number(
+      item?.sport_session_id ??
+      item?.ingredient_id ??
+      item?.sport_exercise_id ??
+      item?.sport_equipment_id ??
+      item?.id ??
+      0,
+    ) || 0;
   }
 
   private afterMutation(successMessage: string): void {
@@ -246,6 +290,14 @@ export class RelationEditorComponent implements OnChanges {
       return this.api.getAvailableExercisesForSession(parentId);
     }
 
+    if (this.mode === 'exercise-equipment') {
+      if (Array.isArray(this.equipmentCatalog) && this.equipmentCatalog.length > 0) {
+        return of([...this.equipmentCatalog]);
+      }
+
+      return this.api.getEquipment();
+    }
+
     return of([]);
   }
 
@@ -254,6 +306,7 @@ export class RelationEditorComponent implements OnChanges {
     if (this.parentEntity === 'programs') return Number(this.parentRow.sport_program_id) || 0;
     if (this.parentEntity === 'recipes') return Number(this.parentRow.recipe_id) || 0;
     if (this.parentEntity === 'sessions') return Number(this.parentRow.sport_session_id) || 0;
+    if (this.parentEntity === 'exercises') return Number(this.parentRow.sport_exercise_id) || 0;
     return 0;
   }
 
@@ -266,6 +319,9 @@ export class RelationEditorComponent implements OnChanges {
     }
     if (this.mode === 'session-exercise') {
       return Number(relation?.sport_exercise_id ?? relation?.sportExercise?.sport_exercise_id) || 0;
+    }
+    if (this.mode === 'exercise-equipment') {
+      return Number(relation?.sport_equipment_id ?? relation?.sportEquipment?.sport_equipment_id) || 0;
     }
     return 0;
   }
@@ -294,10 +350,29 @@ export class RelationEditorComponent implements OnChanges {
   }
 
   getAddRankOptions(): number[] {
+    if (!this.isRankMode) {
+      return [];
+    }
     return this.getRankOptions();
   }
 
+  isEquipmentAlreadyLinked(item: any): boolean {
+    if (this.mode !== 'exercise-equipment') {
+      return false;
+    }
+
+    const equipmentId = this.getItemId(item) || Number(item?.equipment_id || 0);
+    if (!equipmentId) {
+      return false;
+    }
+
+    return this.currentRelations.some((relation) => this.getTargetId(relation) === equipmentId);
+  }
+
   getEditRankOptions(relation: any): number[] {
+    if (!this.isRankMode) {
+      return [];
+    }
     return this.getRankOptions(relation);
   }
 

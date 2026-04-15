@@ -127,6 +127,11 @@
   margin: 8px 0;
 }
 
+.relation-hint {
+  color: var(--text-color-subtle);
+  font-size: 0.85rem;
+}
+
 @media (max-width: 760px) {
   .add-row {
     grid-template-columns: 1fr;

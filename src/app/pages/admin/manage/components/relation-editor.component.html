@@ -22,21 +22,29 @@
           <div class="add-row">
             <select [(ngModel)]="selectedItemId" class="cell-select">
               <option [ngValue]="null">-- Sélectionner --</option>
-              @for (item of availableItems; track item.sport_session_id || item.ingredient_id || item.sport_exercise_id) {
-                <option [ngValue]="item.sport_session_id || item.ingredient_id || item.sport_exercise_id">
+              @for (item of availableItems; track getItemId(item)) {
+                <option
+                  [ngValue]="getItemId(item)"
+                  [disabled]="mode === 'exercise-equipment' && isEquipmentAlreadyLinked(item)"
+                >
                   {{ getDisplayName(item) }}
+                  @if (mode === 'exercise-equipment' && isEquipmentAlreadyLinked(item)) {
+                    (déjà lié)
+                  }
                 </option>
               }
             </select>
 
             @if (mode === 'recipe-ingredient') {
               <input class="cell-input small" type="number" min="0" [(ngModel)]="addQuantity" placeholder="Quantité" />
-            } @else {
+            } @else if (isRankMode) {
               <select class="cell-select small" [(ngModel)]="addRank" aria-label="Rang disponible">
                 @for (rankOption of getAddRankOptions(); track rankOption) {
                   <option [ngValue]="rankOption">{{ rankOption }}</option>
                 }
               </select>
+            } @else {
+              <span class="relation-hint">Le matériel se choisit sans ordre.</span>
             }
 
             <button
@@ -48,6 +56,9 @@
               Ajouter
             </button>
           </div>
+          @if (mode === 'exercise-equipment') {
+            <p class="relation-hint">Si un matériel apparaît en grisé, il est déjà lié à cet exercice.</p>
+          }
         </div>
 
         <div class="list-panel">
@@ -61,35 +72,39 @@
               <thead>
                 <tr>
                   <th scope="col">Nom</th>
-                  <th scope="col">@if (mode === 'recipe-ingredient') { Quantité } @else { Rang }</th>
+                  <th scope="col">@if (mode === 'recipe-ingredient') { Quantité } @else if (isRankMode) { Rang } @else { Statut }</th>
                   <th class="actions" scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                @for (rel of currentRelations; track rel.program_sport_session_id || rel.recipe_ingredient_id || rel.sport_session_exercise_id || $index) {
+                @for (rel of currentRelations; track rel.program_sport_session_id || rel.recipe_ingredient_id || rel.sport_session_exercise_id || rel.sport_exercise_equipment_id || $index) {
                   <tr>
-                    <td>{{ getDisplayName(rel.sport_session || rel.ingredient || rel.sportExercise || rel) }}</td>
+                    <td>{{ getDisplayName(rel.sport_session || rel.ingredient || rel.sportExercise || rel.sportEquipment || rel) }}</td>
                     <td>
                       @if (mode === 'recipe-ingredient') {
                         <input class="cell-input small" type="number" min="0" [(ngModel)]="rel._editQuantity" />
-                      } @else {
+                      } @else if (isRankMode) {
                         <select class="cell-select small" [(ngModel)]="rel._editRank" aria-label="Rang disponible pour la relation">
                           @for (rankOption of getEditRankOptions(rel); track rankOption) {
                             <option [ngValue]="rankOption">{{ rankOption }}</option>
                           }
                         </select>
+                      } @else {
+                        <span class="relation-hint">Déjà associé</span>
                       }
                     </td>
                     <td class="actions">
-                      <button
-                        mat-icon-button
-                        (click)="updateRelation(rel)"
-                        title="Mettre à jour"
-                        aria-label="Mettre à jour la relation"
-                        [disabled]="(mode === 'program-session' || mode === 'session-exercise') && !isRankAvailable(rel._editRank, rel)"
-                      >
-                        <mat-icon aria-hidden="true">save</mat-icon>
-                      </button>
+                      @if (mode !== 'exercise-equipment') {
+                        <button
+                          mat-icon-button
+                          (click)="updateRelation(rel)"
+                          title="Mettre à jour"
+                          aria-label="Mettre à jour la relation"
+                          [disabled]="isRankMode && !isRankAvailable(rel._editRank, rel)"
+                        >
+                          <mat-icon aria-hidden="true">save</mat-icon>
+                        </button>
+                      }
                       <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation" aria-label="Supprimer la relation">
                         <mat-icon aria-hidden="true">delete</mat-icon>
                       </button>

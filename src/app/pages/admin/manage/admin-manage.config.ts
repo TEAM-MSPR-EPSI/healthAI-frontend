@@ -105,6 +105,12 @@ export const ADMIN_MANAGE_COLUMNS: Record<string, ColumnConfig[]> = {
       enumValues: ['chest', 'back', 'shoulders', 'biceps', 'triceps', 'forearms', 'abs', 'glutes', 'quadriceps', 'hamstrings', 'calves', 'full_body']
     },
     { key: 'sport_exercise_cal_burned', label: 'kcal', type: 'number' },
+    {
+      key: 'exerciseEquipments',
+      label: 'Matériel lié',
+      type: 'relation',
+      relationEntity: 'exercises',
+    },
   ],
   equipment: [
     { key: 'sport_equipment_id', label: 'ID', type: 'number' },
