@@ -20,14 +20,12 @@ export class DataCheckingPageComponent {
     {
       title: 'Base nutritionnelle',
       description: 'Contrôle des valeurs nutritionnelles (calories, macronutriments)',
-      status: 'En attente',
       icon: 'restaurant_menu',
       route: '/admin/etl/nutrition',
     },
     {
       title: 'Catalogue exercices',
       description: 'Validation des types, niveaux et équipements',
-      status: 'En attente',
       icon: 'fitness_center',
       route: '/admin/etl/exercise',
     }
