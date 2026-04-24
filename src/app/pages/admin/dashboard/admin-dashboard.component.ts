@@ -115,7 +115,7 @@ export class AdminDashboardComponent implements OnInit {
         this.overviewStats = [
           { label: 'Utilisateurs', value: `${users.length}`, hint: 'Comptes actifs dans la base', icon: 'people' },
           { label: 'Recettes', value: `${recipes.length}`, hint: 'Contenus nutritionnels publiés', icon: 'restaurant' },
-          { label: 'Ingrédients', value: `${ingredients.length}`, hint: 'Référentiel alimentaire', icon: 'nutrition' },
+          { label: 'Ingrédients', value: `${ingredients.length}`, hint: 'Référentiel alimentaire', icon: 'local_dining' },
           { label: 'Exercices', value: `${exercises.length}`, hint: 'Catalogue sport et musculation', icon: 'fitness_center' },
           { label: 'Matériel', value: `${equipment.length}`, hint: 'Équipements disponibles', icon: 'construction' },
           { label: 'Programmes / Séances', value: `${programs.length} / ${sessions.length}`, hint: 'Structure du catalogue sport', icon: 'event' },
