@@ -23,6 +23,9 @@
             </div>
             <div class="stat-value">{{ kpi.value }}</div>
             <div class="stat-label">{{ kpi.label }}</div>
+            @if (kpi.trend) {
+              <div class="stat-detail">{{ kpi.trend }}</div>
+            }
           </mat-card-content>
         </mat-card>
       }
@@ -60,7 +63,7 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>Progression mensuelle</mat-card-title>
-          <mat-card-subtitle>Évolution de la progression des utilisateurs</mat-card-subtitle>
+          <mat-card-subtitle>Évolution hebdomadaire du poids moyen</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart

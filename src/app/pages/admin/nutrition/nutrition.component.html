@@ -32,13 +32,13 @@
     <div class="cards-grid">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Répartition macronutriments</mat-card-title>
-          <mat-card-subtitle>Protéines, glucides, lipides</mat-card-subtitle>
+          <mat-card-title>Répartition des usages</mat-card-title>
+          <mat-card-subtitle>Part des ingrédients les plus consommés</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart
-            [data]="macroChartData"
-            [type]="macroChartType"
+            [data]="usageChartData"
+            [type]="usageChartType"
             [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"
           ></canvas>
         </mat-card-content>
@@ -46,27 +46,27 @@
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Calories quotidiennes</mat-card-title>
-          <mat-card-subtitle>Estimation hebdomadaire issue des données ingrédients</mat-card-subtitle>
+          <mat-card-title>Ingrédients les plus utilisés</mat-card-title>
+          <mat-card-subtitle>Top 6 selon les consommations réelles</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart
-            [data]="caloriesChartData"
-            [type]="caloriesChartType"
-            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+            [data]="topFoodsChartData"
+            [type]="topFoodsChartType"
+            [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
           ></canvas>
         </mat-card-content>
       </mat-card>
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Aliments énergétiques</mat-card-title>
-          <mat-card-subtitle>Top 5 par calories/100g</mat-card-subtitle>
+          <mat-card-title>Ingrédients les moins utilisés</mat-card-title>
+          <mat-card-subtitle>Ceux qui apparaissent le plus rarement dans les consommations</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart
-            [data]="topFoodsChartData"
-            [type]="topFoodsChartType"
+            [data]="leastUsedFoodsChartData"
+            [type]="leastUsedFoodsChartType"
             [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
           ></canvas>
         </mat-card-content>

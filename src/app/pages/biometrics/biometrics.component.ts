@@ -1,4 +1,3 @@
-// Component: Biometrics | Purpose: Renders and manages UI behavior for this view.
 import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';

@@ -1,25 +1,17 @@
-/*
- * ==========================================================
- *  SIDEBAR — Variables personnalisables
- *  Modifiez ces valeurs pour ajuster rapidement le rendu.
- * ==========================================================
- */
 :host {
   /* Dimensions */
-  --sidebar-width: 232px;                 /* Largeur de la sidebar           */
-  --sidebar-header-padding: 18px 16px 14px;/* Padding du header               */
-
+  --sidebar-width: 232px;
+  --sidebar-header-padding: 18px 16px 14px;
   /* Boutons — Espacement */
-  --sidebar-nav-padding: 8px 8px;         /* Padding autour de la liste       */
-  --sidebar-btn-gap: 4px;                 /* Espace entre les boutons         */
-  --sidebar-btn-height: 40px;             /* Hauteur d'un bouton              */
-  --sidebar-btn-padding: 0 6px;          /* Padding interne d'un bouton      */
-  --sidebar-btn-radius: 6px;              /* Rayon des coins                  */
-  --sidebar-btn-font-size: 0.88rem;       /* Taille du texte                  */
-
+  --sidebar-nav-padding: 8px 8px;
+  --sidebar-btn-gap: 4px;
+  --sidebar-btn-height: 40px;
+  --sidebar-btn-padding: 0 6px;
+  --sidebar-btn-radius: 6px;
+  --sidebar-btn-font-size: 0.88rem;
   /* Icônes */
-  --sidebar-icon-size: 20px;              /* Taille de l'icône                */
-  --sidebar-icon-gap: 10px;               /* Espace icône ↔ texte             */
+  --sidebar-icon-size: 20px;
+  --sidebar-icon-gap: 10px;
 
   display: block;
   width: var(--sidebar-width);
@@ -27,7 +19,6 @@
   overflow-y: auto;
 }
 
-/* ===== Header ===== */
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -63,7 +54,6 @@
   opacity: 0.85;
 }
 
-/* ===== Nav list ===== */
 .sidebar-nav {
   padding: var(--sidebar-nav-padding);
   display: flex;
@@ -71,7 +61,6 @@
   gap: var(--sidebar-btn-gap);
 }
 
-/* ===== Boutons ===== */
 .sidebar-nav a[mat-list-item] {
   border-radius: var(--sidebar-btn-radius) !important;
   height: var(--sidebar-btn-height) !important;
@@ -80,7 +69,6 @@
   font-size: var(--sidebar-btn-font-size);
   font-weight: 500;
 
-  /* Couleurs par défaut */
   background: var(--sidebar-btn-bg) !important;
   color: var(--sidebar-btn-text) !important;
   border: 1px solid var(--sidebar-btn-border) !important;
@@ -90,7 +78,6 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-/* Hover */
 .sidebar-nav a[mat-list-item]:hover {
   background: var(--sidebar-btn-hover-bg) !important;
   color: var(--sidebar-btn-hover-text) !important;
@@ -99,7 +86,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
-/* Icônes */
 .sidebar-nav a[mat-list-item] mat-icon {
   font-size: var(--sidebar-icon-size);
   width: var(--sidebar-icon-size);
@@ -115,7 +101,6 @@
   opacity: 1;
 }
 
-/* Active */
 .active-link {
   background: var(--sidebar-btn-active-bg) !important;
   color: var(--sidebar-btn-active-text) !important;
@@ -129,7 +114,6 @@
   opacity: 1;
 }
 
-/* ===== Mobile ===== */
 @media (max-width: 768px) {
   :host {
     --sidebar-width: 220px;

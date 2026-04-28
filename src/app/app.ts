@@ -1,4 +1,3 @@
-// Component: App | Purpose: Renders and manages UI behavior for this view.
 import { Component, signal, computed } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -75,6 +74,30 @@ export class App {
     this.isAdmin() ? 'Administration' : 'HealthAI Coach'
   );
 
+  private sidenavStateBeforeRelationModal: boolean | null = null;
+
+  private readonly onRelationEditorStateChanged = (event: Event) => {
+    const customEvent = event as CustomEvent<{ open?: boolean }>;
+    const isOpen = !!customEvent?.detail?.open;
+
+    if (!this.isAdmin()) {
+      return;
+    }
+
+    if (isOpen) {
+      if (this.sidenavStateBeforeRelationModal === null) {
+        this.sidenavStateBeforeRelationModal = this.sidenavOpened();
+      }
+      this.sidenavOpened.set(false);
+      return;
+    }
+
+    if (this.sidenavStateBeforeRelationModal !== null) {
+      this.sidenavOpened.set(this.sidenavStateBeforeRelationModal);
+      this.sidenavStateBeforeRelationModal = null;
+    }
+  };
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
@@ -95,9 +118,21 @@ export class App {
         this.showShell.set(!noShellRoutes.test(url) && !noShellPrefixes.test(url));
         this.isAdmin.set(/^\/admin/.test(url));
       });
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('relation-editor-state', this.onRelationEditorStateChanged as EventListener);
+    }
   }
 
   toggleSidenav() {
+    if (
+      typeof document !== 'undefined' &&
+      document.body.classList.contains('relation-editor-open') &&
+      this.isAdmin()
+    ) {
+      return;
+    }
+
     this.sidenavOpened.set(!this.sidenavOpened());
   }
 

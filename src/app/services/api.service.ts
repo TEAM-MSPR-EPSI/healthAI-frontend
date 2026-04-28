@@ -39,6 +39,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/users`);
   }
 
+  getUserHealthProfiles(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-health-profiles`);
+  }
+
   updateUser(id: string, data: any): Observable<any> {
     return this.http.put(`${this.base}/users/${id}`, data);
   }
@@ -68,6 +72,14 @@ export class ApiService {
         })),
       ),
     );
+  }
+
+  getConsumesAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/consumes`);
+  }
+
+  getSessionProgresses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/session-progress`);
   }
 
   getExercises(): Observable<any[]> {
@@ -238,6 +250,23 @@ export class ApiService {
     return this.http.put(`${this.base}/session-exercises/${sessionId}/exercises/${exerciseId}`, { rank });
   }
 
+  // --- Relation CRUD: Exercise <-> Equipment ---
+  getExerciseEquipments(exerciseId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/exercise-equipment/${exerciseId}/equipment`);
+  }
+
+  getAvailableEquipmentForExercise(exerciseId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/exercise-equipment/${exerciseId}/available-equipment`);
+  }
+
+  addEquipmentToExercise(exerciseId: number, equipmentId: number): Observable<any> {
+    return this.http.post(`${this.base}/exercise-equipment/${exerciseId}/equipment`, { equipmentId });
+  }
+
+  removeEquipmentFromExercise(exerciseId: number, equipmentId: number): Observable<any> {
+    return this.http.delete(`${this.base}/exercise-equipment/${exerciseId}/equipment/${equipmentId}`);
+  }
+
   // --- Admin CRUD ---
   createItem(entity: string, data: any): Observable<any> {
     return this.http.post(`${this.base}/${this.resolveEntityRoute(entity)}`, data);
@@ -321,6 +350,12 @@ export class ApiService {
 
   getSubscriptionBreakdown(): Observable<any> {
     return this.http.get(`${this.base}/analytics/admin/kpi/subscription-breakdown`);
+  }
+
+  importSqlFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.base}/import/file`, formData);
   }
 
   private resolveEntityRoute(entity: string): string {

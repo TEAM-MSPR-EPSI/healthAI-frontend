@@ -1,15 +1,13 @@
-// Component: Recipes | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '../../services/api.service';
-import { RecipeCategoryCarouselComponent } from './components/recipe-category-carousel.component';
 import { RecipesGridComponent } from './components/recipes-grid.component';
 
 @Component({
   selector: 'app-recipes',
   standalone: true,
-  imports: [RouterLink, MatIconModule, RecipeCategoryCarouselComponent, RecipesGridComponent],
+  imports: [RouterLink, MatIconModule, RecipesGridComponent],
   templateUrl: './recipes.component.html',
   styleUrl: './recipes.component.css',
 })

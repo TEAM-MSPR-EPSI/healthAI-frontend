@@ -1,4 +1,3 @@
-// Component: ProgramDetail | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';

@@ -1,6 +1,7 @@
-<!-- Shell: toolbar + sidebar (hidden on login/register/home) -->
+<a href="#main-content" class="skip-to-main">Aller au contenu principal</a>
+
 @if (showShell()) {
-  <mat-toolbar class="app-toolbar">
+  <mat-toolbar class="app-toolbar" role="banner" aria-label="Barre d'outils principale">
     @if (!isMobile() || isAdmin()) {
       <button mat-icon-button (click)="toggleSidenav()" aria-label="Ouvrir le menu de navigation">
         <mat-icon aria-hidden="true">menu</mat-icon>
@@ -40,14 +41,14 @@
       </mat-sidenav>
     }
 
-    <mat-sidenav-content class="main-content" [class.mobile-user]="isMobile() && !isAdmin()">
+    <mat-sidenav-content class="main-content" [class.mobile-user]="isMobile() && !isAdmin()" role="main" id="main-content">
       <router-outlet />
     </mat-sidenav-content>
   </mat-sidenav-container>
 
   <!-- Mobile bottom nav (user pages only, not admin) -->
   @if (isMobile() && !isAdmin()) {
-    <nav class="bottom-nav" aria-label="Navigation principale mobile">
+    <nav class="bottom-nav" role="navigation" aria-label="Navigation principale mobile">
       @for (item of bottomNavItems; track item.route) {
         <a class="bottom-nav-item"
            [routerLink]="item.route"
@@ -62,7 +63,6 @@
   }
 }
 
-<!-- No-shell: login / register / home pages -->
 @if (!showShell()) {
   <router-outlet />
 }

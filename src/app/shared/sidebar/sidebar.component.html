@@ -8,14 +8,19 @@
 </div>
 
 <!-- Navigation links -->
-<mat-nav-list class="sidebar-nav">
-  @for (item of menuItems(); track item.route) {
-    <a mat-list-item
-       [routerLink]="item.route"
-       routerLinkActive="active-link"
-       (click)="onLinkClick()">
-      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.label }}</span>
-    </a>
-  }
-</mat-nav-list>
+<nav class="sidebar-nav" aria-label="Navigation principale">
+  <mat-nav-list class="sidebar-nav-list">
+    @for (item of menuItems(); track item.route) {
+      <a mat-list-item
+         [routerLink]="item.route"
+         routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{ exact: true }"
+         [attr.aria-current]="isItemActive(item.route) ? 'page' : null"
+         [attr.aria-label]="item.label"
+         (click)="onLinkClick()">
+        <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</nav>

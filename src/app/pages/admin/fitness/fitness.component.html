@@ -32,13 +32,13 @@
     <div class="cards-grid">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Groupes musculaires dominants</mat-card-title>
-          <mat-card-subtitle>Top basé sur les exercices configurés</mat-card-subtitle>
+          <mat-card-title>Séances les plus suivies</mat-card-title>
+          <mat-card-subtitle>Classement basé sur les progressions réelles</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart
-            [data]="topExercisesChartData"
-            [type]="topExercisesChartType"
+            [data]="topSessionsChartData"
+            [type]="topSessionsChartType"
             [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
           ></canvas>
         </mat-card-content>
@@ -46,14 +46,14 @@
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Niveaux d'intensité</mat-card-title>
-          <mat-card-subtitle>Répartition par difficulté d'exercice</mat-card-subtitle>
+          <mat-card-title>Utilisateurs les plus actifs</mat-card-title>
+          <mat-card-subtitle>Nombre de séances complétées par utilisateur</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas baseChart
-            [data]="intensityChartData"
-            [type]="intensityChartType"
-            [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"
+            [data]="topUsersChartData"
+            [type]="topUsersChartType"
+            [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
           ></canvas>
         </mat-card-content>
       </mat-card>

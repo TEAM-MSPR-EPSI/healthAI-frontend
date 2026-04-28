@@ -1,4 +1,3 @@
-// Component: Ingredients | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -21,6 +20,43 @@ export class IngredientsComponent implements OnInit {
 
   constructor(private api: ApiService) {}
 
+  private getIngredientEmoji(type: string | null | undefined): string {
+    const normalizedType = (type ?? '').toString().trim().toLowerCase();
+
+    const emojiMap: Record<string, string> = {
+      meat: '🥩',
+      fish: '🐟',
+      seafood: '🦐',
+      grain: '🌾',
+      cereal: '🌾',
+      legumes: '🫘',
+      legume: '🫘',
+      vegetable: '🥦',
+      vegetables: '🥦',
+      fruit: '🍎',
+      fruits: '🍎',
+      dairy: '🥛',
+      milk: '🥛',
+      nut: '🌰',
+      nuts: '🌰',
+      seed: '🌻',
+      seeds: '🌻',
+      spice: '🧂',
+      herbs: '🌿',
+      herb: '🌿',
+      fat: '🫒',
+      oil: '🫒',
+      beverage: '🥤',
+      drink: '🥤',
+      dessert: '🍰',
+      snack: '🍿',
+      sweet: '🍯',
+      sugar: '🍯',
+    };
+
+    return emojiMap[normalizedType] ?? '🥗';
+  }
+
   ngOnInit() {
     this.api.getFood().subscribe({
       next: (data) => {
@@ -31,7 +67,7 @@ export class IngredientsComponent implements OnInit {
           carbs: f.food_carbs_per_100g,
           fats: f.food_fat_per_100g,
           category: f.food_allergens ?? 'Aliment',
-          emoji: '🥗',
+          emoji: this.getIngredientEmoji(f.ingredient_type ?? f.food_type ?? f.type),
         }));
         this.loading = false;
       },

@@ -1,4 +1,3 @@
-/* Global styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
@@ -41,14 +40,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Page content padding */
 .page-content {
   padding: 28px 32px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-/* Page titles */
 .page-content h1 {
   font-size: 1.35rem;
   font-weight: 600;
@@ -63,14 +60,12 @@ html, body {
   margin-bottom: 24px;
 }
 
-/* Card grid responsive */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 18px;
 }
 
-/* Global card overrides — glassmorphism */
 mat-card, .mat-mdc-card {
   border-radius: var(--admin-radius) !important;
   box-shadow: var(--glass-shadow) !important;
@@ -85,13 +80,11 @@ mat-card:hover, .mat-mdc-card:hover {
   transform: translateY(-1px);
 }
 
-/* Square buttons globally */
 .mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-icon-button,
 .mat-mdc-unelevated-button, .mat-mdc-fab, .mat-mdc-mini-fab {
   border-radius: var(--admin-radius) !important;
 }
 
-/* Example chart bars */
 .chart-placeholder {
   padding: 12px 0;
 }
@@ -128,7 +121,6 @@ mat-card:hover, .mat-mdc-card:hover {
   flex-shrink: 0;
 }
 
-/* Stat card (KPI mini) */
 .stat-value {
   font-size: 1.8rem;
   font-weight: 700;
@@ -148,7 +140,6 @@ mat-card:hover, .mat-mdc-card:hover {
 .stat-trend.up { color: var(--admin-success); }
 .stat-trend.down { color: var(--admin-danger); }
 
-/* ===== Icon Buttons Global ===== */
 button[mat-icon-button],
 .mat-mdc-icon-button {
   color: var(--text-color) !important;
@@ -170,7 +161,6 @@ button[mat-icon-button]:hover,
   color: rgba(255, 255, 255, 1) !important;
 }
 
-/* Inter-page navigation link pills */
 .page-nav-links {
   display: flex;
   flex-wrap: wrap;
@@ -220,7 +210,6 @@ button[mat-icon-button]:hover,
   color: var(--admin-primary-400);
 }
 
-/* Profile quick links */
 .profile-links {
   max-width: 720px;
   margin: 20px auto 0;
@@ -286,4 +275,122 @@ button[mat-icon-button]:hover,
     width: 70px;
     font-size: 0.75rem;
   }
+}
+
+body.relation-editor-open .app-toolbar,
+body.relation-editor-open .mat-drawer,
+body.relation-editor-open .mat-drawer-backdrop {
+  z-index: 900 !important;
+}
+
+@media (max-width: 900px) {
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgba(17, 24, 16, 0.88) !important;
+    opacity: 1 !important;
+  }
+}
+
+body.relation-editor-open .mat-drawer-content,
+body.relation-editor-open .mat-sidenav-content,
+body.relation-editor-open .main-content {
+  position: relative;
+  z-index: 3500 !important;
+}
+
+/* RGAA AA Accessibility Enhancements */
+/* Better focus indication on interactive elements */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[role="link"] {
+  position: relative;
+}
+
+/* Ensure minimum touch/click target size (44x44px recommended) */
+button,
+a,
+[role="button"],
+[role="link"],
+.mat-mdc-button-base,
+.mat-mdc-icon-button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+mat-form-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.mat-mdc-form-field-error {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #8b3a37;
+  margin-top: 4px;
+}
+
+body {
+  line-height: 1.6;
+}
+
+p {
+  line-height: 1.6;
+}
+
+::selection {
+  background-color: var(--admin-primary-300);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--admin-primary-300);
+  color: white;
+}
+
+@media (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+.mat-mdc-button:focus-visible,
+.mat-mdc-icon-button:focus-visible,
+.mat-mdc-raised-button:focus-visible,
+.mat-mdc-outlined-button:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--admin-primary-300);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--admin-primary-300);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+a:visited {
+  color: #6f4f4f;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+ul, ol {
+  line-height: 1.8;
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+li {
+  margin-bottom: 0.5em;
 }

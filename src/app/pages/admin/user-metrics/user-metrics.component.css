@@ -43,6 +43,13 @@
   color: #888;
   margin-bottom: 0.5rem;
 }
+.stat-detail {
+  font-size: 0.86rem;
+  color: #5f6368;
+  text-align: center;
+  line-height: 1.35;
+  min-height: 1.2rem;
+}
 .stat-trend.up {
   color: #43a047;
 }

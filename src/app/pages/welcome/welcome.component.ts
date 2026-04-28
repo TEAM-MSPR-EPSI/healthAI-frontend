@@ -1,4 +1,3 @@
-// Component: Welcome | Purpose: Renders and manages UI behavior for this view.
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
