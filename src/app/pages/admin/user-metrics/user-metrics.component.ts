@@ -1,4 +1,3 @@
-// Component: UserMetrics | Purpose: Renders and manages UI behavior for this view.
 
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';

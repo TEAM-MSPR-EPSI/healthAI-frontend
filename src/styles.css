@@ -1,4 +1,3 @@
-/* Global styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
@@ -41,14 +40,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Page content padding */
 .page-content {
   padding: 28px 32px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-/* Page titles */
 .page-content h1 {
   font-size: 1.35rem;
   font-weight: 600;
@@ -63,14 +60,12 @@ html, body {
   margin-bottom: 24px;
 }
 
-/* Card grid responsive */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 18px;
 }
 
-/* Global card overrides — glassmorphism */
 mat-card, .mat-mdc-card {
   border-radius: var(--admin-radius) !important;
   box-shadow: var(--glass-shadow) !important;
@@ -85,13 +80,11 @@ mat-card:hover, .mat-mdc-card:hover {
   transform: translateY(-1px);
 }
 
-/* Square buttons globally */
 .mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-icon-button,
 .mat-mdc-unelevated-button, .mat-mdc-fab, .mat-mdc-mini-fab {
   border-radius: var(--admin-radius) !important;
 }
 
-/* Example chart bars */
 .chart-placeholder {
   padding: 12px 0;
 }
@@ -128,7 +121,6 @@ mat-card:hover, .mat-mdc-card:hover {
   flex-shrink: 0;
 }
 
-/* Stat card (KPI mini) */
 .stat-value {
   font-size: 1.8rem;
   font-weight: 700;
@@ -148,7 +140,6 @@ mat-card:hover, .mat-mdc-card:hover {
 .stat-trend.up { color: var(--admin-success); }
 .stat-trend.down { color: var(--admin-danger); }
 
-/* ===== Icon Buttons Global ===== */
 button[mat-icon-button],
 .mat-mdc-icon-button {
   color: var(--text-color) !important;
@@ -170,7 +161,6 @@ button[mat-icon-button]:hover,
   color: rgba(255, 255, 255, 1) !important;
 }
 
-/* Inter-page navigation link pills */
 .page-nav-links {
   display: flex;
   flex-wrap: wrap;
@@ -220,7 +210,6 @@ button[mat-icon-button]:hover,
   color: var(--admin-primary-400);
 }
 
-/* Profile quick links */
 .profile-links {
   max-width: 720px;
   margin: 20px auto 0;
@@ -288,7 +277,6 @@ button[mat-icon-button]:hover,
   }
 }
 
-/* Relation editor must remain above the mobile sidenav and toolbar layers. */
 body.relation-editor-open .app-toolbar,
 body.relation-editor-open .mat-drawer,
 body.relation-editor-open .mat-drawer-backdrop {
@@ -296,14 +284,12 @@ body.relation-editor-open .mat-drawer-backdrop {
 }
 
 @media (max-width: 900px) {
-  /* Mobile sidenav backdrop: make it properly opaque for better contrast. */
   .mat-drawer-backdrop.mat-drawer-shown {
     background-color: rgba(17, 24, 16, 0.88) !important;
     opacity: 1 !important;
   }
 }
 
-/* Keep popup content stacking context above sidenav layers when opened. */
 body.relation-editor-open .mat-drawer-content,
 body.relation-editor-open .mat-sidenav-content,
 body.relation-editor-open .main-content {
@@ -311,8 +297,7 @@ body.relation-editor-open .main-content {
   z-index: 3500 !important;
 }
 
-/* ===== RGAA AA Accessibility Enhancements ===== */
-
+/* RGAA AA Accessibility Enhancements */
 /* Better focus indication on interactive elements */
 button,
 a,
@@ -335,13 +320,11 @@ a,
   min-width: 44px;
 }
 
-/* Improve form field spacing and accessibility */
 mat-form-field {
   display: block;
   margin-bottom: 12px;
 }
 
-/* Better error messaging */
 .mat-mdc-form-field-error {
   font-size: 0.85rem;
   font-weight: 500;
@@ -349,7 +332,6 @@ mat-form-field {
   margin-top: 4px;
 }
 
-/* Ensure sufficient line-height for readability */
 body {
   line-height: 1.6;
 }
@@ -358,7 +340,6 @@ p {
   line-height: 1.6;
 }
 
-/* Better text selection colors */
 ::selection {
   background-color: var(--admin-primary-300);
   color: white;
@@ -369,14 +350,12 @@ p {
   color: white;
 }
 
-/* Ensure the main content can be zoomed to 200% without horizontal scroll */
 @media (max-width: 320px) {
   html {
     font-size: 14px;
   }
 }
 
-/* Visible focus for keyboard navigation on all interactive elements */
 .mat-mdc-button:focus-visible,
 .mat-mdc-icon-button:focus-visible,
 .mat-mdc-raised-button:focus-visible,
@@ -387,7 +366,6 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* Ensure links are distinguishable from text */
 a {
   color: var(--admin-primary-300);
   text-decoration: underline;
@@ -399,7 +377,6 @@ a:visited {
   color: #6f4f4f;
 }
 
-/* Better contrast for disabled elements */
 button:disabled,
 input:disabled,
 select:disabled,
@@ -408,7 +385,6 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
-/* Improve readability of lists */
 ul, ol {
   line-height: 1.8;
   margin: 1em 0;

@@ -1,4 +1,3 @@
-/* ===== Skip Link - RGAA AA Compliance ===== */
 .skip-to-main {
   position: absolute;
   left: -9999px;
@@ -18,7 +17,7 @@
   box-shadow: 0 0 0 3px rgba(94, 122, 69, 0.28);
 }
 
-/* ===== App Layout ===== */
+/* App Layout */
 .app-toolbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -55,19 +54,16 @@
   bottom: 0; left: 0; right: 0;
 }
 
-/* ===== Sidebar shell (width controlled by SidebarComponent) ===== */
 .sidenav {
   width: 232px;
   background: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border);
 }
 
-/* ===== Main content ===== */
 .main-content {
   background: var(--admin-gray-50);
 }
 
-/* ===== Mobile ===== */
 @media (max-width: 768px) {
   .app-toolbar {
     height: 48px;
@@ -91,7 +87,7 @@
   }
 }
 
-/* ===== Bottom Navigation (Mobile) ===== */
+/* (Mobile) */
 .bottom-nav {
   position: fixed;
   bottom: 0;

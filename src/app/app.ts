@@ -1,4 +1,3 @@
-// Component: App | Purpose: Renders and manages UI behavior for this view.
 import { Component, signal, computed } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

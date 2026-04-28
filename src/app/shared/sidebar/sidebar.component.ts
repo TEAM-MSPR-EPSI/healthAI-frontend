@@ -1,4 +1,3 @@
-// Component: Sidebar | Purpose: Renders and manages UI behavior for this view.
 import { Component, input, output, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -19,16 +18,9 @@ export interface MenuItem {
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  /** Menu items to display */
   menuItems = input.required<MenuItem[]>();
-
-  /** Whether the viewport is mobile (auto-close on click) */
   isMobile = input<boolean>(false);
-
-  /** Subtitle text for the sidebar header */
   subtitle = input<string>('Panneau Admin');
-
-  /** Emitted when a link is clicked on mobile so the parent can close the sidenav */
   linkClicked = output<void>();
 
   private router = inject(Router);
@@ -39,7 +31,6 @@ export class SidebarComponent {
     }
   }
 
-  /** Check if a route is currently active (for aria-current) */
   isItemActive(route: string): boolean {
     return this.router.url === route || this.router.url.startsWith(route + '/');
   }

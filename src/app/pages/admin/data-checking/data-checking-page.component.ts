@@ -1,4 +1,3 @@
-// Component: DataCheckingPage | Purpose: Renders and manages UI behavior for this view.
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';

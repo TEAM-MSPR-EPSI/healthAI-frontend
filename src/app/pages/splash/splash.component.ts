@@ -1,4 +1,3 @@
-// Component: Splash | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';

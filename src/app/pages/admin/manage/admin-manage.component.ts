@@ -1,4 +1,3 @@
-// Component: AdminManage | Purpose: Renders and manages UI behavior for this view.
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

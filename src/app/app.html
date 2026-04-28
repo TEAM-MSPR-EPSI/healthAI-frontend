@@ -1,7 +1,5 @@
-<!-- Skip link for keyboard navigation (RGAA AA compliance) -->
 <a href="#main-content" class="skip-to-main">Aller au contenu principal</a>
 
-<!-- Shell: toolbar + sidebar (hidden on login/register/home) -->
 @if (showShell()) {
   <mat-toolbar class="app-toolbar" role="banner" aria-label="Barre d'outils principale">
     @if (!isMobile() || isAdmin()) {
@@ -65,7 +63,6 @@
   }
 }
 
-<!-- No-shell: login / register / home pages -->
 @if (!showShell()) {
   <router-outlet />
 }
