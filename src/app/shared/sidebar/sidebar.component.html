@@ -1,0 +1,26 @@
+<!-- Sidebar header -->
+<div class="sidebar-header">
+  <img src="logo.png" alt="HealthAI Coach" class="brand-logo" />
+  <div class="brand-info">
+    <span class="brand-text">HealthAI Coach</span>
+    <span class="brand-sub">{{ subtitle() }}</span>
+  </div>
+</div>
+
+<!-- Navigation links -->
+<nav class="sidebar-nav" aria-label="Navigation principale">
+  <mat-nav-list class="sidebar-nav-list">
+    @for (item of menuItems(); track item.route) {
+      <a mat-list-item
+         [routerLink]="item.route"
+         routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{ exact: true }"
+         [attr.aria-current]="isItemActive(item.route) ? 'page' : null"
+         [attr.aria-label]="item.label"
+         (click)="onLinkClick()">
+        <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</nav>

@@ -1,0 +1,143 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--admin-primary-400);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.consultant-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.consultant-header {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 24px;
+}
+
+.consultant-avatar {
+  font-size: 64px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--admin-primary-100);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.consultant-info h1 {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.specialty {
+  color: var(--admin-primary-400);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+.meta-info {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--text-color-subtle);
+}
+
+.meta-info span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.meta-info mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 12px;
+}
+
+.bio {
+  color: var(--text-color-subtle);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.qualifications,
+.languages {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+mat-chip {
+  background: var(--admin-primary-100) !important;
+  color: var(--admin-primary-500) !important;
+}
+
+.language-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: var(--admin-primary-50);
+  border: 1px solid var(--admin-primary-200);
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: var(--admin-primary-400);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.contact-btn {
+  flex: 1;
+  background: var(--admin-primary-400) !important;
+  color: white !important;
+}
+
+.schedule-btn {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .consultant-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}

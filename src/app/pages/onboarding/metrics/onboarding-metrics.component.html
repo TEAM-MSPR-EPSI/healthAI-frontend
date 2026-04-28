@@ -1,0 +1,38 @@
+<div class="onboarding-page">
+  <div class="progress-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+    </div>
+    <span class="progress-label">4 / 5</span>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="onboarding-title">Taille et poids</h1>
+    <p class="onboarding-sub">Vous pouvez les ajuster maintenant ou plus tard.</p>
+
+    <div class="form-group">
+      <label class="form-label" for="size">Taille (cm)</label>
+      <input id="size" class="form-input" type="number" min="50" max="250" [(ngModel)]="size" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="weight">Poids (kg)</label>
+      <input id="weight" class="form-input" type="number" min="20" max="300" step="0.1" [(ngModel)]="weight" />
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  <div class="onboarding-footer">
+    <button class="btn-continuer" (click)="next()" [disabled]="saving">
+      {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
+    </button>
+  </div>
+</div>

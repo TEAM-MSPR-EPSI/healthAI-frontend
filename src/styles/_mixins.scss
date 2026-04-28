@@ -1,0 +1,19 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-surface {
+  border-radius: var(--admin-radius);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+@mixin fluid-container($max-width: 1280px) {
+  width: min(100% - 2rem, $max-width);
+  margin-inline: auto;
+}

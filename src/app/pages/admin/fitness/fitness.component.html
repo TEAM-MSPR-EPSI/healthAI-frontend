@@ -1,0 +1,76 @@
+<div class="page-content">
+  <h1>Statistiques Fitness</h1>
+  <p class="page-description">Activités sportives, niveaux d'intensité et progression des utilisateurs.</p>
+
+  @if (isLoading) {
+    <div class="skeleton-kpi-row">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="skeleton-kpi"></div>
+      }
+    </div>
+    <div class="skeleton-metrics-row">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton-metrics-card"></div>
+      }
+    </div>
+  } @else {
+    <div class="kpi-row">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    <div class="cards-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Séances les plus suivies</mat-card-title>
+          <mat-card-subtitle>Classement basé sur les progressions réelles</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="topSessionsChartData"
+            [type]="topSessionsChartType"
+            [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Utilisateurs les plus actifs</mat-card-title>
+          <mat-card-subtitle>Nombre de séances complétées par utilisateur</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="topUsersChartData"
+            [type]="topUsersChartType"
+            [options]="{ responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Progression collective</mat-card-title>
+          <mat-card-subtitle>Sessions cumulées sur 4 semaines</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="progressChartData"
+            [type]="progressChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

@@ -1,0 +1,55 @@
+<div class="page-content">
+  <a routerLink="/profile" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Retour au profil
+  </a>
+
+  <mat-card class="consultant-card">
+    <mat-card-content>
+      <div class="consultant-header">
+        <div class="consultant-avatar">
+          {{ consultant.image }}
+        </div>
+        <div class="consultant-info">
+          <h1>{{ consultant.name }}</h1>
+          <p class="specialty">{{ consultant.specialty }}</p>
+          <div class="meta-info">
+            <span><mat-icon>access_time</mat-icon> {{ consultant.experience }} d'expérience</span>
+            <span><mat-icon>check_circle</mat-icon> {{ consultant.availability }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>À propos</h3>
+        <p class="bio">{{ consultant.bio }}</p>
+      </div>
+
+      <div class="section">
+        <h3>Qualifications</h3>
+        <div class="qualifications">
+          @for (qual of consultant.qualifications; track qual) {
+            <mat-chip>{{ qual }}</mat-chip>
+          }
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Langues</h3>
+        <div class="languages">
+          @for (lang of consultant.languages; track lang) {
+            <span class="language-badge">{{ lang }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button mat-flat-button class="contact-btn">
+          <mat-icon>email</mat-icon> Envoyer un message
+        </button>
+        <button mat-stroked-button class="schedule-btn">
+          <mat-icon>calendar_today</mat-icon> Prendre rendez-vous
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

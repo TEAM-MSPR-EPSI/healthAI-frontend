@@ -1,0 +1,69 @@
+<div class="page-content">
+  <h1>KPIs Business</h1>
+  <p class="page-description">Indicateurs clés de performance : rétention, conversion, revenus et engagement.</p>
+
+  <!-- SKELETON LOADING -->
+  @if (isLoading) {
+    <div class="kpi-row">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <div class="skeleton-card"></div>
+      }
+    </div>
+  }
+
+  <!-- KPIs (une fois chargées) -->
+  @if (!isLoading) {
+    <div class="kpi-row kpi-expanded">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            <div class="stat-trend" [class.up]="kpi.up" [class.down]="!kpi.up">{{ kpi.trend }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+
+  <!-- Charts dynamiques Chart.js -->
+  @if (!isLoading) {
+    <div class="kpi-charts-row">
+      <div class="kpi-chart-col">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Répartition abonnés</mat-card-title>
+            <mat-card-subtitle>Freemium / Premium / B2B</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas baseChart
+              [data]="revenueChartData"
+              [type]="revenueChartType"
+              [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+              height="220"
+            ></canvas>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="kpi-chart-col">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Rétention mensuelle</mat-card-title>
+            <mat-card-subtitle>Évolution du taux de rétention</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas baseChart
+              [data]="retentionChartData"
+              [type]="retentionChartType"
+              [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+              height="220"
+            ></canvas>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  }
+</div>

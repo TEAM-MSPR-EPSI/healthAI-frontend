@@ -1,0 +1,84 @@
+.category-section {
+  margin-bottom: 24px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.category-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.see-all {
+  font-size: 0.78rem;
+  color: var(--text-color-subtle);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.category-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.category-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mini-recipe-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+
+.mini-recipe-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--highlight-soft-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 6px;
+  transition: transform 0.2s;
+}
+
+.mini-recipe-card:hover .mini-recipe-icon {
+  transform: scale(1.05);
+}
+
+.mini-recipe-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.mini-recipe-time {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.68rem;
+  color: var(--text-color-subtle);
+}
+
+.mini-recipe-time mat-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}

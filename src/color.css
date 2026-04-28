@@ -1,0 +1,80 @@
+:root {
+  /* Primary — darker, more accessible green palette */
+  --admin-primary-50: #eaf1df;
+  --admin-primary-100: #d2e0bc;
+  --admin-primary-200: #afc58d;
+  --admin-primary-300: #6f8a4a;
+  --admin-primary-400: #4f6335;
+  --admin-primary-500: #2f3d25;
+  --admin-primary-600: #1f281a;
+
+  /* Neutrals — warm tones */
+  --admin-white: #ffffff;
+  --admin-gray-50: #f8f7f2;
+  --admin-gray-100: #efede5;
+  --admin-gray-200: #dcd7ca;
+  --admin-gray-300: #bcb6a8;
+  --admin-gray-500: #6e695f;
+  --admin-gray-700: #2f2d28;
+
+  /* Shared semantic surfaces and text tokens */
+  --surface-color: #ffffff;
+  --surface-alt-color: #f3f0e7;
+  --border-color: #d2cbbd;
+  --border-soft-color: #e1dbcf;
+  --border-strong-color: #a89f8c;
+  --primary-color: var(--admin-primary-400);
+  --text-color: #2f2d28;
+  --text-color-muted: #47433c;
+  --text-color-subtle: #666157;
+  --text-color-strong: #171614;
+
+  /* Semantic */
+  --admin-success: #2f6f4f;
+  --admin-warning: #8c640f;
+  --admin-danger: #9f463c;
+
+  /* Effects */
+  --admin-shadow: 0 1px 4px rgba(24, 26, 22, 0.08);
+  --admin-shadow-hover: 0 3px 12px rgba(24, 26, 22, 0.14);
+  --admin-radius: 12px;
+
+  /* Surfaces — more opaque for contrast and consistency */
+  --glass-bg: #f7f5ef;
+  --glass-bg-strong: #ffffff;
+  --glass-border: #d9d2c2;
+  --glass-blur: none;
+  --glass-shadow: 0 4px 24px rgba(24, 26, 22, 0.08);
+
+  /* === Sidebar Palette (Functional & RGAA Compliant) === */
+  
+  /* Base Colors (Reference) */
+  --color-creme: #f8f7f2;
+  --color-sauge-pale: #e6eed7;
+  --color-nuit-foret: #171614;
+  --color-surface-sombre: #23231f;
+  --color-charbon: #2a2925;
+  --color-vert-profond: #2f3d25; /* Equivalent to primary-500 */
+
+  /* Functional Mappings (Light Mode Sidebar) */
+  --sidebar-bg: #f3efe5;                             /* Background: Opaque warm surface */
+  --sidebar-border: #c8c1b3;                         /* Border: Clear separation */
+  
+  --sidebar-text-main: var(--color-nuit-foret);      /* Text: Almost Black (Contrast 18:1 with bg) */
+  --sidebar-text-muted: #46423b;                     /* Text: Dark Gray (Improved contrast) */
+  
+  /* Button - Default State */
+  --sidebar-btn-bg: #ffffff;                         /* White buttons on opaque bg */
+  --sidebar-btn-text: var(--color-vert-profond);     /* Dark Green text */
+  --sidebar-btn-border: #cfc7b8;                     /* Subtle border */
+  
+  /* Button - Hover State */
+  --sidebar-btn-hover-bg: var(--color-sauge-pale);   /* Light Green hover */
+  --sidebar-btn-hover-text: var(--color-nuit-foret); /* Dark text */
+  --sidebar-btn-hover-border: #9ab37a;               /* Define border transition */
+  
+  /* Button - Active State (High Contrast) */
+  --sidebar-btn-active-bg: var(--color-nuit-foret);  /* Dark background for active item */
+  --sidebar-btn-active-text: #FFFFFF;                 /* White text on dark bg (High contrast) */
+  --sidebar-btn-active-border: var(--color-nuit-foret);
+}

@@ -1,0 +1,127 @@
+.recipes-page {
+  padding: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ===== Header ===== */
+.recipes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-emoji {
+  font-size: 28px;
+}
+
+.recipes-header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.option-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.option-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== CTA Banner ===== */
+.cta-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  background: var(--secondary-color);
+  border-radius: 16px;
+  color: var(--surface-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.cta-banner:hover {
+  opacity: 0.9;
+}
+
+.cta-content h3 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+.cta-content p {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.cta-banner mat-icon {
+  font-size: 24px;
+  color: var(--surface-color);
+  opacity: 0.8;
+}
+
+/* ===== Quick links ===== */
+.quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.quick-link:hover {
+  background: var(--highlight-soft-color);
+}
+
+.quick-link-icon {
+  font-size: 18px;
+}
+
+.quick-link mat-icon {
+  margin-left: auto;
+  font-size: 18px;
+  color: var(--text-color-subtle);
+}

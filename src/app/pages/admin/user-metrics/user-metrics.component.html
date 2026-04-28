@@ -1,0 +1,78 @@
+<div class="page-content">
+  <h1>Métriques Utilisateurs</h1>
+  <p class="page-description">Suivi de la répartition, des objectifs et de la progression des utilisateurs.</p>
+
+  @if (isLoading) {
+    <div class="skeleton-kpi-row">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="skeleton-kpi"></div>
+      }
+    </div>
+    <div class="skeleton-metrics-row">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton-metrics-card"></div>
+      }
+    </div>
+  } @else {
+    <div class="kpi-row">
+      @for (kpi of kpis; track kpi.label) {
+        <mat-card class="kpi-card">
+          <mat-card-content>
+            <div class="kpi-icon-wrap">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+            <div class="stat-value">{{ kpi.value }}</div>
+            <div class="stat-label">{{ kpi.label }}</div>
+            @if (kpi.trend) {
+              <div class="stat-detail">{{ kpi.trend }}</div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    <div class="cards-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Répartition par âge</mat-card-title>
+          <mat-card-subtitle>Distribution des utilisateurs par tranche d'âge</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="ageChartData"
+            [type]="ageChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Objectifs des utilisateurs</mat-card-title>
+          <mat-card-subtitle>Répartition des objectifs personnels</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="goalsChartData"
+            [type]="goalsChartType"
+            [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Progression mensuelle</mat-card-title>
+          <mat-card-subtitle>Évolution hebdomadaire du poids moyen</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="progressionChartData"
+            [type]="progressionChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

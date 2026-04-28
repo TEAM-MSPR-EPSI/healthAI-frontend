@@ -1,0 +1,97 @@
+<div class="page-content">
+  <header class="page-header">
+    <div>
+      <h1>Validation des données</h1>
+      <p class="page-description">
+        Vérifiez la qualité et la cohérence des données avant insertion en base de données.
+      </p>
+    </div>
+  </header>
+
+  <section id="validation-section" class="section-block">
+    <h2 class="section-title">Contrôles opérationnels</h2>
+    <div class="cards-grid">
+    @for (step of validationSteps; track step.title) {
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>{{ step.icon }}</mat-icon>
+          <mat-card-title>{{ step.title }}</mat-card-title>
+          <mat-card-subtitle>{{ step.description }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="launchValidation(step.route)">
+            <mat-icon>play_arrow</mat-icon>
+            Lancer la validation
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+    </div>
+  </section>
+
+  <section id="sql-import-section" class="section-block">
+    <h2 class="section-title">Import manuel SQL</h2>
+    <div class="cards-grid">
+      <mat-card class="sql-import-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>upload_file</mat-icon>
+          <mat-card-title>Déposer un fichier SQL</mat-card-title>
+          <mat-card-subtitle>Importez un script .sql pour lancer un traitement manuel depuis l'interface.</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <label class="file-dropzone" for="sql-file-input">
+            <mat-icon>cloud_upload</mat-icon>
+            <span>
+              @if (selectedFileName) {
+                {{ selectedFileName }}
+              } @else {
+                Sélectionnez un fichier SQL ou glissez un fichier compatible
+              }
+            </span>
+          </label>
+
+          <input
+            id="sql-file-input"
+            type="file"
+            accept=".sql"
+            (change)="onFileSelected($event)"
+            class="file-input"
+            aria-label="Sélectionner un fichier SQL"
+          />
+
+          @if (uploadError) {
+            <div class="alert alert-error" role="alert">{{ uploadError }}</div>
+          }
+
+          @if (uploadSuccess) {
+            <div class="alert alert-success" role="status">{{ uploadSuccess }}</div>
+          }
+
+          @if (isUploading) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="uploadSqlFile()" [disabled]="isUploading || !selectedFile">
+            <mat-icon>publish</mat-icon>
+            {{ isUploading ? "Import en cours..." : "Lancer l'import" }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+
+  <section id="help-section" class="section-block">
+    <mat-card>
+      <mat-card-content>
+        <ul class="help-list">
+          <li>Utilise un fichier <strong>.sql</strong> prêt à exécuter, sans données sensibles non validées.</li>
+          <li>Vérifie que le script est compatible avec le schéma de la base cible.</li>
+          <li>Après import, contrôle les résultats via les écrans de validation existants.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>

@@ -1,0 +1,27 @@
+<div class="lost-page">
+  <div class="lost-top">
+    <button class="back-btn" (click)="back()" aria-label="Retour">←</button>
+    <span class="lost-label">Perdu compte</span>
+  </div>
+
+  <div class="lost-content">
+    <h1 class="lost-title">Tu as perdu tes identifiant ?</h1>
+    <p class="lost-sub">Entre le mail associé à ton ancien compte et on te renvoie un lien de connexion.</p>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Adresse email</label>
+      <input
+        id="email"
+        class="form-input"
+        type="email"
+        placeholder="Mail&#64;exemple.com"
+        [(ngModel)]="email"
+        autocomplete="email"
+      />
+    </div>
+  </div>
+
+  <div class="lost-footer">
+    <button class="btn-envoyer" (click)="submit()" [disabled]="!email.trim()">Envoyer le lien</button>
+  </div>
+</div>

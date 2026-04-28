@@ -1,0 +1,91 @@
+.page-content {
+  padding: 24px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text-color);
+}
+
+.page-description {
+  color: var(--text-color-subtle);
+  font-size: 0.9rem;
+  margin: 0 0 20px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.users-table thead tr {
+  background: var(--surface-hover);
+}
+
+.users-table th,
+.users-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.role-pill {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--admin-primary-100);
+  color: var(--admin-primary-500);
+  font-weight: 600;
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-color-subtle);
+}
+
+.skeleton-table {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.skeleton-cell {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: users-pulse 1.5s infinite linear;
+}
+
+@keyframes users-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

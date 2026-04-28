@@ -1,3 +1,4 @@
+// Spec: App | Purpose: Validates expected behavior with automated tests.
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 

@@ -1,0 +1,145 @@
+.relation-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 18, 14, 0.68);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+}
+
+.relation-editor {
+  width: min(900px, 92vw);
+  max-height: 86vh;
+  background: var(--surface-color);
+  border: 1px solid var(--border-strong-color);
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(18, 19, 16, 0.22);
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-header,
+.editor-footer {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-soft-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editor-footer {
+  border-bottom: none;
+  border-top: 1px solid var(--border-soft-color);
+  justify-content: flex-end;
+}
+
+.editor-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.editor-body {
+  padding: 16px;
+  overflow: auto;
+  display: grid;
+  gap: 16px;
+}
+
+.add-panel,
+.list-panel {
+  border: 1px solid var(--border-soft-color);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.add-panel label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-color-strong);
+  font-size: 0.85rem;
+}
+
+.rank-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(124, 86, 6, 0.28);
+  background: rgba(245, 158, 11, 0.18);
+  color: #66470b;
+  font-size: 0.82rem;
+}
+
+.rank-alert mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.add-row {
+  display: grid;
+  grid-template-columns: 1fr 140px auto;
+  gap: 8px;
+}
+
+.cell-select,
+.cell-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border-strong-color);
+  border-radius: 6px;
+  background: var(--surface-color);
+  color: var(--text-color);
+}
+
+.cell-input.small {
+  max-width: 120px;
+}
+
+.relations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.relations-table th,
+.relations-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-soft-color);
+  text-align: left;
+}
+
+.relations-table th {
+  color: var(--text-color-strong);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.actions {
+  width: 96px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.empty-text {
+  color: var(--text-color-muted);
+  margin: 8px 0;
+}
+
+.relation-hint {
+  color: var(--text-color-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 760px) {
+  .add-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cell-input.small {
+    max-width: none;
+  }
+}

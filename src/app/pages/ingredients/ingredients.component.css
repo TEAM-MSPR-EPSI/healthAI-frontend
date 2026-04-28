@@ -1,0 +1,139 @@
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.ingredient-card {
+  transition: transform 0.15s;
+}
+
+.ingredient-card:hover {
+  transform: translateY(-2px);
+}
+
+.ingredient-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ingredient-emoji {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.ingredient-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 4px;
+}
+
+.macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  text-align: center;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--admin-radius);
+  padding: 10px 8px;
+}
+
+.macro-value {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--admin-primary-400);
+}
+
+.macro-label {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--admin-gray-500);
+  margin-top: 2px;
+}
+
+@media (max-width: 600px) {
+  .ingredients-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✨ SKELETON LOADING STYLES ✨ */
+.skeleton-card {
+  padding: 14px;
+  border-radius: 4px;
+  background: var(--card-bg-light, #f5f5f5);
+  border: 1px solid var(--skeleton-border, #e0e0e0);
+}
+
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.skeleton-emoji {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  flex-shrink: 0;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+.skeleton-text-col {
+  flex: 1;
+}
+
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+.skeleton-macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.skeleton-macro {
+  height: 48px;
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s infinite linear;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

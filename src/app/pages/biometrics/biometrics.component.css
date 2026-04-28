@@ -1,0 +1,81 @@
+/* ===== Stat cards ===== */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px !important;
+}
+
+.stat-card mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.stat-card.sleep mat-icon { color: #7c6dc7; }
+.stat-card.steps mat-icon { color: var(--admin-success); }
+.stat-card.weight mat-icon { color: var(--admin-warning); }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-info .stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--admin-primary-400);
+  line-height: 1;
+}
+
+.stat-info .stat-label {
+  font-size: 0.78rem;
+  color: var(--admin-gray-500);
+  margin-top: 4px;
+}
+
+/* ===== Charts grid ===== */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.chart-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 14px;
+}
+
+.chart-title mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--admin-primary-300);
+}
+
+canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}

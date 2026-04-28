@@ -1,0 +1,56 @@
+.exercises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.exercise-emoji {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.exercise-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 2px;
+}
+
+.exercise-muscle {
+  font-size: 0.78rem;
+  color: var(--admin-primary-300);
+  font-weight: 500;
+}
+
+.exercise-desc {
+  font-size: 0.82rem;
+  color: var(--admin-gray-700);
+  line-height: 1.45;
+  margin: 0 0 12px;
+}
+
+.exercise-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.exercise-tags mat-chip mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+}
+
+@media (max-width: 600px) {
+  .exercises-grid {
+    grid-template-columns: 1fr;
+  }
+}

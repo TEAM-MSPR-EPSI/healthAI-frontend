@@ -1,0 +1,125 @@
+<div class="relation-editor-overlay" (click)="close.emit()">
+  <div class="relation-editor" (click)="$event.stopPropagation()">
+    <div class="editor-header">
+      <h3>{{ title }}</h3>
+      <button mat-icon-button (click)="close.emit()" title="Fermer" aria-label="Fermer l'éditeur de relations">
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    </div>
+
+    <div class="editor-body">
+      @if (mode === 'unknown') {
+        <p class="empty-text">Type de relation non pris en charge.</p>
+      } @else {
+        <div class="add-panel">
+          <label>Ajouter un élément</label>
+          @if (isRankMode) {
+            <div class="rank-alert" role="status" aria-live="polite">
+              <mat-icon aria-hidden="true">info</mat-icon>
+              <span>Le rang est unique. Sélectionnez un ordre disponible.</span>
+            </div>
+          }
+          <div class="add-row">
+            <select [(ngModel)]="selectedItemId" class="cell-select">
+              <option [ngValue]="null">-- Sélectionner --</option>
+              @for (item of availableItems; track getItemId(item)) {
+                <option
+                  [ngValue]="getItemId(item)"
+                  [disabled]="mode === 'exercise-equipment' && isEquipmentAlreadyLinked(item)"
+                >
+                  {{ getDisplayName(item) }}
+                  @if (mode === 'exercise-equipment' && isEquipmentAlreadyLinked(item)) {
+                    (déjà lié)
+                  }
+                </option>
+              }
+            </select>
+
+            @if (mode === 'recipe-ingredient') {
+              <input class="cell-input small" type="number" min="0" [(ngModel)]="addQuantity" placeholder="Quantité" />
+            } @else if (isRankMode) {
+              <select class="cell-select small" [(ngModel)]="addRank" aria-label="Rang disponible">
+                @for (rankOption of getAddRankOptions(); track rankOption) {
+                  <option [ngValue]="rankOption">{{ rankOption }}</option>
+                }
+              </select>
+            } @else {
+              <span class="relation-hint">Le matériel se choisit sans ordre.</span>
+            }
+
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addRelation()"
+              [disabled]="!selectedItemId || loading || ((mode === 'program-session' || mode === 'session-exercise') && !isRankAvailable(addRank))"
+            >
+              Ajouter
+            </button>
+          </div>
+          @if (mode === 'exercise-equipment') {
+            <p class="relation-hint">Si un matériel apparaît en grisé, il est déjà lié à cet exercice.</p>
+          }
+        </div>
+
+        <div class="list-panel">
+          <h4>Relations actuelles</h4>
+
+          @if (currentRelations.length === 0) {
+            <p class="empty-text">Aucune relation associée.</p>
+          } @else {
+            <table class="relations-table" role="table">
+              <caption class="sr-only">Liste des relations actuellement associées</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Nom</th>
+                  <th scope="col">@if (mode === 'recipe-ingredient') { Quantité } @else if (isRankMode) { Rang } @else { Statut }</th>
+                  <th class="actions" scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (rel of currentRelations; track rel.program_sport_session_id || rel.recipe_ingredient_id || rel.sport_session_exercise_id || rel.sport_exercise_equipment_id || $index) {
+                  <tr>
+                    <td>{{ getDisplayName(rel.sport_session || rel.ingredient || rel.sportExercise || rel.sportEquipment || rel) }}</td>
+                    <td>
+                      @if (mode === 'recipe-ingredient') {
+                        <input class="cell-input small" type="number" min="0" [(ngModel)]="rel._editQuantity" />
+                      } @else if (isRankMode) {
+                        <select class="cell-select small" [(ngModel)]="rel._editRank" aria-label="Rang disponible pour la relation">
+                          @for (rankOption of getEditRankOptions(rel); track rankOption) {
+                            <option [ngValue]="rankOption">{{ rankOption }}</option>
+                          }
+                        </select>
+                      } @else {
+                        <span class="relation-hint">Déjà associé</span>
+                      }
+                    </td>
+                    <td class="actions">
+                      @if (mode !== 'exercise-equipment') {
+                        <button
+                          mat-icon-button
+                          (click)="updateRelation(rel)"
+                          title="Mettre à jour"
+                          aria-label="Mettre à jour la relation"
+                          [disabled]="isRankMode && !isRankAvailable(rel._editRank, rel)"
+                        >
+                          <mat-icon aria-hidden="true">save</mat-icon>
+                        </button>
+                      }
+                      <button mat-icon-button (click)="removeRelation(rel)" title="Supprimer la relation" aria-label="Supprimer la relation">
+                        <mat-icon aria-hidden="true">delete</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="editor-footer">
+      <button mat-button (click)="close.emit()">Fermer</button>
+    </div>
+  </div>
+</div>
