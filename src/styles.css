@@ -310,3 +310,111 @@ body.relation-editor-open .main-content {
   position: relative;
   z-index: 3500 !important;
 }
+
+/* ===== RGAA AA Accessibility Enhancements ===== */
+
+/* Better focus indication on interactive elements */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[role="link"] {
+  position: relative;
+}
+
+/* Ensure minimum touch/click target size (44x44px recommended) */
+button,
+a,
+[role="button"],
+[role="link"],
+.mat-mdc-button-base,
+.mat-mdc-icon-button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Improve form field spacing and accessibility */
+mat-form-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* Better error messaging */
+.mat-mdc-form-field-error {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #8b3a37;
+  margin-top: 4px;
+}
+
+/* Ensure sufficient line-height for readability */
+body {
+  line-height: 1.6;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* Better text selection colors */
+::selection {
+  background-color: var(--admin-primary-300);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--admin-primary-300);
+  color: white;
+}
+
+/* Ensure the main content can be zoomed to 200% without horizontal scroll */
+@media (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Visible focus for keyboard navigation on all interactive elements */
+.mat-mdc-button:focus-visible,
+.mat-mdc-icon-button:focus-visible,
+.mat-mdc-raised-button:focus-visible,
+.mat-mdc-outlined-button:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--admin-primary-300);
+  outline-offset: 2px;
+}
+
+/* Ensure links are distinguishable from text */
+a {
+  color: var(--admin-primary-300);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+a:visited {
+  color: #6f4f4f;
+}
+
+/* Better contrast for disabled elements */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Improve readability of lists */
+ul, ol {
+  line-height: 1.8;
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}

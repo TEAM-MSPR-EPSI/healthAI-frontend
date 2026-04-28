@@ -1,6 +1,6 @@
 // Component: Sidebar | Purpose: Renders and manages UI behavior for this view.
-import { Component, input, output } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, input, output, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,9 +31,16 @@ export class SidebarComponent {
   /** Emitted when a link is clicked on mobile so the parent can close the sidenav */
   linkClicked = output<void>();
 
+  private router = inject(Router);
+
   onLinkClick(): void {
     if (this.isMobile()) {
       this.linkClicked.emit();
     }
+  }
+
+  /** Check if a route is currently active (for aria-current) */
+  isItemActive(route: string): boolean {
+    return this.router.url === route || this.router.url.startsWith(route + '/');
   }
 }
