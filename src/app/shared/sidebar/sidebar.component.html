@@ -13,6 +13,7 @@
     <a mat-list-item
        [routerLink]="item.route"
        routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: true }"
        (click)="onLinkClick()">
       <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
       <span matListItemTitle>{{ item.label }}</span>
