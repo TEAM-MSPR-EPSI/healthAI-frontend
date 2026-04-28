@@ -39,6 +39,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/users`);
   }
 
+  getUserHealthProfiles(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-health-profiles`);
+  }
+
   updateUser(id: string, data: any): Observable<any> {
     return this.http.put(`${this.base}/users/${id}`, data);
   }
@@ -68,6 +72,14 @@ export class ApiService {
         })),
       ),
     );
+  }
+
+  getConsumesAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/consumes`);
+  }
+
+  getSessionProgresses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/session-progress`);
   }
 
   getExercises(): Observable<any[]> {

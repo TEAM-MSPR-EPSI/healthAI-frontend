@@ -104,7 +104,7 @@ export class AdminDashboardComponent implements OnInit {
       programs: this.api.getPrograms(),
       sessions: this.api.getSessions(),
       subscriptions: this.api.getSubscriptionBreakdown().pipe(
-        catchError(() => of({ freemium: 0, premium: 0, company_admin: 0 })),
+        catchError(() => of({ labels: ['Freemium', 'Premium', 'Premium+', 'B2B'], data: [0, 0, 0, 0] })),
       ),
       retention: this.api.getMonthlyRetention().pipe(
         catchError(() => of({ labels: ['Sept.', 'Oct.', 'Nov.', 'Déc.'], data: [0, 0, 0, 0] })),
@@ -139,16 +139,15 @@ export class AdminDashboardComponent implements OnInit {
           ],
         };
 
-        const freemium = subscriptions.freemium || 0;
-        const premium = subscriptions.premium || 0;
-        const b2b = subscriptions.company_admin || 0;
+        const subscriptionLabels = subscriptions.labels || ['Freemium', 'Premium', 'Premium+', 'B2B'];
+        const subscriptionValues = subscriptions.data || [0, 0, 0, 0];
         this.subscriptionChartData = {
-          labels: ['Freemium', 'Premium', 'B2B'],
+          labels: subscriptionLabels,
           datasets: [
             {
               label: 'Abonnés',
-              data: [freemium, premium, b2b],
-              backgroundColor: ['#9fb46d', '#4f6335', '#8b6b4c'],
+              data: subscriptionValues,
+              backgroundColor: ['#9fb46d', '#4f6335', '#bf8f3f', '#8b6b4c'],
             },
           ],
         };

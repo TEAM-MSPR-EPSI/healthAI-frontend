@@ -47,18 +47,8 @@
           <mat-card-title>Répartition des abonnements</mat-card-title>
           <mat-card-subtitle>Lecture rapide des profils business</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content>
-          <canvas baseChart [data]="subscriptionChartData" [type]="subscriptionChartType" [options]="{ responsive: true, plugins: { legend: { position: 'bottom' } } }"></canvas>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="chart-card chart-card-wide">
-        <mat-card-header>
-          <mat-card-title>Rétention mensuelle</mat-card-title>
-          <mat-card-subtitle>Le signal le plus utile pour voir si la plateforme garde ses utilisateurs</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas baseChart [data]="retentionChartData" [type]="retentionChartType" [options]="{ responsive: true, plugins: { legend: { display: false } } }"></canvas>
+        <mat-card-content class="chart-content-fixed">
+          <canvas baseChart [data]="subscriptionChartData" [type]="subscriptionChartType" [options]="{ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }"></canvas>
         </mat-card-content>
       </mat-card>
     </section>

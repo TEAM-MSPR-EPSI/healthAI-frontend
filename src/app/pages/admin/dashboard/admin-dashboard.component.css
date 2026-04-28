@@ -22,6 +22,10 @@
   grid-column: 1 / -1;
 }
 
+.chart-content-fixed {
+  min-height: 260px;
+}
+
 .admin-actions-grid {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }

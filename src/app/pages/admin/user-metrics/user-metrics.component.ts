@@ -17,6 +17,7 @@ import { ChartConfiguration, ChartType } from 'chart.js';
 export class UserMetricsComponent implements OnInit {
   isLoading = true;
   users: any[] = [];
+  healthProfiles: any[] = [];
   kpis: any[] = [];
   // Chart.js configs
   ageChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
@@ -32,17 +33,30 @@ export class UserMetricsComponent implements OnInit {
     this.isLoading = true;
     forkJoin({
       users: this.api.getUsers(),
+      programs: this.api.getPrograms(),
+      healthProfiles: this.api.getUserHealthProfiles(),
       weightProgression: this.api.getWeightProgression().pipe(
         catchError(() => of({ labels: ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'], data: [0, 0, 0, 0] }))
       ),
     }).subscribe({
-      next: ({ users, weightProgression }) => {
+      next: ({ users, programs, healthProfiles, weightProgression }) => {
         this.users = users;
+        this.healthProfiles = healthProfiles;
         const averageAge = this.getAverageAge(users);
+        const objectiveStats = this.buildObjectiveStats(users, programs, healthProfiles);
+        const dominantObjective = objectiveStats[0] ?? { label: 'Non renseigné', count: 0 };
         // KPIs
         this.kpis = [
           { label: 'Utilisateurs actifs', value: users.length, trend: '', up: true, icon: 'people' },
+          {
+            label: 'Profils santé',
+            value: `${objectiveStats.reduce((sum, item) => sum + item.count, 0)}`,
+            trend: 'Nombre d\'utilisateurs avec un objectif santé renseigné',
+            up: true,
+            icon: 'assignment_ind'
+          },
           { label: 'Âge moyen', value: `${Math.round(averageAge)} ans`, trend: '', up: true, icon: 'cake' },
+          { label: 'Objectif dominant', value: dominantObjective.label, trend: `${dominantObjective.count} profils`, up: true, icon: 'flag' },
         ];
         // Répartition par âge (exemple: 18-25, 26-35, 36-50)
         const ageGroups = { '18-25': 0, '26-35': 0, '36-50': 0, '50+': 0 };
@@ -68,18 +82,13 @@ export class UserMetricsComponent implements OnInit {
             },
           ],
         };
-        // Objectifs (exemple: user_goal)
-        const goalGroups: Record<string, number> = {};
-        users.forEach(u => {
-          const goal = u.user_goal || 'Autre';
-          goalGroups[goal] = (goalGroups[goal] || 0) + 1;
-        });
+        const goalEntries = objectiveStats.map((item) => [item.label, item.count] as [string, number]);
         this.goalsChartData = {
-          labels: Object.keys(goalGroups),
+          labels: goalEntries.map(([label]) => label),
           datasets: [
             {
               label: 'Objectifs',
-              data: Object.values(goalGroups),
+              data: goalEntries.map(([, value]) => value),
               backgroundColor: [
                 'rgba(79, 99, 53, 0.82)',
                 'rgba(191, 143, 63, 0.82)',
@@ -126,5 +135,69 @@ export class UserMetricsComponent implements OnInit {
     }
 
     return ages.reduce((sum, age) => sum + age, 0) / ages.length;
+  }
+
+  private getObjectiveLabel(value: unknown): string {
+    const normalized = String(value || '').trim().toLowerCase();
+
+    const labels: Record<string, string> = {
+      weight_loss: 'Perte de poids',
+      muscle_gain: 'Prise de muscle',
+      endurance: 'Endurance',
+      flexibility: 'Souplesse',
+      cardio: 'Cardio',
+      maintenance: 'Maintien',
+      unknown: 'Non renseigné',
+      '': 'Non renseigné',
+    };
+
+    return labels[normalized] || normalized.replace(/_/g, ' ');
+  }
+
+  private buildObjectiveStats(users: any[], programs: any[], healthProfiles: any[]): Array<{ label: string; count: number }> {
+    const counts: Record<string, number> = {};
+
+    const programById = new Map<number, any>();
+    programs.forEach((program) => {
+      const id = this.getNumericId(program.sport_program_id ?? program.id);
+      if (id) {
+        programById.set(id, program);
+      }
+    });
+
+    users.forEach((user) => {
+      const programId = this.getNumericId(user.sport_program_id);
+      if (!programId) {
+        return;
+      }
+
+      const program = programById.get(programId);
+      if (!program) {
+        return;
+      }
+
+      const label = this.getObjectiveLabel(program.sport_program_objective);
+      counts[label] = (counts[label] || 0) + 1;
+    });
+
+    if (!Object.keys(counts).length) {
+      healthProfiles.forEach((profile) => {
+        const label = this.getObjectiveLabel(profile.user_health_profile_objective);
+        counts[label] = (counts[label] || 0) + 1;
+      });
+    }
+
+    if (!Object.keys(counts).length) {
+      counts['Non renseigné'] = 1;
+    }
+
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([label, count]) => ({ label, count }));
+  }
+
+  private getNumericId(value: unknown): number {
+    const numberValue = Number(value);
+    return Number.isFinite(numberValue) ? numberValue : 0;
   }
 }

@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartType } from 'chart.js';
-import { catchError, forkJoin, of } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 
 @Component({
@@ -17,10 +17,10 @@ export class FitnessComponent implements OnInit {
   isLoading = true;
   kpis: Array<{ label: string; value: string; trend: string; up: boolean; icon: string }> = [];
 
-  topExercisesChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
-  topExercisesChartType: ChartType = 'bar';
-  intensityChartData: ChartConfiguration<'pie'>['data'] = { labels: [], datasets: [] };
-  intensityChartType: ChartType = 'pie';
+  topSessionsChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+  topSessionsChartType: ChartType = 'bar';
+  topUsersChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+  topUsersChartType: ChartType = 'bar';
   progressChartData: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [] };
   progressChartType: ChartType = 'line';
 
@@ -29,68 +29,65 @@ export class FitnessComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     forkJoin({
-      exercises: this.api.getExercises(),
-      sessions: this.api.getSessions(),
+      sessionProgresses: this.api.getSessionProgresses(),
       users: this.api.getUsers(),
-      weeklySessions: this.api.getWeeklySessions().pipe(
-        catchError(() => of({ labels: ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'], data: [0, 0, 0, 0] }))
-      ),
     }).subscribe({
-      next: ({ exercises, sessions, users, weeklySessions }) => {
-        const avgDuration = this.avg(exercises, 'sport_exercise_duration');
-        const avgBurn = this.avg(exercises, 'sport_exercise_cal_burned');
+      next: ({ sessionProgresses, users }) => {
+        const uniqueActiveUsers = new Set(sessionProgresses.map((progress) => this.num(progress.user_id))).size;
+        const sessionsPerActiveUser = uniqueActiveUsers > 0 ? (sessionProgresses.length / uniqueActiveUsers).toFixed(1) : '0';
+        const weeklySessions = this.buildWeeklySessionsSeries(sessionProgresses);
 
         this.kpis = [
-          { label: 'Séances', value: `${sessions.length}`, trend: 'Total en base', up: true, icon: 'event' },
-          { label: 'Durée moy. exercice', value: `${Math.round(avgDuration)} min`, trend: 'Calcul API', up: true, icon: 'timer' },
-          { label: 'Calories moy. brûlées', value: `${Math.round(avgBurn)}`, trend: 'Par exercice', up: true, icon: 'local_fire_department' },
-          { label: 'Utilisateurs actifs', value: `${users.length}`, trend: 'Comptes total', up: true, icon: 'directions_run' },
+          { label: 'Sessions complétées', value: `${sessionProgresses.length}`, trend: 'Historique réel', up: true, icon: 'event' },
+          { label: 'Utilisateurs actifs', value: `${uniqueActiveUsers}`, trend: 'Ayant suivi au moins une séance', up: true, icon: 'directions_run' },
+          { label: 'Sessions / utilisateur', value: `${sessionsPerActiveUser}`, trend: 'Moyenne sur les actifs', up: true, icon: 'insights' },
+          { label: 'Utilisateurs inscrits', value: `${users.length}`, trend: 'Base totale', up: true, icon: 'people' },
         ];
 
-        const byMuscle: Record<string, number> = {};
-        exercises.forEach((exercise) => {
-          const group = exercise.sport_exercise_muscle_group || 'Non défini';
-          byMuscle[group] = (byMuscle[group] || 0) + 1;
+        const bySession: Record<string, number> = {};
+        const byUser: Record<string, number> = {};
+
+        sessionProgresses.forEach((progress) => {
+          const sessionName = progress.sport_session?.sport_session_name || progress.sport_session_name || 'Séance inconnue';
+          const userName = this.getUserLabel(progress.user);
+
+          bySession[sessionName] = (bySession[sessionName] || 0) + 1;
+          byUser[userName] = (byUser[userName] || 0) + 1;
         });
-        const topGroups = Object.entries(byMuscle)
+        const topSessions = Object.entries(bySession)
           .sort((a, b) => b[1] - a[1])
           .slice(0, 6);
 
-        this.topExercisesChartData = {
-          labels: topGroups.map(([label]) => label),
+        const topUsers = Object.entries(byUser)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6);
+
+        this.topSessionsChartData = {
+          labels: topSessions.map(([label]) => label),
           datasets: [{
-            label: 'Nb exercices',
-            data: topGroups.map(([, value]) => value),
+            label: 'Séances complétées',
+            data: topSessions.map(([, value]) => value),
             backgroundColor: '#4f6335',
             borderRadius: 8,
           }],
         };
 
-        const byDifficulty: Record<string, number> = {};
-        exercises.forEach((exercise) => {
-          const level = exercise.sport_exercise_difficulty || 'Non défini';
-          byDifficulty[level] = (byDifficulty[level] || 0) + 1;
-        });
-        this.intensityChartData = {
-          labels: Object.keys(byDifficulty),
+        this.topUsersChartData = {
+          labels: topUsers.map(([label]) => label),
           datasets: [{
-            data: Object.values(byDifficulty),
-            backgroundColor: [
-              'rgba(79, 99, 53, 0.85)',
-              'rgba(159, 180, 109, 0.85)',
-              'rgba(139, 107, 76, 0.85)',
-              'rgba(191, 143, 63, 0.85)',
-            ],
-            borderWidth: 0,
+            label: 'Séances suivies',
+            data: topUsers.map(([, value]) => value),
+            backgroundColor: '#8b6b4c',
+            borderRadius: 8,
           }],
         };
 
         // Données RÉELLES de sessions cumulées par semaine depuis l'API
         this.progressChartData = {
-          labels: weeklySessions.labels || ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'],
+          labels: weeklySessions.labels,
           datasets: [{
             label: 'Sessions cumulées',
-            data: weeklySessions.data || [0, 0, 0, 0],
+            data: weeklySessions.data,
             borderColor: '#4f6335',
             backgroundColor: 'rgba(79, 99, 53, 0.18)',
             fill: true,
@@ -111,9 +108,64 @@ export class FitnessComponent implements OnInit {
     return Number.isFinite(n) ? n : 0;
   }
 
-  private avg(items: any[], key: string): number {
-    if (!items.length) return 0;
-    const sum = items.reduce((acc, item) => acc + this.num(item[key]), 0);
-    return sum / items.length;
+  private getUserLabel(user: any): string {
+    if (!user) {
+      return 'Utilisateur inconnu';
+    }
+
+    return [user.user_firstname, user.user_lastname]
+      .filter(Boolean)
+      .join(' ')
+      || user.user_username
+      || `Utilisateur ${user.user_id ?? ''}`.trim();
+  }
+
+  private buildWeeklySessionsSeries(sessionProgresses: any[]): { labels: string[]; data: number[] } {
+    if (!sessionProgresses.length) {
+      return {
+        labels: ['Sem. 1', 'Sem. 2', 'Sem. 3', 'Sem. 4'],
+        data: [0, 0, 0, 0],
+      };
+    }
+
+    const dates = sessionProgresses
+      .map((progress) => String(progress.session_progress_start || progress.session_progress_end || '').slice(0, 10))
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
+
+    const latestDate = dates[dates.length - 1];
+    const latest = new Date(`${latestDate}T00:00:00`);
+    const weeks = [] as Array<{ start: string; end: string; label: string }>;
+
+    for (let i = 3; i >= 0; i--) {
+      const weekEnd = new Date(latest);
+      weekEnd.setDate(weekEnd.getDate() - (i * 7));
+      const weekStart = new Date(weekEnd);
+      weekStart.setDate(weekStart.getDate() - 6);
+
+      weeks.push({
+        start: weekStart.toISOString().split('T')[0],
+        end: weekEnd.toISOString().split('T')[0],
+        label: `Sem. ${4 - i}`,
+      });
+    }
+
+    let cumulativeCount = 0;
+    const data: number[] = [];
+
+    weeks.forEach((week) => {
+      const sessionCount = sessionProgresses.filter((progress) => {
+        const start = String(progress.session_progress_start || progress.session_progress_end || '').slice(0, 10);
+        return start >= week.start && start <= week.end;
+      }).length;
+
+      cumulativeCount += sessionCount;
+      data.push(cumulativeCount);
+    });
+
+    return {
+      labels: weeks.map((week) => week.label),
+      data,
+    };
   }
 }
