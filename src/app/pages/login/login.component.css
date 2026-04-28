@@ -77,6 +77,13 @@
   width: 100%;
 }
 
+/* Keep only the custom Material toggle; some browsers add a native reveal icon. */
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear,
+input[type='password']::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+
 .login-btn {
   margin-top: 8px;
   background: var(--admin-primary-400, #3a4a2e) !important;
