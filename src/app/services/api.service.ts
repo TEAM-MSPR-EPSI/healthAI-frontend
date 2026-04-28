@@ -340,6 +340,12 @@ export class ApiService {
     return this.http.get(`${this.base}/analytics/admin/kpi/subscription-breakdown`);
   }
 
+  importSqlFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.base}/import/file`, formData);
+  }
+
   private resolveEntityRoute(entity: string): string {
     return this.entityRouteMap[entity] ?? entity;
   }

@@ -1,1 +1,125 @@
-/* No extra styles — uses global styles */
+.page-content {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.page-header {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.submenu {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.submenu-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.section-block {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.section-title {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #24311f;
+}
+
+.cards-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 16px;
+}
+
+.sql-import-card {
+	border: 1px solid rgba(79, 99, 53, 0.14);
+	box-shadow: 0 10px 24px rgba(24, 26, 22, 0.08);
+}
+
+.import-note {
+	margin: 0 0 16px;
+	color: #4c5a44;
+	line-height: 1.5;
+}
+
+.file-input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.file-dropzone {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px;
+	border: 1px dashed #9fb46d;
+	border-radius: 12px;
+	background: #f8fbf4;
+	color: #425237;
+	cursor: pointer;
+	transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.file-dropzone:hover {
+	border-color: #4f6335;
+	background: #f3f8eb;
+}
+
+.file-dropzone mat-icon {
+	color: #4f6335;
+}
+
+.alert {
+	margin-top: 12px;
+	padding: 12px 14px;
+	border-radius: 10px;
+	font-size: 0.92rem;
+}
+
+.alert-error {
+	background: #fdecec;
+	color: #8b1e2b;
+	border: 1px solid #f2b8bf;
+}
+
+.alert-success {
+	background: #ecf7ee;
+	color: #1f5f34;
+	border: 1px solid #b9e0c3;
+}
+
+.help-list {
+	margin: 0;
+	padding-left: 18px;
+	display: grid;
+	gap: 8px;
+	color: #425237;
+}
+
+@media (max-width: 768px) {
+	.submenu {
+		flex-direction: column;
+	}
+
+	.submenu-item {
+		justify-content: center;
+		width: 100%;
+	}
+}
