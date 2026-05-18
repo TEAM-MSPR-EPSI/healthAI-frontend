@@ -8,16 +8,62 @@
         <mat-label>Email <span class="required-indicator" aria-label="requis">*</span></mat-label>
         <input matInput type="email" [(ngModel)]="email" name="email" required autocomplete="email" aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
       </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" class="full-width" [ngClass]="{ 'password-field-invalid': password && !isPasswordValid() }">
         <mat-label>Mot de passe <span class="required-indicator" aria-label="requis">*</span></mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
+        <input 
+          matInput 
+          [type]="hide ? 'password' : 'text'" 
+          [(ngModel)]="password" 
+          name="password" 
+          (input)="validatePassword()"
+          (focus)="showPasswordRules = true"
+          required 
+          aria-required="true" 
+          [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
         <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="hide ? 'Afficher le mot de passe' : 'Masquer le mot de passe'">
           <mat-icon aria-hidden="true">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
+
+      @if (showPasswordRules && password) {
+        <div class="password-rules-bubble">
+          <div class="strength-bar">
+            <div class="strength-fill" [style.width.%]="getPasswordStrength()"></div>
+          </div>
+          <p class="strength-text">
+            Force: <strong>{{ getPasswordStrength() | number:'1.0-0' }}%</strong>
+          </p>
+          <ul class="rules-list">
+            <li [class.valid]="passwordCriteria.hasMinLength">
+              <span class="rule-icon">{{ passwordCriteria.hasMinLength ? '✓' : '○' }}</span>
+              Au moins 8 caractères
+            </li>
+            <li [class.valid]="passwordCriteria.hasUppercase">
+              <span class="rule-icon">{{ passwordCriteria.hasUppercase ? '✓' : '○' }}</span>
+              Une lettre majuscule
+            </li>
+            <li [class.valid]="passwordCriteria.hasLowercase">
+              <span class="rule-icon">{{ passwordCriteria.hasLowercase ? '✓' : '○' }}</span>
+              Une lettre minuscule
+            </li>
+            <li [class.valid]="passwordCriteria.hasNumber">
+              <span class="rule-icon">{{ passwordCriteria.hasNumber ? '✓' : '○' }}</span>
+              Un chiffre
+            </li>
+            <li [class.valid]="passwordCriteria.hasSpecialChar">
+              <span class="rule-icon">{{ passwordCriteria.hasSpecialChar ? '✓' : '○' }}</span>
+              Un caractère spécial (!@#$%^&*...)
+            </li>
+            <li [class.valid]="passwordCriteria.passwordsMatch">
+              <span class="rule-icon">{{ passwordCriteria.passwordsMatch ? '✓' : '○' }}</span>
+              Les mots de passe correspondent
+            </li>
+          </ul>
+        </div>
+      }
+      <mat-form-field appearance="outline" class="full-width" [ngClass]="{ 'password-field-invalid': password && !isPasswordValid() }">
         <mat-label>Confirmer le mot de passe <span class="required-indicator" aria-label="requis">*</span></mat-label>
-        <input matInput [type]="hideConfirm ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
+        <input matInput [type]="hideConfirm ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" (input)="validatePassword()" required aria-required="true" [attr.aria-describedby]="errorMessage ? 'register-error' : null" />
         <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" type="button" [attr.aria-label]="hideConfirm ? 'Afficher la confirmation du mot de passe' : 'Masquer la confirmation du mot de passe'">
           <mat-icon aria-hidden="true">{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
@@ -41,7 +87,7 @@
       </div>
       -->
 
-      <button mat-flat-button class="auth-btn full-width" type="submit" [disabled]="loading">
+      <button mat-flat-button class="auth-btn full-width" type="submit" [disabled]="loading || !canRegister()">
         {{ loading ? 'Création...' : "S'inscrire" }}
       </button>
       <div class="auth-link">

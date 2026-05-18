@@ -18,6 +18,8 @@ export class OnboardingPersonalComponent {
   country = '';
   saving = false;
   errorMessage = '';
+  phoneError = '';
+  birthDateError = '';
 
   readonly genderOptions = [
     { value: 'male', label: 'Homme' },
@@ -38,12 +40,75 @@ export class OnboardingPersonalComponent {
     this.country = user?.user_country ?? '';
   }
 
+  isValidPhone(phone: string): boolean {
+    const phoneRegex = /^(?:(?:\+|00)33|0)[1-9](?:[0-9]{8})$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  }
+
+  isAdult(birthDate: string): boolean {
+    if (!birthDate) return false;
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age >= 18;
+  }
+
+  validatePhone() {
+    const trimmedPhone = this.phone.trim();
+    if (trimmedPhone && !this.isValidPhone(trimmedPhone)) {
+      this.phoneError = 'Veuillez entrer un numéro de téléphone valide (ex: 0769965399).';
+    } else {
+      this.phoneError = '';
+    }
+  }
+
+  validateBirthDate() {
+    if (this.birthDate && !this.isAdult(this.birthDate)) {
+      this.birthDateError = 'Vous devez avoir au moins 18 ans.';
+    } else {
+      this.birthDateError = '';
+    }
+  }
+
+  canContinue(): boolean {
+    const trimmedPhone = this.phone.trim();
+    
+    if (!trimmedPhone || !this.birthDate) {
+      return false;
+    }
+
+    return this.isValidPhone(trimmedPhone) && this.isAdult(this.birthDate);
+  }
+
   async next() {
+    this.validatePhone();
+    this.validateBirthDate();
+
+    const trimmedPhone = this.phone.trim();
+    
+    if (!trimmedPhone || !this.birthDate) {
+      this.errorMessage = 'Téléphone et date de naissance sont obligatoires.';
+      return;
+    }
+
+    if (!this.isValidPhone(trimmedPhone)) {
+      this.errorMessage = 'Veuillez entrer un numéro de téléphone valide.';
+      return;
+    }
+
+    if (!this.isAdult(this.birthDate)) {
+      this.errorMessage = 'Vous devez avoir au moins 18 ans.';
+      return;
+    }
+
     this.saving = true;
     this.errorMessage = '';
 
     const payload: Record<string, any> = {};
-    const trimmedPhone = this.phone.trim();
     if (trimmedPhone) {
       payload['user_phone'] = trimmedPhone;
     }

@@ -79,3 +79,93 @@
 .auth-link a:hover {
   text-decoration: underline;
 }
+
+/* Password Validation Styles */
+.password-field-invalid ::ng-deep .mdc-notched-outline__leading,
+.password-field-invalid ::ng-deep .mdc-notched-outline__notch,
+.password-field-invalid ::ng-deep .mdc-notched-outline__trailing {
+  border-color: #8b3a37 !important;
+}
+
+.password-rules-bubble {
+  background: rgba(43, 54, 38, 0.05);
+  border: 1px solid rgba(43, 54, 38, 0.15);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 12px 0 16px;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.strength-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(43, 54, 38, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.strength-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e74c3c 0%, #f39c12 50%, #27ae60 100%);
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.strength-text {
+  font-size: 0.75rem;
+  color: var(--admin-gray-600, #6b7280);
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rules-list li {
+  font-size: 0.75rem;
+  color: var(--admin-gray-600, #6b7280);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.rules-list li.valid {
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.rule-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.rules-list li.valid .rule-icon {
+  color: #27ae60;
+}
+
+.rules-list li:not(.valid) .rule-icon {
+  color: var(--admin-gray-400, #d1d5db);
+}
