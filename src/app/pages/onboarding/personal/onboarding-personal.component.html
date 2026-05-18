@@ -13,16 +13,22 @@
 
   <div class="onboarding-content">
     <h1 class="onboarding-title">Quelques infos personnelles</h1>
-    <p class="onboarding-sub">Tous les champs sont facultatifs.</p>
+    <p class="onboarding-sub">Certains champs sont obligatoires.</p>
 
     <div class="form-group">
-      <label class="form-label" for="phone">Telephone (facultatif)</label>
-      <input id="phone" class="form-input" type="tel" [(ngModel)]="phone" autocomplete="tel" />
+      <label class="form-label" for="phone">Telephone (obligatoire)</label>
+      <input id="phone" class="form-input" type="tel" [(ngModel)]="phone" (input)="validatePhone()" autocomplete="tel" placeholder="Ex : 0769965399" />
+      @if (phoneError) {
+        <p class="field-error">{{ phoneError }}</p>
+      }
     </div>
 
     <div class="form-group">
-      <label class="form-label" for="birthDate">Date de naissance (facultatif)</label>
-      <input id="birthDate" class="form-input" type="date" [(ngModel)]="birthDate" />
+      <label class="form-label" for="birthDate">Date de naissance (obligatoire)</label>
+      <input id="birthDate" class="form-input" type="date" [(ngModel)]="birthDate" (input)="validateBirthDate()" />
+      @if (birthDateError) {
+        <p class="field-error">{{ birthDateError }}</p>
+      }
     </div>
 
     <div class="form-group">
@@ -30,28 +36,28 @@
       <select id="gender" class="form-input" [(ngModel)]="gender">
         <option value="">Je choisis plus tard</option>
         @for (option of genderOptions; track option.value) {
-          <option [value]="option.value">{{ option.label }}</option>
+        <option [value]="option.value">{{ option.label }}</option>
         }
       </select>
     </div>
 
     <div class="form-group">
       <label class="form-label" for="city">Ville (facultatif)</label>
-      <input id="city" class="form-input" type="text" [(ngModel)]="city" autocomplete="address-level2" />
+      <input id="city" class="form-input" type="text" [(ngModel)]="city" autocomplete="address-level2" placeholder="Ex : Montpellier" />
     </div>
 
     <div class="form-group">
       <label class="form-label" for="country">Pays (facultatif)</label>
-      <input id="country" class="form-input" type="text" [(ngModel)]="country" autocomplete="country-name" />
+      <input id="country" class="form-input" type="text" [(ngModel)]="country" autocomplete="country-name" placeholder="Ex : France" />
     </div>
   </div>
 
   @if (errorMessage) {
-    <p class="error-msg">{{ errorMessage }}</p>
+  <p class="error-msg">{{ errorMessage }}</p>
   }
 
   <div class="onboarding-footer">
-    <button class="btn-continuer" (click)="next()" [disabled]="saving">
+    <button class="btn-continuer" (click)="next()" [disabled]="saving || !canContinue()">
       {{ saving ? 'Sauvegarde...' : 'Continuer →' }}
     </button>
   </div>

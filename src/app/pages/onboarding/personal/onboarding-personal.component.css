@@ -159,6 +159,13 @@
   cursor: not-allowed;
 }
 
+.field-error {
+  color: #b3261e;
+  font-size: 0.75rem;
+  margin: 4px 0 0;
+  font-weight: 500;
+}
+
 @media (max-width: 480px) {
   .progress-top,
   .onboarding-footer {
