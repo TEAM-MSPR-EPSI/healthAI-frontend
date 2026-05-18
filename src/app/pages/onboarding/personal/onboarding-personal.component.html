@@ -13,10 +13,10 @@
 
   <div class="onboarding-content">
     <h1 class="onboarding-title">Quelques infos personnelles</h1>
-    <p class="onboarding-sub">Certains champs sont obligatoires.</p>
+    <p class="onboarding-sub">Certains champs sont facultatifs.</p>
 
     <div class="form-group">
-      <label class="form-label" for="phone">Telephone (obligatoire)</label>
+      <label class="form-label" for="phone">Telephone</label>
       <input id="phone" class="form-input" type="tel" [(ngModel)]="phone" (input)="validatePhone()" autocomplete="tel" placeholder="Ex : 0769965399" />
       @if (phoneError) {
         <p class="field-error">{{ phoneError }}</p>
@@ -24,8 +24,8 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label" for="birthDate">Date de naissance (obligatoire)</label>
-      <input id="birthDate" class="form-input" type="date" [(ngModel)]="birthDate" (input)="validateBirthDate()" />
+      <label class="form-label" for="birthDate">Date de naissance</label>
+      <input id="birthDate" class="form-input" type="date" [(ngModel)]="birthDate" (input)="validateBirthDate()"  placeholder="Ex : jj//mm//aaaa"/>
       @if (birthDateError) {
         <p class="field-error">{{ birthDateError }}</p>
       }
