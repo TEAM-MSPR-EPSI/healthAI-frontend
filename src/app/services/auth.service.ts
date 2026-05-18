@@ -42,7 +42,7 @@ export class AuthService {
       user_firstname: 'Firstname',
       user_birth: '2000-01-01',
       user_gender: 'prefer_not_to_say',
-      user_phone: '0000000000',
+      user_phone: '',
       user_size: 170,
       user_weight: 70,
     };
