@@ -12,7 +12,10 @@ export class AuthService {
 
   readonly currentUser = this._currentUser.asReadonly();
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+  ) {}
 
   async login(email: string, password: string): Promise<void> {
     const authResponse = await firstValueFrom(this.api.login(email, password));
@@ -31,7 +34,11 @@ export class AuthService {
   }
 
   async register(email: string, password: string): Promise<void> {
-    const usernamePrefix = email.split('@')[0]?.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() || 'user';
+    const usernamePrefix =
+      email
+        .split('@')[0]
+        ?.replace(/[^a-zA-Z0-9]/g, '')
+        .toLowerCase() || 'user';
     const fallbackDate = new Date().getTime();
     const payload = {
       email,
