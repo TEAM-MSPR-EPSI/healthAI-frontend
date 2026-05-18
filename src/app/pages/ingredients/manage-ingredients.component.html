@@ -1,0 +1,57 @@
+<mat-card class="manage-card">
+  <mat-card-title>Gestion des aliments</mat-card-title>
+
+  <div *ngIf="loading">Chargement...</div>
+  <div class="new-form">
+    <h4>Ajouter un aliment</h4>
+    <div class="row">
+      <input placeholder="Nom" [(ngModel)]="newName" />
+      <input placeholder="Calories /100g" type="number" step="0.1" [(ngModel)]="newEnergy" />
+      <input placeholder="Protéines" type="number" step="0.1" [(ngModel)]="newProtein" />
+      <input placeholder="Glucides" type="number" step="0.1" [(ngModel)]="newCarbs" />
+      <input placeholder="Lipides" type="number" step="0.1" [(ngModel)]="newFats" />
+      <input placeholder="Type" [(ngModel)]="newType" />
+      <button mat-stroked-button (click)="createNew()">Ajouter</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading">Chargement...</div>
+  <table mat-table [dataSource]="ingredients" class="mat-elevation-z1" *ngIf="!loading">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nom</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.ingredient_id]">{{ el.ingredient_name }}</div>
+        <input *ngIf="editing[el.ingredient_id]" [(ngModel)]="el.ingredient_name" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cal">
+      <th mat-header-cell *matHeaderCellDef>Calories /100g</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.ingredient_id]">{{ el.ingredient_energy_100g ?? '-' }}</div>
+        <input *ngIf="editing[el.ingredient_id]" type="number" step="0.1" [(ngModel)]="el.ingredient_energy_100g" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="protein">
+      <th mat-header-cell *matHeaderCellDef>Protéines</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.ingredient_id]">{{ el.ingredient_protein_100g ?? '-' }}</div>
+        <input *ngIf="editing[el.ingredient_id]" type="number" step="0.1" [(ngModel)]="el.ingredient_protein_100g" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let el">
+        <button mat-icon-button *ngIf="!editing[el.ingredient_id]" (click)="startEdit(el.ingredient_id)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="primary" *ngIf="editing[el.ingredient_id]" (click)="saveEdit(el)"><mat-icon>save</mat-icon></button>
+        <button mat-icon-button color="warn" *ngIf="editing[el.ingredient_id]" (click)="cancelEdit(el.ingredient_id)"><mat-icon>close</mat-icon></button>
+        <button mat-icon-button color="warn" aria-label="Supprimer" (click)="deleteItem(el.ingredient_id)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name','cal','protein','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name','cal','protein','actions'];"></tr>
+  </table>
+</mat-card>
