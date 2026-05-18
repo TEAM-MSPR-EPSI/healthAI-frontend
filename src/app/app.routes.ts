@@ -19,9 +19,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { RecipeDetailComponent } from './pages/recipes/recipe-detail.component';
 import { IngredientsComponent } from './pages/ingredients/ingredients.component';
+import { ManageIngredientsComponent } from './pages/ingredients/manage-ingredients.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConsultantProfileComponent } from './pages/consultant-profile/consultant-profile.component';
 import { BiometricsComponent } from './pages/biometrics/biometrics.component';
+import { ManageBiometricsComponent } from './pages/biometrics/manage-biometrics.component';
 import { SportProgramsComponent } from './pages/sport-programs/sport-programs.component';
 import { ProgramDetailComponent } from './pages/sport-programs/program-detail.component';
 import { SportSessionsComponent } from './pages/sport-sessions/sport-sessions.component';
@@ -62,9 +64,11 @@ export const routes: Routes = [
   { path: 'recipes', component: RecipesComponent },
   { path: 'recipes/:id', component: RecipeDetailComponent },
   { path: 'ingredients', component: IngredientsComponent },
+  { path: 'ingredients/manage', component: ManageIngredientsComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'consultant', component: ConsultantProfileComponent },
   { path: 'biometrics', component: BiometricsComponent },
+  { path: 'biometrics/manage', component: ManageBiometricsComponent },
   { path: 'sport-programs', component: SportProgramsComponent },
   { path: 'sport-programs/:id', component: ProgramDetailComponent },
   { path: 'sport-sessions', component: SportSessionsComponent },

@@ -11,82 +11,97 @@
     </a>
   </div>
 
-  <!-- Current stats cards -->
-  <div class="stat-cards">
-    <mat-card class="stat-card sleep">
-      <mat-card-content>
-        <mat-icon>bedtime</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ currentStats.sleep }}</span>
-          <span class="stat-label">Sommeil (dernière nuit)</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card steps">
-      <mat-card-content>
-        <mat-icon>directions_walk</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ currentStats.steps | number }}</span>
-          <span class="stat-label">Pas aujourd'hui</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card weight">
-      <mat-card-content>
-        <mat-icon>monitor_weight</mat-icon>
-        <div class="stat-info">
-          <span class="stat-value">{{ currentStats.weight }} kg</span>
-          <span class="stat-label">Poids actuel</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  @if (isLoading) {
+    <div class="skeleton-loader">
+      <div class="stat-cards">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+      <div class="charts-grid">
+        <div class="skeleton-chart"></div>
+        <div class="skeleton-chart"></div>
+        <div class="skeleton-chart"></div>
+      </div>
+    </div>
+  } @else {
+    <!-- Current stats cards -->
+    <div class="stat-cards">
+      <mat-card class="stat-card sleep">
+        <mat-card-content>
+          <mat-icon>bedtime</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ currentStats.sleep }}</span>
+            <span class="stat-label">Sommeil (dernière nuit)</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="stat-card steps">
+        <mat-card-content>
+          <mat-icon>directions_walk</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ currentStats.steps | number }}</span>
+            <span class="stat-label">Pas aujourd'hui</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="stat-card weight">
+        <mat-card-content>
+          <mat-icon>monitor_weight</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ currentStats.weight }} kg</span>
+            <span class="stat-label">Poids actuel</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-  <!-- Charts -->
-  <div class="charts-grid">
-    <!-- Sleep chart -->
-    <mat-card>
-      <mat-card-content>
-        <h3 class="chart-title">
-          <mat-icon>bedtime</mat-icon> Sommeil cette semaine
-        </h3>
-        <canvas
-          baseChart
-          [data]="sleepChartData"
-          [type]="sleepChartType"
-          [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
-        ></canvas>
-      </mat-card-content>
-    </mat-card>
+    <!-- Charts -->
+    <div class="charts-grid">
+      <!-- Sleep chart -->
+      <mat-card>
+        <mat-card-content>
+          <h3 class="chart-title">
+            <mat-icon>bedtime</mat-icon> Sommeil cette semaine
+          </h3>
+          <canvas
+            baseChart
+            [data]="sleepChartData"
+            [type]="sleepChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
 
-    <!-- Steps chart -->
-    <mat-card>
-      <mat-card-content>
-        <h3 class="chart-title">
-          <mat-icon>directions_walk</mat-icon> Pas cette semaine
-        </h3>
-        <canvas
-          baseChart
-          [data]="stepsChartData"
-          [type]="stepsChartType"
-          [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
-        ></canvas>
-      </mat-card-content>
-    </mat-card>
+      <!-- Steps chart -->
+      <mat-card>
+        <mat-card-content>
+          <h3 class="chart-title">
+            <mat-icon>directions_walk</mat-icon> Pas cette semaine
+          </h3>
+          <canvas
+            baseChart
+            [data]="stepsChartData"
+            [type]="stepsChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
 
-    <!-- Weight chart -->
-    <mat-card>
-      <mat-card-content>
-        <h3 class="chart-title">
-          <mat-icon>monitor_weight</mat-icon> Évolution du poids
-        </h3>
-        <canvas
-          baseChart
-          [data]="weightChartData"
-          [type]="weightChartType"
-          [options]="{ responsive: true, plugins: { legend: { display: false } } }"
-        ></canvas>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <!-- Weight chart -->
+      <mat-card>
+        <mat-card-content>
+          <h3 class="chart-title">
+            <mat-icon>monitor_weight</mat-icon> Évolution du poids
+          </h3>
+          <canvas
+            baseChart
+            [data]="weightChartData"
+            [type]="weightChartType"
+            [options]="{ responsive: true, plugins: { legend: { display: false } } }"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
 </div>

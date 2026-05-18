@@ -74,6 +74,23 @@ export class ApiService {
     );
   }
 
+  // --- Ingredients (admin editable) ---
+  getIngredients(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/ingredients`);
+  }
+
+  updateIngredient(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/ingredients/${id}`, data);
+  }
+
+  createIngredient(data: any): Observable<any> {
+    return this.http.post(`${this.base}/ingredients`, data);
+  }
+
+  deleteIngredient(id: number): Observable<any> {
+    return this.http.delete(`${this.base}/ingredients/${id}`);
+  }
+
   getConsumesAll(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/consumes`);
   }
@@ -296,6 +313,10 @@ export class ApiService {
 
   getUserBiometric(id: number): Observable<any> {
     return this.http.get<any>(`${this.base}/user-biometrics/${id}`);
+  }
+
+  getMyBiometricsSummary(): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-biometrics/me/summary`);
   }
 
   createUserBiometric(data: any): Observable<any> {
