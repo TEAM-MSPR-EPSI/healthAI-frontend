@@ -60,6 +60,10 @@ export class RegisterComponent {
     return Object.values(this.passwordCriteria).every(c => c);
   }
 
+  canRegister(): boolean {
+    return this.email.length > 0 && this.password.length > 0 && this.confirmPassword.length > 0 && this.isPasswordValid();
+  }
+
   async register() {
     this.errorMessage = '';
     if (!this.email || !this.password || !this.confirmPassword) {

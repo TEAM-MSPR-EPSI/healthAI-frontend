@@ -87,7 +87,7 @@
       </div>
       -->
 
-      <button mat-flat-button class="auth-btn full-width" type="submit" [disabled]="loading">
+      <button mat-flat-button class="auth-btn full-width" type="submit" [disabled]="loading || !canRegister()">
         {{ loading ? 'Création...' : "S'inscrire" }}
       </button>
       <div class="auth-link">
