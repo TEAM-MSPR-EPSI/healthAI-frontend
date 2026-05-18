@@ -19,39 +19,25 @@
 
     <div class="form-group">
       <label class="form-label" for="firstName">Prénom</label>
-      <input
-        id="firstName"
-        class="form-input"
-        type="text"
-        placeholder="Lucas"
-        [(ngModel)]="firstName"
-        (input)="validateFirstName()"
-        autocomplete="given-name"
-      />
+      <input id="firstName" class="form-input" type="text" placeholder="Lucas" [(ngModel)]="firstName"
+        (input)="validateFirstName()" autocomplete="given-name" />
       @if (firstNameError) {
-        <p class="field-error">{{ firstNameError }}</p>
+      <p class="field-error">{{ firstNameError }}</p>
       }
     </div>
 
     <div class="form-group">
       <label class="form-label" for="lastName">Nom</label>
-      <input
-        id="lastName"
-        class="form-input"
-        type="text"
-        placeholder="Dupont"
-        [(ngModel)]="lastName"
-        (input)="validateLastName()"
-        autocomplete="family-name"
-      />
+      <input id="lastName" class="form-input" type="text" placeholder="Dupont" [(ngModel)]="lastName"
+        (input)="validateLastName()" autocomplete="family-name" />
       @if (lastNameError) {
-        <p class="field-error">{{ lastNameError }}</p>
+      <p class="field-error">{{ lastNameError }}</p>
       }
     </div>
   </div>
 
   @if (errorMessage) {
-    <p class="error-msg">{{ errorMessage }}</p>
+  <p class="error-msg">{{ errorMessage }}</p>
   }
 
   <div class="onboarding-footer">

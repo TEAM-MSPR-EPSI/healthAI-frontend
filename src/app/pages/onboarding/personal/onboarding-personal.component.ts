@@ -34,7 +34,7 @@ export class OnboardingPersonalComponent {
   ) {
     const user = this.auth.currentUser();
     this.phone = user?.user_phone ?? '';
-    this.birthDate = user?.user_birth ?? '';
+    this.birthDate = '';
     this.gender = user?.user_gender ?? '';
     this.city = user?.user_city ?? '';
     this.country = user?.user_country ?? '';
