@@ -33,6 +33,7 @@
     "@angular/material": "20.2.14",
     "@angular/platform-browser": "20.3.17",
     "@angular/router": "20.3.17",
+    "@angular/service-worker": "20.3.17",
     "@fortawesome/angular-fontawesome": "^3.0.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
