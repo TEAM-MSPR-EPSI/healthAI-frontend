@@ -298,6 +298,10 @@ export class ApiService {
     return this.http.get<any>(`${this.base}/user-biometrics/${id}`);
   }
 
+  getMyBiometricsSummary(): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-biometrics/me/summary`);
+  }
+
   createUserBiometric(data: any): Observable<any> {
     return this.http.post(`${this.base}/user-biometrics`, data);
   }
