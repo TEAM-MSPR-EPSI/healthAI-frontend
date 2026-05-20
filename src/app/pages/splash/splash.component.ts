@@ -9,12 +9,15 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './splash.component.css',
 })
 export class SplashComponent implements OnInit {
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+  ) {}
 
   ngOnInit() {
     setTimeout(() => {
       if (this.auth.isLoggedIn()) {
-        this.router.navigate(['/recipes']);
+        this.router.navigate(['/home']);
       } else {
         this.router.navigate(['/welcome']);
       }

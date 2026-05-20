@@ -93,4 +93,7 @@ export const routes: Routes = [
   { path: 'admin/etl/nutrition', component: EtlNutritionComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/etl/exercise', component: EtlExerciseComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/manage', component: AdminManageComponent, canActivate: [adminOnlyGuard] },
+  // Wildcard
+  { path: '**', redirectTo: '' }
 ];
+

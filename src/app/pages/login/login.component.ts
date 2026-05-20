@@ -10,9 +10,16 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   email = '';
@@ -21,7 +28,10 @@ export class LoginComponent {
   errorMessage = '';
   loading = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+  ) {}
 
   async login() {
     this.errorMessage = '';
@@ -32,7 +42,7 @@ export class LoginComponent {
     this.loading = true;
     try {
       await this.auth.login(this.email, this.password);
-      this.router.navigate(['/recipes']);
+      this.router.navigate(['/user/home']);
     } catch {
       this.errorMessage = 'Email ou mot de passe incorrect.';
     } finally {

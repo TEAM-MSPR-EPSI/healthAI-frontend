@@ -11,9 +11,17 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   email = '';
@@ -31,7 +39,7 @@ export class RegisterComponent {
     hasNumber: false,
     hasSpecialChar: false,
     hasMinLength: false,
-    passwordsMatch: false
+    passwordsMatch: false,
   };
 
   constructor(
@@ -47,21 +55,26 @@ export class RegisterComponent {
       hasNumber: /[0-9]/.test(pwd),
       hasSpecialChar: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd),
       hasMinLength: pwd.length >= 8,
-      passwordsMatch: pwd === this.confirmPassword
+      passwordsMatch: pwd === this.confirmPassword,
     };
   }
 
   getPasswordStrength(): number {
     const criteria = Object.values(this.passwordCriteria);
-    return (criteria.filter(c => c).length / criteria.length) * 100;
+    return (criteria.filter((c) => c).length / criteria.length) * 100;
   }
 
   isPasswordValid(): boolean {
-    return Object.values(this.passwordCriteria).every(c => c);
+    return Object.values(this.passwordCriteria).every((c) => c);
   }
 
   canRegister(): boolean {
-    return this.email.length > 0 && this.password.length > 0 && this.confirmPassword.length > 0 && this.isPasswordValid();
+    return (
+      this.email.length > 0 &&
+      this.password.length > 0 &&
+      this.confirmPassword.length > 0 &&
+      this.isPasswordValid()
+    );
   }
 
   async register() {
@@ -79,8 +92,13 @@ export class RegisterComponent {
       await this.auth.register(this.email, this.password);
       this.router.navigate(['/onboarding/role']);
     } catch (err: any) {
-      const serverMessage = err?.error?.error || err?.message;
-      this.errorMessage = serverMessage || 'Erreur lors de la création du compte.';
+      const serverMessage = err?.error?.error || err?.error?.message || err?.message || '';
+
+      if (err?.status === 409 || serverMessage.toLowerCase().includes('validation error')) {
+        this.errorMessage = 'Un compte existe déjà avec cet email.';
+      } else {
+        this.errorMessage = serverMessage || 'Erreur lors de la création du compte.';
+      }
     } finally {
       this.loading = false;
     }
