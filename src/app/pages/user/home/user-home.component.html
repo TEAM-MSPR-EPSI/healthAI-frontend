@@ -1,0 +1,48 @@
+<div class="user-home-page">
+  <!-- Header Welcome -->
+  <section class="welcome-section">
+    <h1>Bienvenue {{ userName }}! 👋</h1>
+    <p>Voici votre tableau de bord HealthAI Coach</p>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="quick-actions">
+    <mat-card class="action-card" routerLink="/user/recipes">
+      <mat-card-content>
+        <mat-icon class="large-icon">restaurant_menu</mat-icon>
+        <h3>Recettes</h3>
+        <p>Explorez nos recettes personnalisées</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" routerLink="/user/sport-programs">
+      <mat-card-content>
+        <mat-icon class="large-icon">fitness_center</mat-icon>
+        <h3>Programmes Sportifs</h3>
+        <p>Démarrez un nouveau programme</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" routerLink="/user/biometrics">
+      <mat-card-content>
+        <mat-icon class="large-icon">monitor_heart</mat-icon>
+        <h3>Données Biométriques</h3>
+        <p>Suivez votre progression</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" routerLink="/user/profile">
+      <mat-card-content>
+        <mat-icon class="large-icon">person</mat-icon>
+        <h3>Mon Profil</h3>
+        <p>Gérez vos informations</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Recent Activity -->
+  <section class="recent-activity">
+    <h2>Activité Récente</h2>
+    <p class="empty-state">Commencez votre journée en explorant nos services!</p>
+  </section>
+</div>

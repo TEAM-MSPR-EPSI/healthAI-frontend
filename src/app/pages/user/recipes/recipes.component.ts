@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../../services/api.service';
 import { RecipesGridComponent } from './components/recipes-grid.component';
 
 @Component({

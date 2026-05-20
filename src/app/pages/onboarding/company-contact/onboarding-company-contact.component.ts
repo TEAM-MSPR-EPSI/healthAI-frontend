@@ -16,6 +16,6 @@ export class OnboardingCompanyContactComponent {
   }
 
   finish() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/user/home']);
   }
 }

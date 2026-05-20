@@ -14,23 +14,26 @@ import { OnboardingGoalComponent } from './pages/onboarding/goal/onboarding-goal
 import { OnboardingCompanyContactComponent } from './pages/onboarding/company-contact/onboarding-company-contact.component';
 import { LostAccountComponent } from './pages/lost-account/lost-account.component';
 
-// Public / user pages
+// Public pages
 import { HomeComponent } from './pages/home/home.component';
-import { RecipesComponent } from './pages/recipes/recipes.component';
-import { RecipeDetailComponent } from './pages/recipes/recipe-detail.component';
-import { IngredientsComponent } from './pages/ingredients/ingredients.component';
-import { ManageIngredientsComponent } from './pages/ingredients/manage-ingredients.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { ConsultantProfileComponent } from './pages/consultant-profile/consultant-profile.component';
-import { BiometricsComponent } from './pages/biometrics/biometrics.component';
-import { ManageBiometricsComponent } from './pages/biometrics/manage-biometrics.component';
-import { SportProgramsComponent } from './pages/sport-programs/sport-programs.component';
-import { ProgramDetailComponent } from './pages/sport-programs/program-detail.component';
-import { SportSessionsComponent } from './pages/sport-sessions/sport-sessions.component';
-import { SessionDetailComponent } from './pages/sport-sessions/session-detail.component';
-import { ExercisesComponent } from './pages/exercises/exercises.component';
-import { EquipmentComponent } from './pages/equipment/equipment.component';
 import { Subscribe } from './pages/subscribe/subscribe';
+
+// User pages
+import { UserHomeComponent } from './pages/user/home/user-home.component';
+import { RecipesComponent } from './pages/user/recipes/recipes.component';
+import { RecipeDetailComponent } from './pages/user/recipes/recipe-detail.component';
+import { IngredientsComponent } from './pages/user/ingredients/ingredients.component';
+import { ManageIngredientsComponent } from './pages/user/ingredients/manage-ingredients.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
+import { ConsultantProfileComponent } from './pages/user/consultant-profile/consultant-profile.component';
+import { BiometricsComponent } from './pages/user/biometrics/biometrics.component';
+import { ManageBiometricsComponent } from './pages/user/biometrics/manage-biometrics.component';
+import { SportProgramsComponent } from './pages/user/sport-programs/sport-programs.component';
+import { ProgramDetailComponent } from './pages/user/sport-programs/program-detail.component';
+import { SportSessionsComponent } from './pages/user/sport-sessions/sport-sessions.component';
+import { SessionDetailComponent } from './pages/user/sport-sessions/session-detail.component';
+import { ExercisesComponent } from './pages/user/exercises/exercises.component';
+import { EquipmentComponent } from './pages/user/equipment/equipment.component';
 
 // Admin pages
 import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
@@ -59,24 +62,25 @@ export const routes: Routes = [
   { path: 'onboarding/goal', component: OnboardingGoalComponent },
   { path: 'onboarding/company-contact', component: OnboardingCompanyContactComponent },
   { path: 'lost-account', component: LostAccountComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'subscribe', component: Subscribe },
 
   // User pages
-  { path: 'home', component: HomeComponent },
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipes/:id', component: RecipeDetailComponent },
-  { path: 'ingredients', component: IngredientsComponent },
-  { path: 'ingredients/manage', component: ManageIngredientsComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'consultant', component: ConsultantProfileComponent },
-  { path: 'biometrics', component: BiometricsComponent },
-  { path: 'biometrics/manage', component: ManageBiometricsComponent },
-  { path: 'sport-programs', component: SportProgramsComponent },
-  { path: 'sport-programs/:id', component: ProgramDetailComponent },
-  { path: 'sport-sessions', component: SportSessionsComponent },
-  { path: 'sport-sessions/:id', component: SessionDetailComponent },
-  { path: 'exercises', component: ExercisesComponent },
-  { path: 'equipment', component: EquipmentComponent },
-  { path: 'subscribe', component: Subscribe },
+  { path: 'user/home', component: UserHomeComponent },
+  { path: 'user/recipes', component: RecipesComponent },
+  { path: 'user/recipes/:id', component: RecipeDetailComponent },
+  { path: 'user/ingredients', component: IngredientsComponent },
+  { path: 'user/ingredients/manage', component: ManageIngredientsComponent },
+  { path: 'user/profile', component: ProfileComponent },
+  { path: 'user/consultant', component: ConsultantProfileComponent },
+  { path: 'user/biometrics', component: BiometricsComponent },
+  { path: 'user/biometrics/manage', component: ManageBiometricsComponent },
+  { path: 'user/sport-programs', component: SportProgramsComponent },
+  { path: 'user/sport-programs/:id', component: ProgramDetailComponent },
+  { path: 'user/sport-sessions', component: SportSessionsComponent },
+  { path: 'user/sport-sessions/:id', component: SessionDetailComponent },
+  { path: 'user/exercises', component: ExercisesComponent },
+  { path: 'user/equipment', component: EquipmentComponent },
   // Admin
   { path: 'admin', component: AdminDashboardComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/user-list', component: AdminUsersListComponent, canActivate: [adminOnlyGuard] },

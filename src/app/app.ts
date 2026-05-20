@@ -47,23 +47,25 @@ export class App {
 
   /* User menu items (sidebar for desktop) */
   protected userMenuItems: MenuItem[] = [
-    { label: 'Recettes', icon: 'restaurant_menu', route: '/recipes' },
-    { label: 'Ingrédients', icon: 'egg', route: '/ingredients' },
-    { label: 'Programmes Sportifs', icon: 'fitness_center', route: '/sport-programs' },
-    { label: 'Séances de Sport', icon: 'directions_run', route: '/sport-sessions' },
-    { label: 'Exercices', icon: 'sports_gymnastics', route: '/exercises' },
-    { label: 'Matériel', icon: 'sports_kabaddi', route: '/equipment' },
-    { label: 'Données Biométriques', icon: 'monitor_heart', route: '/biometrics' },
-    { label: 'Mon Profil', icon: 'person', route: '/profile' },
+    { label: 'Accueil', icon: 'home', route: '/user/home' },
+    { label: 'Recettes', icon: 'restaurant_menu', route: '/user/recipes' },
+    { label: 'Ingrédients', icon: 'egg', route: '/user/ingredients' },
+    { label: 'Programmes Sportifs', icon: 'fitness_center', route: '/user/sport-programs' },
+    { label: 'Séances de Sport', icon: 'directions_run', route: '/user/sport-sessions' },
+    { label: 'Exercices', icon: 'sports_gymnastics', route: '/user/exercises' },
+    { label: 'Matériel', icon: 'sports_kabaddi', route: '/user/equipment' },
+    { label: 'Données Biométriques', icon: 'monitor_heart', route: '/user/biometrics' },
+    { label: 'Mon Profil', icon: 'person', route: '/user/profile' },
   ];
 
   /* Bottom nav for mobile */
   protected bottomNavItems = [
-    { label: 'Menu', icon: 'home', route: '/recipes' },
-    { label: 'Explorer', icon: 'explore', route: '/sport-programs' },
-    { label: 'Recettes', icon: 'restaurant_menu', route: '/ingredients' },
-    { label: 'Social', icon: 'people', route: '/biometrics' },
-    { label: 'Profil', icon: 'person', route: '/profile' },
+    { label: 'Accueil', icon: 'home', route: '/user/home' },
+    { label: 'Menu', icon: 'home', route: '/user/recipes' },
+    { label: 'Explorer', icon: 'explore', route: '/user/sport-programs' },
+    { label: 'Recettes', icon: 'restaurant_menu', route: '/user/ingredients' },
+    { label: 'Social', icon: 'people', route: '/user/biometrics' },
+    { label: 'Profil', icon: 'person', route: '/user/profile' },
   ];
 
   protected currentMenuItems = computed(() =>
