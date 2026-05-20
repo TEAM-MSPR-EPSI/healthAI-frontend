@@ -30,6 +30,7 @@ import { SportSessionsComponent } from './pages/sport-sessions/sport-sessions.co
 import { SessionDetailComponent } from './pages/sport-sessions/session-detail.component';
 import { ExercisesComponent } from './pages/exercises/exercises.component';
 import { EquipmentComponent } from './pages/equipment/equipment.component';
+import { Subscribe } from './pages/subscribe/subscribe';
 
 // Admin pages
 import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
@@ -75,7 +76,7 @@ export const routes: Routes = [
   { path: 'sport-sessions/:id', component: SessionDetailComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'equipment', component: EquipmentComponent },
-
+  { path: 'subscribe', component: Subscribe },
   // Admin
   { path: 'admin', component: AdminDashboardComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/user-list', component: AdminUsersListComponent, canActivate: [adminOnlyGuard] },

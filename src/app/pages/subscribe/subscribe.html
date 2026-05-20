@@ -1,0 +1,54 @@
+<div class="page-content">
+  <div class="subscribe-header">
+    <button mat-icon-button class="back-btn" routerLink="/profile">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Abonnement</h1>
+      <p class="page-description">Comparer les abonnements</p>
+    </div>
+  </div>
+
+  <div class="banner-image">
+    <img
+      src="/assets/subscription.png"
+      alt="Abonnement"
+      class="banner-img"
+      (error)="onImgError($event)"
+    />
+  </div>
+
+  @if (loading) {
+    <div class="skeleton-list">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  } @else {
+    <div class="plans-list">
+      @for (plan of plans; track plan.id) {
+        <mat-card class="plan-card" [class.popular]="plan.popular">
+          @if (plan.popular) {
+            <span class="popular-badge">Populaire</span>
+          }
+          <mat-card-content>
+            <h3 class="plan-name">{{ plan.name }}</h3>
+            <ul class="plan-features">
+              @for (feature of plan.features; track feature) {
+                <li>{{ feature }}</li>
+              }
+            </ul>
+            <button
+              mat-flat-button
+              class="try-btn"
+              [class.popular-btn]="plan.popular"
+              (click)="selectPlan(plan)"
+            >
+              Essaie pour {{ plan.price | currency:'USD':'symbol':'1.2-2' }}
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
