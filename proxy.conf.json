@@ -4,5 +4,17 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "warn"
+  },
+  "/etl": {
+    "target": "http://etl_backend:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
+  },
+  "/csv": {
+    "target": "http://etl_backend:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
   }
 }
