@@ -28,20 +28,6 @@
         <p class="error-msg" id="login-error" role="alert" aria-live="assertive">{{ errorMessage }}</p>
       }
 
-      <!-- Connexion par Google / Apple / SMS (désactivé pour le moment)
-      <div class="auth-buttons">
-        <button type="button" class="auth-method">
-          <mat-icon>g_mobiledata</mat-icon> Continuer avec Google
-        </button>
-        <button type="button" class="auth-method">
-          <mat-icon>apple</mat-icon> Continuer avec Apple
-        </button>
-        <button type="button" class="auth-method">
-          <mat-icon>sms</mat-icon> Continuer par SMS
-        </button>
-      </div>
-      -->
-
       <button mat-flat-button class="login-btn full-width" type="submit" [disabled]="loading">
         {{ loading ? 'Connexion...' : 'Se connecter' }}
       </button>
