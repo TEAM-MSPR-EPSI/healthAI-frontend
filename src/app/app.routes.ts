@@ -67,6 +67,7 @@ export const routes: Routes = [
 
   // User pages
   { path: 'user/home', component: UserHomeComponent },
+  { path: 'user/subscribe', component: Subscribe },
   { path: 'user/recipes', component: RecipesComponent },
   { path: 'user/recipes/:id', component: RecipeDetailComponent },
   { path: 'user/ingredients', component: IngredientsComponent },

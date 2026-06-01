@@ -1,7 +1,41 @@
-<a routerLink="/user/subscribe" class="sub-banner" role="banner" aria-label="Abonnement - Débloquer tout le contenu">
-  <div>
-    <p class="sub-title">Abonnement</p>
-    <p class="sub-desc">Débloquer tout le contenu</p>
+<div class="home-page">
+  <!-- Hero -->
+  <section class="hero">
+    <img src="logo.png" alt="HealthAI Coach" class="hero-logo" />
+    <h1>HealthAI Coach</h1>
+    <p class="hero-sub">Votre assistant santé, nutrition et fitness propulsé par l'IA</p>
+  </section>
+
+  <!-- Premium Banner -->
+  <div class="premium-banner-wrap">
+    <div class="premium-banner" role="region" aria-label="Offre Premium HealthAI Coach">
+      <div class="banner-mascot" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <ellipse cx="24" cy="28" rx="16" ry="17" fill="#4caf50" />
+          <ellipse cx="24" cy="26" rx="14" ry="14" fill="#66bb6a" />
+          <ellipse cx="18" cy="24" rx="4.5" ry="5" fill="#f0faea" />
+          <ellipse cx="30" cy="24" rx="4.5" ry="5" fill="#f0faea" />
+          <circle cx="18" cy="24" r="2.8" fill="#1a3d18" />
+          <circle cx="30" cy="24" r="2.8" fill="#1a3d18" />
+          <circle cx="19" cy="23" r="0.9" fill="#fff" />
+          <circle cx="31" cy="23" r="0.9" fill="#fff" />
+          <path d="M 20 32 Q 24 35.5 28 32" stroke="#1a3d18" stroke-width="1.8" fill="none" stroke-linecap="round" />
+          <circle cx="14.5" cy="17" r="3.5" fill="#66bb6a" />
+          <circle cx="33.5" cy="17" r="3.5" fill="#66bb6a" />
+        </svg>
+      </div>
+
+      <div class="banner-text">
+        <span class="banner-label">Offre premium</span>
+        <span class="banner-title">Débloque tout ton potentiel</span>
+        <span class="banner-sub">Essai gratuit 7 jours · Sans engagement</span>
+      </div>
+
+      <a routerLink="/user/subscribe" class="banner-btn" aria-label="Voir les offres d'abonnement Premium HealthAI Coach">
+        <mat-icon>workspace_premium</mat-icon>
+        Voir les offres
+        <mat-icon>arrow_forward</mat-icon>
+      </a>
+    </div>
   </div>
-  <span class="sub-crown" aria-hidden="true">👑</span>
-</a>
+</div>
