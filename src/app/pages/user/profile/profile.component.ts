@@ -136,7 +136,9 @@ export class ProfileComponent implements OnInit {
     this.api.getPrograms().subscribe({
       next: (programs) => {
         this.sportPrograms = programs ?? [];
-        const selected = this.sportPrograms.find(p => p.sport_program_id === this.profile.sportProgramId);
+        const selected = this.sportPrograms.find(
+          (p) => p.sport_program_id === this.profile.sportProgramId,
+        );
         if (selected) {
           this.profile.sportProgramName = selected.sport_program_name;
         }
@@ -247,7 +249,9 @@ export class ProfileComponent implements OnInit {
   }
 
   onProgramChange() {
-    const selected = this.sportPrograms.find(p => p.sport_program_id === this.profile.sportProgramId);
+    const selected = this.sportPrograms.find(
+      (p) => p.sport_program_id === this.profile.sportProgramId,
+    );
     this.profile.sportProgramName = selected?.sport_program_name ?? '';
   }
 
@@ -287,7 +291,7 @@ export class ProfileComponent implements OnInit {
         this.snackBar.open('Entrée biométrique ajoutée', 'OK', { duration: 2500 });
       },
       error: () => {
-        this.snackBar.open('Erreur lors de l\'ajout biométrique', 'OK', { duration: 3000 });
+        this.snackBar.open("Erreur lors de l'ajout biométrique", 'OK', { duration: 3000 });
       },
     });
   }
@@ -305,7 +309,12 @@ export class ProfileComponent implements OnInit {
   }
 
   addConsume(): void {
-    if (!this.userId || !this.newConsumeDate || !this.newConsumeIngredientId || !this.newConsumeQuantity) {
+    if (
+      !this.userId ||
+      !this.newConsumeDate ||
+      !this.newConsumeIngredientId ||
+      !this.newConsumeQuantity
+    ) {
       this.snackBar.open('Date, aliment et quantité sont requis', 'OK', { duration: 2500 });
       return;
     }
@@ -325,7 +334,7 @@ export class ProfileComponent implements OnInit {
         this.snackBar.open('Consommation ajoutée', 'OK', { duration: 2500 });
       },
       error: () => {
-        this.snackBar.open('Erreur lors de l\'ajout consommation', 'OK', { duration: 3000 });
+        this.snackBar.open("Erreur lors de l'ajout consommation", 'OK', { duration: 3000 });
       },
     });
   }
@@ -364,4 +373,3 @@ export class ProfileComponent implements OnInit {
     return (minutes / 60).toFixed(1);
   }
 }
-

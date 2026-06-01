@@ -64,7 +64,6 @@ export class App {
     { label: 'Menu', icon: 'home', route: '/user/recipes' },
     { label: 'Explorer', icon: 'explore', route: '/user/sport-programs' },
     { label: 'Recettes', icon: 'restaurant_menu', route: '/user/ingredients' },
-    { label: 'Social', icon: 'people', route: '/user/biometrics' },
     { label: 'Profil', icon: 'person', route: '/user/profile' },
   ];
 
@@ -105,7 +104,7 @@ export class App {
     private router: Router,
     protected auth: AuthService,
   ) {
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((result) => {
+    this.breakpointObserver.observe(['(max-width: 1023px)']).subscribe((result) => {
       this.isMobile.set(result.matches);
       this.sidenavOpened.set(!result.matches);
     });

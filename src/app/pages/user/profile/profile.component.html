@@ -1,194 +1,140 @@
 <div class="page-content">
-  <h1>Mon Profil</h1>
-  <p class="page-description">Modifiez vos informations personnelles</p>
 
+  <!-- Header bar (masquée sur desktop) -->
+  <div class="profile-header-bar desktop-hidden">
+    <button class="header-back" routerLink="/">
+      <mat-icon>chevron_left</mat-icon> Retour
+    </button>
+    <span class="header-title">Réglage</span>
+    <button class="header-save" mat-button (click)="save()" [disabled]="savingProfile">Enregistrer</button>
+  </div>
+
+  <!-- Avatar -->
+  <div class="avatar-section">
+    <div class="avatar-circle">
+      <mat-icon>person</mat-icon>
+    </div>
+    <p class="avatar-change-label">Changer ton avatar</p>
+  </div>
+
+  <!-- Profile fields card -->
   <mat-card class="profile-card">
     <mat-card-content>
-      <div class="avatar-section">
-        <div class="avatar">
-          <mat-icon>person</mat-icon>
-        </div>
-        <h2>{{ profile.firstName }} {{ profile.lastName }}</h2>
-        <p class="email-display">{{ profile.email }}</p>
-      </div>
+      <form class="profile-form" name="profileForm">
 
-      <form (ngSubmit)="save()" class="profile-form">
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Prénom</mat-label>
-            <input matInput [(ngModel)]="profile.firstName" name="firstName" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Nom</mat-label>
-            <input matInput [(ngModel)]="profile.lastName" name="lastName" />
-          </mat-form-field>
+        <div class="field-row">
+          <span class="field-label">Prénom</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.firstName" name="firstName" placeholder="Prénom" />
+          </div>
         </div>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" [(ngModel)]="profile.email" name="email" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Téléphone</mat-label>
-            <input matInput [(ngModel)]="profile.phone" name="phone" />
-          </mat-form-field>
+        <div class="field-row">
+          <span class="field-label">Nom</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.lastName" name="lastName" placeholder="Nom" />
+          </div>
         </div>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Date de naissance</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="profile.birthDate" name="birthDate" />
+        <div class="field-row">
+          <span class="field-label">Téléphone</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.phone" name="phone" placeholder="Téléphone" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Date de naissance</span>
+          <div class="field-right">
+            <input class="field-input" [matDatepicker]="picker" [(ngModel)]="profile.birthDate" name="birthDate" placeholder="JJ/MM/AAAA" />
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Genre</mat-label>
-            <mat-select [(ngModel)]="profile.gender" name="gender">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Genre</span>
+          <div class="field-right">
+            <mat-select class="field-select" [(ngModel)]="profile.gender" name="gender">
               <mat-option value="male">Homme</mat-option>
               <mat-option value="female">Femme</mat-option>
               <mat-option value="other">Autre</mat-option>
             </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Taille (cm)</mat-label>
-            <input matInput type="number" [(ngModel)]="profile.height" name="height" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Poids (kg)</mat-label>
-            <input matInput type="number" step="0.1" [(ngModel)]="profile.weight" name="weight" />
-          </mat-form-field>
-        </div>
-
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Ville</mat-label>
-            <input matInput [(ngModel)]="profile.city" name="city" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Pays</mat-label>
-            <input matInput [(ngModel)]="profile.country" name="country" />
-          </mat-form-field>
-        </div>
-
-        @if (loadingPrograms) {
-          <div class="skeleton-grid">
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line"></div>
           </div>
-        } @else {
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="form-field">
-              <mat-label>Programme sportif</mat-label>
-              <mat-select [(ngModel)]="profile.sportProgramId" name="sportProgramId" (selectionChange)="onProgramChange()">
-                <mat-option [value]="null">Aucun programme</mat-option>
+        </div>
+
+        <div class="field-row has-action">
+          <span class="field-label">Mail</span>
+          <div class="field-right">
+            <input class="field-input" type="email" [(ngModel)]="profile.email" name="email" placeholder="Email" />
+          </div>
+          <span class="field-action">Changer</span>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Ville</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.city" name="city" placeholder="Ville" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Pays</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.country" name="country" placeholder="Pays" />
+          </div>
+        </div>
+
+        @if (!loadingPrograms) {
+          <div class="field-row">
+            <span class="field-label">Programme sportif</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.sportProgramId" name="sportProgramId" (selectionChange)="onProgramChange()">
+                <mat-option [value]="null">Aucun</mat-option>
                 @for (program of sportPrograms; track program.sport_program_id) {
                   <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
                 }
               </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="form-field">
-              <mat-label>Objectif</mat-label>
-              <mat-select [(ngModel)]="profile.goal" name="goal">
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Objectif</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.goal" name="goal">
                 @for (g of goals; track g.value) {
                   <mat-option [value]="g.value">{{ g.label }}</mat-option>
                 }
               </mat-select>
-            </mat-form-field>
+            </div>
           </div>
         }
 
-        <div class="form-row">
-          @if (profile.sportProgramName) {
-            <mat-form-field appearance="outline" class="form-field" [class.readonly]="true">
-              <mat-label>Préférence sportive</mat-label>
-              <input matInput [(ngModel)]="profile.sportProgramName" name="sportProgramName" disabled />
-            </mat-form-field>
-          }
-        </div>
-
-        <div class="form-actions">
-          <button mat-flat-button class="save-btn" type="submit" [disabled]="savingProfile">
-            <mat-icon>save</mat-icon> Sauvegarder
-          </button>
-        </div>
       </form>
-
-      <section class="data-section">
-        <h3 class="section-title"><mat-icon>warning</mat-icon> Allergies alimentaires</h3>
-
-        @if (loadingAllergies) {
-          <div class="skeleton-grid chips">
-            <div class="skeleton-chip"></div>
-            <div class="skeleton-chip"></div>
-            <div class="skeleton-chip"></div>
-            <div class="skeleton-chip"></div>
-          </div>
-        } @else {
-          <div class="allergies-grid">
-            @for (allergy of allergiesList; track allergy) {
-              <label class="allergy-checkbox">
-                <input type="checkbox" [checked]="isAllergySelected(allergy)" (change)="toggleAllergy(allergy)" />
-                <span>{{ formatAllergyLabel(allergy) }}</span>
-              </label>
-            }
-          </div>
-          <button mat-stroked-button type="button" (click)="saveAllergies()">
-            <mat-icon>save</mat-icon> Enregistrer allergies
-          </button>
-        }
-      </section>
-
-      <section class="data-section">
-        <h3 class="section-title"><mat-icon>monitor_heart</mat-icon> Données biométriques</h3>
-        <p>Gérer vos données biométriques (ajout, modification, suppression) sur une page dédiée.</p>
-        <button mat-stroked-button routerLink="/biometrics/manage"><mat-icon>open_in_new</mat-icon> Ouvrir gestion biométrie</button>
-      </section>
-
-      <section class="data-section">
-        <h3 class="section-title"><mat-icon>restaurant</mat-icon> Aliments</h3>
-        <p>Gérer la liste des aliments (modification des valeurs nutritionnelles).</p>
-        <button mat-stroked-button routerLink="/ingredients/manage"><mat-icon>open_in_new</mat-icon> Ouvrir gestion aliments</button>
-      </section>
     </mat-card-content>
   </mat-card>
 
-  <!-- Quick links to other sections -->
-  <div class="profile-links">
-    <a class="profile-link" routerLink="/biometrics">
-      <mat-icon>monitor_heart</mat-icon>
-      <div class="link-text">
-        <span class="link-title">Données biométriques</span>
-        <span class="link-sub">Sommeil, pas, poids</span>
-      </div>
-      <mat-icon class="link-arrow">chevron_right</mat-icon>
-    </a>
-    <a class="profile-link" routerLink="/sport-programs">
-      <mat-icon>fitness_center</mat-icon>
-      <div class="link-text">
-        <span class="link-title">Mes programmes</span>
-        <span class="link-sub">Programmes sportifs en cours</span>
-      </div>
-      <mat-icon class="link-arrow">chevron_right</mat-icon>
-    </a>
-    <a class="profile-link" routerLink="/recipes">
-      <mat-icon>restaurant_menu</mat-icon>
-      <div class="link-text">
-        <span class="link-title">Mes recettes</span>
-        <span class="link-sub">Recettes et nutrition</span>
-      </div>
-      <mat-icon class="link-arrow">chevron_right</mat-icon>
-    </a>
-    <a class="profile-link" routerLink="/consultant">
-      <mat-icon>medical_services</mat-icon>
-      <div class="link-text">
-        <span class="link-title">Consulter un nutritionniste</span>
-        <span class="link-sub">Avis professionnel personnalisé</span>
-      </div>
-      <mat-icon class="link-arrow">chevron_right</mat-icon>
-    </a>
+  <!-- Action buttons -->
+  <div class="action-buttons">
+    <button class="action-btn save-btn desktop-only" mat-stroked-button (click)="save()" [disabled]="savingProfile">
+      <mat-icon>save</mat-icon>
+      <span>Enregistrer</span>
+    </button>
+    <button class="action-btn" mat-stroked-button>
+      <mat-icon>help_outline</mat-icon>
+      <span>Help center</span>
+    </button>
+    <button class="action-btn" mat-stroked-button>
+      <mat-icon>feedback</mat-icon>
+      <span>Feedback</span>
+    </button>
+    <button class="action-btn logout-btn" mat-stroked-button>
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+    </button>
+    <button class="action-btn reset-btn" mat-stroked-button>
+      <mat-icon>warning</mat-icon>
+      <span>Reset my account</span>
+    </button>
   </div>
+
 </div>
