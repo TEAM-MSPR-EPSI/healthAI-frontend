@@ -2,18 +2,6 @@
   <h1>Programmes Sportifs</h1>
   <p class="page-description">Choisissez un programme adapté à vos objectifs</p>
 
-  <div class="page-nav-links">
-    <a routerLink="/user/sport-sessions" class="nav-link-pill">
-      <mat-icon>event</mat-icon> Séances
-    </a>
-    <a routerLink="/user/exercises" class="nav-link-pill">
-      <mat-icon>fitness_center</mat-icon> Exercices
-    </a>
-    <a routerLink="/user/equipment" class="nav-link-pill">
-      <mat-icon>sports_handball</mat-icon> Matériel
-    </a>
-  </div>
-
   <div class="programs-grid">
     @for (prog of programs; track prog.id) {
       <a [routerLink]="'/user/sport-programs/' + prog.id" class="program-card-link">
