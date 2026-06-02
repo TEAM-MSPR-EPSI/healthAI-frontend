@@ -1,5 +1,5 @@
 <div class="page-content">
-  <a routerLink="/sport-programs" class="back-link">
+  <a routerLink="/user/sport-programs" class="back-link">
     <mat-icon>arrow_back</mat-icon> Retour aux programmes
   </a>
 
@@ -29,7 +29,7 @@
     @if (program.sessions && program.sessions.length) {
       <div class="sessions-list">
         @for (s of program.sessions; track s.sport_session_id) {
-          <a [routerLink]="'/sport-sessions/' + s.sport_session_id" class="session-link">
+          <a [routerLink]="'/user/sport-sessions/' + s.sport_session_id" class="session-link">
             <mat-card class="session-row">
               <mat-card-content>
                 <span class="session-rank">#{{ s.rank }}</span>

@@ -29,7 +29,7 @@ import { ConsultantProfileComponent } from './pages/user/consultant-profile/cons
 import { BiometricsComponent } from './pages/user/biometrics/biometrics.component';
 import { ManageBiometricsComponent } from './pages/user/biometrics/manage-biometrics.component';
 import { SportProgramsComponent } from './pages/user/sport-programs/sport-programs.component';
-import { ProgramDetailComponent } from './pages/user/sport-programs/program-detail.component';
+import { ProgramDetailComponent } from './pages/user/program-detail/program-detail.component';
 import { SportSessionsComponent } from './pages/user/sport-sessions/sport-sessions.component';
 import { SessionDetailComponent } from './pages/user/sport-sessions/session-detail.component';
 import { ExercisesComponent } from './pages/user/exercises/exercises.component';

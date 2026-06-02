@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +18,7 @@ export class SessionDetailComponent implements OnInit {
   session: any = null;
   loading = true;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(private route: ActivatedRoute, private api: ApiService, private location: Location) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -32,5 +33,9 @@ export class SessionDetailComponent implements OnInit {
     } else {
       this.loading = false;
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

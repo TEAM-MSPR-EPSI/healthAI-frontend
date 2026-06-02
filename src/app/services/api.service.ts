@@ -168,6 +168,11 @@ export class ApiService {
     return this.http.get<any>(`${this.base}/sport-programs/${id}`).pipe(
       map((program) => ({
         ...program,
+        sport_program_id: program.sport_program_id ?? program.id,
+        sport_program_name: program.sport_program_name ?? program.name,
+        sport_program_objective: program.sport_program_objective ?? program.objective,
+        sport_program_duration: program.sport_program_duration ?? program.duration,
+        sport_program_sessions: program.sport_program_sessions ?? program.sessions,
         sessions: Array.isArray(program.programSessions)
           ? program.programSessions.map((relation: any) => ({
               sport_session_id: relation.sport_session?.sport_session_id ?? relation.sport_session_id,
