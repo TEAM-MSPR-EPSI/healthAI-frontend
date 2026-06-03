@@ -34,4 +34,8 @@ export class ProgramDetailComponent implements OnInit {
       this.loading = false;
     }
   }
+  
+  startSession(id: number) {
+    window.location.href = '/user/sport-sessions/' + id + '?start=true';
+  }
 }
