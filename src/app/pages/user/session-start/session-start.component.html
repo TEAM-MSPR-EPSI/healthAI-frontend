@@ -1,54 +1,60 @@
-<div class="overlay" *ngIf="visible" (click)="onOverlayClick($event)">
-  <div class="panel" #panel>
+<div class="page">
 
-    <!-- Bouton fermer -->
-    <button class="close-btn" (click)="close()" aria-label="Fermer">
-      <mat-icon>close</mat-icon>
-    </button>
+  <!-- Bouton retour -->
+  <button class="back-btn" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
 
-    <!-- Zone vidéo -->
-    <div class="video-wrapper">
-      @if (session?.sport_session_video_url) {
-        <video
-          #videoRef
-          class="session-video"
-          [src]="session.sport_session_video_url"
-          preload="metadata"
-          playsinline
-          (click)="toggleVideo()"
-        ></video>
-        <button class="play-btn" (click)="toggleVideo()" [class.playing]="isPlaying">
-          <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
-        </button>
-      } @else {
-        <!-- Placeholder si pas de vidéo -->
-        <div class="video-placeholder">
-          <mat-icon class="placeholder-icon">videocam_off</mat-icon>
-          <span>Aucune vidéo disponible</span>
-        </div>
-      }
-    </div>
-
-    <!-- Infos séance -->
-    <div class="session-info">
-      <p class="session-label">{{ session?.sport_session_name }}</p>
-
-      @if (session?.sport_session_duration) {
-        <div class="duration-row">
-          <mat-icon class="duration-icon">timer</mat-icon>
-          <span class="duration-value">{{ session.sport_session_duration }} min</span>
-          <span class="duration-hint">(Minuteur)</span>
-        </div>
-        <p class="session-desc">{{ session?.sport_session_description }}</p>
-      }
-    </div>
-
-    <!-- CTA -->
-    <div class="cta-area">
-      <button class="start-cta" (click)="confirmStart()">
-        C'est parti
+  <!-- Zone vidéo -->
+  <div class="video-wrapper">
+    @if (session?.sport_session_video_url) {
+      <video
+        #videoRef
+        class="session-video"
+        [src]="session.sport_session_video_url"
+        preload="metadata"
+        playsinline
+        (click)="toggleVideo()"
+      ></video>
+      <button class="play-btn" (click)="toggleVideo()" [class.playing]="isPlaying">
+        <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
       </button>
-    </div>
-
+    } @else {
+      <div class="video-placeholder">
+        <div class="play-circle">
+          <mat-icon>play_arrow</mat-icon>
+        </div>
+        <span>Video</span>
+      </div>
+    }
   </div>
+
+  <!-- Infos -->
+  <div class="info-section">
+    <p class="session-desc">{{ session?.sport_session_name }}</p>
+
+    <div class="duration-row">
+      <!-- Durée fixe de la séance (si renseignée) -->
+      @if (session?.sport_session_duration) {
+        <mat-icon class="timer-icon">timer</mat-icon>
+        <span class="duration-value">{{ session.sport_session_duration }} min</span>
+        <span class="duration-hint">(durée estimée)</span>
+      }
+
+      <!-- Durée calculée depuis les exercices -->
+      @if (totalDuration != null) {
+        <div class="total-duration-badge">
+          <mat-icon class="timer-icon">fitness_center</mat-icon>
+          <span class="duration-value">{{ totalDuration }} min</span>
+          <span class="duration-hint">(total exercices)</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-area">
+    <button class="start-cta" (click)="confirmStart()">C'est parti</button>
+  </div>
+
 </div>

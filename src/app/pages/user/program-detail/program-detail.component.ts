@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,11 @@ export class ProgramDetailComponent implements OnInit {
   program: any = null;
   loading = true;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private api: ApiService,
+  ) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -34,8 +38,8 @@ export class ProgramDetailComponent implements OnInit {
       this.loading = false;
     }
   }
-  
+
   startSession(id: number) {
-    window.location.href = '/user/sport-sessions/' + id + '?start=true';
+    this.router.navigate(['/user/sport-sessions', id, 'start']);
   }
 }
