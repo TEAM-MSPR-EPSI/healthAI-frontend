@@ -34,6 +34,7 @@ import { SportSessionsComponent } from './pages/user/sport-sessions/sport-sessio
 import { SessionDetailComponent } from './pages/user/sport-sessions/session-detail.component';
 import { ExercisesComponent } from './pages/user/exercises/exercises.component';
 import { EquipmentComponent } from './pages/user/equipment/equipment.component';
+import { SessionStartComponent } from './pages/user/session-start/session-start.component';
 
 // Admin pages
 import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
@@ -82,6 +83,8 @@ export const routes: Routes = [
   { path: 'user/sport-sessions/:id', component: SessionDetailComponent },
   { path: 'user/exercises', component: ExercisesComponent },
   { path: 'user/equipment', component: EquipmentComponent },
+  { path: 'user/sport-sessions/:id/start', component: SessionStartComponent },
+  
   // Admin
   { path: 'admin', component: AdminDashboardComponent, canActivate: [adminOnlyGuard] },
   { path: 'admin/user-list', component: AdminUsersListComponent, canActivate: [adminOnlyGuard] },
