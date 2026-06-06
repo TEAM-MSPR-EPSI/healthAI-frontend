@@ -34,7 +34,7 @@ export class SessionStartComponent implements OnInit, OnDestroy {
   private intervalId: any = null;
 
   // SVG ring
-  readonly RADIUS = 88;
+  readonly RADIUS = 100;
   readonly CIRCUMFERENCE = 2 * Math.PI * this.RADIUS;
 
   @ViewChild('videoRef') videoRef?: ElementRef<HTMLVideoElement>;
@@ -116,7 +116,7 @@ export class SessionStartComponent implements OnInit, OnDestroy {
     else if (this.screen === 'exercise') this.startExercise(this.currentIndex + 1);
   }
 
-  backToSessions() { this.router.navigate(['/user/sport-programs']); }
+  backToSessions() { this.router.navigate(['/user/sport-sessions']); }
 
   // ── Timer helpers ─────────────────────────────────────
   private computeTotalDuration(exercises: any[]): number {
