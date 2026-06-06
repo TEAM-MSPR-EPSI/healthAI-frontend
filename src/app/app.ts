@@ -62,7 +62,7 @@ export class App {
   protected bottomNavItems = [
     { label: 'Accueil', icon: 'home', route: '/user/home' },
     { label: 'Menu', icon: 'home', route: '/user/recipes' },
-    { label: 'Explorer', icon: 'explore', route: '/user/sport-programs' },
+    { label: 'Programmes', icon: 'fitness_center', route: '/user/sport-programs' },
     { label: 'Recettes', icon: 'restaurant_menu', route: '/user/ingredients' },
     { label: 'Profil', icon: 'person', route: '/user/profile' },
   ];
