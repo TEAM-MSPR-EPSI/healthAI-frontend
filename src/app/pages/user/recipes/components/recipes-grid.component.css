@@ -9,6 +9,39 @@
   margin: 0 0 16px;
 }
 
+/* ===== Type Filters ===== */
+.type-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  color: var(--text-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+  background: var(--highlight-soft-color);
+}
+
+.filter-btn.active {
+  background: var(--secondary-color);
+  color: var(--surface-color);
+  border-color: var(--secondary-color);
+}
+
+/* ===== Grid ===== */
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -64,7 +97,7 @@
   padding: 32px 0;
 }
 
-/* SKELETON LOADING STYLES */
+/* ===== Skeleton ===== */
 .skeleton-card {
   display: flex;
   flex-direction: column;
@@ -77,12 +110,7 @@
 .skeleton-emoji {
   width: 60px;
   height: 60px;
-  background: linear-gradient(
-    90deg,
-    #e0e0e0 25%,
-    #f0f0f0 50%,
-    #e0e0e0 75%
-  );
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
   background-size: 200% 100%;
   border-radius: 8px;
   margin: 0 auto 12px;
@@ -96,22 +124,13 @@
 
 .skeleton-line {
   height: 12px;
-  background: linear-gradient(
-    90deg,
-    #e0e0e0 25%,
-    #f0f0f0 50%,
-    #e0e0e0 75%
-  );
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
   background-size: 200% 100%;
   border-radius: 4px;
   animation: skeleton-pulse 1.5s infinite linear;
 }
 
 @keyframes skeleton-pulse {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

@@ -1,19 +1,6 @@
 <div class="recipes-page">
-  <!-- Header -->
-  <!-- <div class="recipes-header">
-    <div class="header-left">
-      <span class="header-emoji">🌿</span>
-      <h1>Recette</h1>
-    </div>
-    <button class="option-btn">
-      <mat-icon>tune</mat-icon> Option
-    </button>
-  </div> -->
 
-  <!-- <app-recipe-category-carousel [categories]="categories"></app-recipe-category-carousel> -->
-
-  <!-- CTA Banner -->
-  <a class="cta-banner" routerLink="/consultant">
+  <a class="cta-banner" routerLink="/user/consultant">
     <div class="cta-content">
       <h3>Consulter un nutritionniste</h3>
       <p>Réservez une séance avec un expert</p>
@@ -23,14 +10,19 @@
 
   <!-- Quick links -->
   <div class="quick-links">
-    <a class="quick-link" routerLink="/ingredients">
+    <a class="quick-link" routerLink="/user/ingredients">
       <span class="quick-link-icon">❤️</span>
       <span>Recette favorite</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
-    <a class="quick-link" routerLink="/sport-programs">
+    <a class="quick-link" routerLink="/user/sport-programs">
       <span class="quick-link-icon">📋</span>
       <span>Menu journalier</span>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+    <a class="quick-link" routerLink="/user/food-log">
+      <span class="quick-link-icon">🍽️</span>
+      <span>Qu'avez-vous mangé aujourd'hui ?</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
   </div>
