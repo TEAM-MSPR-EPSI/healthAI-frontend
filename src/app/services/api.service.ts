@@ -39,6 +39,18 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/users`);
   }
 
+  getUserHealthProfile(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-health-profiles/user/${userId}`);
+  }
+
+  createUserHealthProfile(data: any): Observable<any> {
+    return this.http.post(`${this.base}/user-health-profiles`, data);
+  }
+
+  updateUserHealthProfile(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/user-health-profiles/${id}`, data);
+  }
+
   getUserHealthProfiles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/user-health-profiles`);
   }
