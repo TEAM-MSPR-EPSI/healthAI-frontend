@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
 
 type Screen = 'intro' | 'warmup' | 'exercise' | 'done';
 
@@ -43,6 +44,7 @@ export class SessionStartComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
+    private auth: AuthService,
   ) {}
 
   ngOnInit() {
@@ -106,7 +108,24 @@ export class SessionStartComponent implements OnInit, OnDestroy {
     this.runTimer(() => this.startExercise(index + 1));
   }
 
-  showDone() { this.clearTimer(); this.screen = 'done'; }
+  showDone() {
+    this.clearTimer();
+    this.screen = 'done';
+    this.recordSessionProgress();
+  }
+
+  private recordSessionProgress(): void {
+    const userId = this.auth.currentUser()?.user_id;
+    const sessionId = this.session?.sport_session_id;
+    if (!userId || !sessionId) return;
+    const today = new Date().toISOString().split('T')[0];
+    this.api.createSessionProgress({
+      user_id: userId,
+      sport_session_id: sessionId,
+      session_progress_start: today,
+      session_progress_end: today,
+    }).subscribe({ error: (e) => console.error('session-progress error', e) });
+  }
 
   togglePause() { this.isPaused = !this.isPaused; }
 

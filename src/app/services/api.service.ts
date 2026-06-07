@@ -107,6 +107,14 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/consumes`);
   }
 
+  createSessionProgress(data: any): Observable<any> {
+    return this.http.post(`${this.base}/session-progress`, data);
+  }
+
+  getSessionProgressesByUserId(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/session-progress/user/${userId}`);
+  }
+
   getSessionProgresses(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/session-progress`);
   }

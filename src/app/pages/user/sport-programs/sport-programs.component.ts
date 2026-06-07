@@ -6,6 +6,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-sport-programs',
@@ -18,21 +20,44 @@ export class SportProgramsComponent implements OnInit {
   programs: any[] = [];
   loading = true;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.api.getPrograms().subscribe({
-      next: (data) => {
-        this.programs = data.map((p: any) => ({
-          id: p.sport_program_id,
-          name: p.sport_program_name ?? p.program_name,
-          description: p.sport_program_objective ?? p.program_goal,
-          duration: `${p.sport_program_duration ?? p.program_duration_days ?? '?'} jours`,
-          sessions: p.sport_program_sessions ?? p.program_session_count ?? 0,
-          level: p.sport_program_objective ?? p.program_goal,
-          progress: 0,
-          icon: 'fitness_center',
-        }));
+    const userId = this.auth.currentUser()?.user_id;
+
+    const programs$ = this.api.getPrograms();
+    const progresses$ = userId
+      ? this.api.getSessionProgressesByUserId(String(userId))
+      : of([]);
+
+    forkJoin([programs$, progresses$]).subscribe({
+      next: ([data, progresses]: [any[], any[]]) => {
+        // Set des session_ids déjà faits par l'user
+        const doneIds = new Set(progresses.map((p: any) => Number(p.sport_session_id)));
+
+        this.programs = data.map((p: any) => {
+          // Séances liées à ce programme
+          const programSessions: any[] = Array.isArray(p.programSessions)
+            ? p.programSessions
+            : [];
+          const total = programSessions.length;
+          const done = programSessions.filter((ps: any) => {
+            const sid = Number(ps.sport_session_id ?? ps.sport_session?.sport_session_id);
+            return doneIds.has(sid);
+          }).length;
+          const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+
+          return {
+            id: p.sport_program_id,
+            name: p.sport_program_name ?? p.program_name,
+            description: p.sport_program_objective ?? p.program_goal,
+            duration: `${p.sport_program_duration ?? p.program_duration_days ?? '?'} jours`,
+            sessions: total,
+            level: p.sport_program_objective ?? p.program_goal,
+            progress,
+            icon: 'fitness_center',
+          };
+        });
         this.loading = false;
       },
       error: () => { this.loading = false; },

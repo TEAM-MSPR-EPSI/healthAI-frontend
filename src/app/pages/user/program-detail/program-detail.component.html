@@ -34,11 +34,15 @@
 
             <!-- Lien vers la séance (visualisation) -->
             <a [routerLink]="'/user/sport-sessions/' + s.sport_session_id" class="session-link">
-              <mat-card class="session-row">
+            <mat-card class="session-row" [class.session-done]="isSessionDone(s.sport_session_id)">
                 <mat-card-content>
                   <span class="session-rank">#{{ s.rank }}</span>
                   <span class="session-name">{{ s.sport_session_name }}</span>
-                  <mat-icon class="session-arrow">chevron_right</mat-icon>
+                  @if (isSessionDone(s.sport_session_id)) {
+                    <mat-icon class="done-icon">check_circle</mat-icon>
+                  } @else {
+                    <mat-icon class="session-arrow">chevron_right</mat-icon>
+                  }
                 </mat-card-content>
               </mat-card>
             </a>
