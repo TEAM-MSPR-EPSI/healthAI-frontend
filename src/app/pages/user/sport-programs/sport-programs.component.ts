@@ -32,18 +32,21 @@ export class SportProgramsComponent implements OnInit {
 
     forkJoin([programs$, progresses$]).subscribe({
       next: ([data, progresses]: [any[], any[]]) => {
-        // Set des session_ids déjà faits par l'user
-        const doneIds = new Set(progresses.map((p: any) => Number(p.sport_session_id)));
+        // Set des session_ids déjà faits par l'user (non utilisé, matching par rank maintenant)
 
         this.programs = data.map((p: any) => {
-          // Séances liées à ce programme
           const programSessions: any[] = Array.isArray(p.programSessions)
-            ? p.programSessions
-            : [];
+            ? p.programSessions : [];
           const total = programSessions.length;
+          const programId = p.sport_program_id;
           const done = programSessions.filter((ps: any) => {
             const sid = Number(ps.sport_session_id ?? ps.sport_session?.sport_session_id);
-            return doneIds.has(sid);
+            const rank = Number(ps.program_sport_session_rank);
+            return progresses.some((pr: any) =>
+              Number(pr.sport_program_id) === programId &&
+              Number(pr.sport_session_id) === sid &&
+              Number(pr.program_session_rank) === rank
+            );
           }).length;
           const progress = total > 0 ? Math.round((done / total) * 100) : 0;
 

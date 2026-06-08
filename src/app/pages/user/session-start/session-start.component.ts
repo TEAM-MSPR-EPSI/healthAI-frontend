@@ -119,11 +119,15 @@ export class SessionStartComponent implements OnInit, OnDestroy {
     const sessionId = this.session?.sport_session_id;
     if (!userId || !sessionId) return;
     const today = new Date().toISOString().split('T')[0];
+    const programId = this.route.snapshot.queryParamMap.get('programId');
+    const rank = this.route.snapshot.queryParamMap.get('rank');
     this.api.createSessionProgress({
       user_id: userId,
       sport_session_id: sessionId,
       session_progress_start: today,
       session_progress_end: today,
+      ...(programId ? { sport_program_id: Number(programId) } : {}),
+      ...(rank ? { program_session_rank: Number(rank) } : {}),
     }).subscribe({ error: (e) => console.error('session-progress error', e) });
   }
 

@@ -18,7 +18,7 @@ import { AuthService } from '../../../services/auth.service';
 export class ProgramDetailComponent implements OnInit {
   program: any = null;
   loading = true;
-  doneSessionIds = new Set<number>();
+  doneEntries: Array<{ sessionId: number; rank: number }> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -43,24 +43,27 @@ export class ProgramDetailComponent implements OnInit {
     }
   }
 
+  isSessionDone(sessionId: number, rank: number): boolean {
+    return this.doneEntries.some(e => e.sessionId === sessionId && e.rank === rank);
+  }
+
   private loadProgresses(): void {
     const userId = this.auth.currentUser()?.user_id;
     if (!userId) return;
     this.api.getSessionProgressesByUserId(String(userId)).subscribe({
       next: (progresses) => {
-        this.doneSessionIds = new Set(
-          progresses.map((p: any) => Number(p.sport_session_id))
-        );
+        const programId = this.program?.sport_program_id;
+        this.doneEntries = progresses
+          .filter((p: any) => Number(p.sport_program_id) === programId)
+          .map((p: any) => ({ sessionId: Number(p.sport_session_id), rank: Number(p.program_session_rank) }));
       },
       error: () => {},
     });
   }
 
-  isSessionDone(sessionId: number): boolean {
-    return this.doneSessionIds.has(sessionId);
-  }
-
-  startSession(id: number) {
-    this.router.navigate(['/user/sport-sessions', id, 'start']);
+  startSession(sessionId: number, rank: number) {
+    this.router.navigate(['/user/sport-sessions', sessionId, 'start'], {
+      queryParams: { programId: this.program.sport_program_id, rank }
+    });
   }
 }
