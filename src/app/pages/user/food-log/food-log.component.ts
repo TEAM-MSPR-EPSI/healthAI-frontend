@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
 
 type Mode = 'recipe' | 'ingredient';
 
@@ -57,7 +58,12 @@ export class FoodLogComponent implements OnInit {
   mode: Mode = 'recipe';
 
   // --- Date ---
-  selectedDate: string = this.toDateString(new Date());
+  private _selectedDate: string = this.toDateString(new Date());
+  get selectedDate(): string { return this._selectedDate; }
+  set selectedDate(val: string) {
+    this._selectedDate = val;
+    this.loadConsumesForDate(val);
+  }
   readonly today: string = this.toDateString(new Date());
   get isToday(): boolean {
     return this.selectedDate === this.toDateString(new Date());
@@ -78,12 +84,18 @@ export class FoodLogComponent implements OnInit {
 
   // --- Log par date (clé = YYYY-MM-DD) ---
   private logByDate: Map<string, LogEntry[]> = new Map();
+  private consumeIdByDate: Map<string, (number | null)[]> = new Map();
+  loadingLog = false;
 
   get log(): LogEntry[] {
     return this.logByDate.get(this.selectedDate) ?? [];
   }
 
-  constructor(private api: ApiService) {}
+  get consumeIds(): (number | null)[] {
+    return this.consumeIdByDate.get(this.selectedDate) ?? [];
+  }
+
+  constructor(private api: ApiService, private auth: AuthService) {}
 
   ngOnInit() {
     this.api.getRecipes().subscribe({
@@ -91,8 +103,47 @@ export class FoodLogComponent implements OnInit {
       error: () => { this.loadingRecipes = false; },
     });
     this.api.getIngredients().subscribe({
-      next: (data) => { this.ingredients = data; this.loadingIngredients = false; },
+      next: (data) => {
+        this.ingredients = data;
+        this.loadingIngredients = false;
+        this.loadConsumesForDate(this.selectedDate);
+      },
       error: () => { this.loadingIngredients = false; },
+    });
+  }
+
+  loadConsumesForDate(date: string) {
+    const userId = this.auth.currentUser()?.user_id;
+    if (!userId) return;
+    // Ne recharge pas si déjà en cache
+    if (this.logByDate.has(date)) return;
+    this.loadingLog = true;
+    this.api.getUserConsumes(String(userId)).subscribe({
+      next: (consumes) => {
+        const dayConsumes = consumes.filter((c: any) => c.consume_date?.slice(0, 10) === date);
+        const entries: LogEntry[] = [];
+        const ids: (number | null)[] = [];
+        for (const c of dayConsumes) {
+          const ing = this.ingredients.find((i: any) => i.ingredient_id === c.ingredient_id);
+          if (!ing) continue;
+          entries.push({
+            kind: 'ingredient',
+            ingredient_id: c.ingredient_id,
+            ingredient_name: ing.ingredient_name,
+            ingredient_type: ing.ingredient_type ?? '',
+            grams: Number(c.ingredient_quantity),
+            ingredient_energy_100g: ing.ingredient_energy_100g ?? 0,
+            ingredient_protein_100g: ing.ingredient_protein_100g ?? 0,
+            ingredient_carbohydrate_100g: ing.ingredient_carbohydrate_100g ?? 0,
+            ingredient_fats_100g: ing.ingredient_fats_100g ?? 0,
+          });
+          ids.push(c.consume_id ?? null);
+        }
+        this.logByDate.set(date, entries);
+        this.consumeIdByDate.set(date, ids);
+        this.loadingLog = false;
+      },
+      error: () => { this.loadingLog = false; },
     });
   }
 
@@ -160,7 +211,7 @@ export class FoodLogComponent implements OnInit {
   // --- Actions ---
   addRecipe(recipe: any) {
     if (this.isAlreadyAdded(recipe.recipe_id) || this.loadingRecipeId === recipe.recipe_id) return;
-
+    const userId = this.auth.currentUser()?.user_id;
     this.loadingRecipeId = recipe.recipe_id;
     this.api.getRecipe(recipe.recipe_id).subscribe({
       next: (detail) => {
@@ -171,14 +222,17 @@ export class FoodLogComponent implements OnInit {
           recipe_type: detail.recipe_type,
           ingredients: detail.ingredients ?? [],
         };
-        this.getOrCreateLog(this.selectedDate).push(entry);
+        const log = this.getOrCreateLog(this.selectedDate);
+        const ids = this.consumeIdByDate.get(this.selectedDate) ?? [];
+        log.push(entry);
+        this.recipeToPayloads(entry).forEach(payload =>
+          this.api.createConsume({ ...payload, user_id: userId }).subscribe({
+            next: (res) => { ids.push(res?.consume_id ?? null); },
+          })
+        );
+        this.consumeIdByDate.set(this.selectedDate, ids);
         this.loadingRecipeId = null;
         this.recipeSearch = '';
-
-        // Sauvegarde en BDD — éclate la recette en ses ingrédients pour la table consume
-        this.recipeToPayloads(entry).forEach(payload =>
-          this.api.createConsume(payload).subscribe()
-        );
       },
       error: () => { this.loadingRecipeId = null; },
     });
@@ -192,7 +246,7 @@ export class FoodLogComponent implements OnInit {
 
   addIngredient() {
     if (!this.selectedIngredient || !this.gramsInput || this.gramsInput <= 0) return;
-
+    const userId = this.auth.currentUser()?.user_id;
     const entry: LoggedIngredient = {
       kind: 'ingredient',
       ingredient_id: this.selectedIngredient.ingredient_id,
@@ -204,22 +258,31 @@ export class FoodLogComponent implements OnInit {
       ingredient_carbohydrate_100g: this.selectedIngredient.ingredient_carbohydrate_100g ?? 0,
       ingredient_fats_100g: this.selectedIngredient.ingredient_fats_100g ?? 0,
     };
-    this.getOrCreateLog(this.selectedDate).push(entry);
-
-    // Sauvegarde en BDD
+    const log = this.getOrCreateLog(this.selectedDate);
+    const ids = this.consumeIdByDate.get(this.selectedDate) ?? [];
+    log.push(entry);
     this.api.createConsume({
+      user_id: userId,
       ingredient_id: entry.ingredient_id,
       ingredient_quantity: entry.grams,
       consume_date: this.selectedDate,
-    }).subscribe();
-
+    }).subscribe({
+      next: (res) => { ids.push(res?.consume_id ?? null); },
+    });
+    this.consumeIdByDate.set(this.selectedDate, ids);
     this.selectedIngredient = null;
     this.gramsInput = null;
     this.ingredientSearch = '';
   }
 
   removeEntry(index: number) {
+    const ids = this.consumeIdByDate.get(this.selectedDate) ?? [];
+    const consumeId = ids[index];
+    if (consumeId != null) {
+      this.api.deleteConsume(consumeId).subscribe();
+    }
     this.log.splice(index, 1);
+    ids.splice(index, 1);
   }
 
   // --- Payload builder (prêt pour l'API) ---
