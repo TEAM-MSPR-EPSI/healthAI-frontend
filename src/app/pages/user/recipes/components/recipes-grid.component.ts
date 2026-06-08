@@ -1,5 +1,5 @@
 // Component: RecipesGrid | Purpose: Displays recipe cards loaded from the API in a responsive grid.
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -11,7 +11,7 @@ import { MatChipsModule } from '@angular/material/chips';
   templateUrl: './recipes-grid.component.html',
   styleUrl: './recipes-grid.component.css',
 })
-export class RecipesGridComponent {
+export class RecipesGridComponent implements OnChanges {
   private static readonly EMOJI_RULES: ReadonlyArray<{ patterns: ReadonlyArray<RegExp>; emoji: string }> = [
     { patterns: [/\bfruit(s)?\b/, /\bberry|berries\b/, /\bapple|pear|banana|orange|kiwi|mango|melon|peach|plum\b/], emoji: '🍓' },
     { patterns: [/\bvegetable(s)?\b/, /\blegume(s)?\b/, /\bsalad\b/, /\bgreen|broccoli|spinach|carrot|tomato|courgette|zucchini\b/], emoji: '🥦' },
@@ -35,6 +35,31 @@ export class RecipesGridComponent {
   @Input() recipes: any[] = [];
   @Input() loading = true;
 
+  recipeTypes: string[] = [];
+  selectedType: string | null = null;
+  filteredRecipes: any[] = [];
+
+  ngOnChanges() {
+    // Extract unique non-null types
+    this.recipeTypes = [...new Set(
+      this.recipes
+        .map(r => r.recipe_type)
+        .filter((t): t is string => !!t)
+    )];
+    this.applyFilter();
+  }
+
+  selectType(type: string | null) {
+    this.selectedType = type;
+    this.applyFilter();
+  }
+
+  private applyFilter() {
+    this.filteredRecipes = this.selectedType
+      ? this.recipes.filter(r => r.recipe_type === this.selectedType)
+      : this.recipes;
+  }
+
   getRecipeEmoji(recipe: any): string {
     const haystack = [recipe?.recipe_name, recipe?.recipe_type, recipe?.recipe_description]
       .filter(Boolean)
@@ -43,9 +68,7 @@ export class RecipesGridComponent {
 
     const cacheKey = `${recipe?.recipe_id ?? 'no-id'}::${haystack}`;
     const cached = this.emojiCache.get(cacheKey);
-    if (cached) {
-      return cached;
-    }
+    if (cached) return cached;
 
     for (const rule of RecipesGridComponent.EMOJI_RULES) {
       if (rule.patterns.some((pattern) => pattern.test(haystack))) {

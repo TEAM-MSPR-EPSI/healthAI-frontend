@@ -1,6 +1,6 @@
 <div class="page-content">
   <div class="recipe-header-bar">
-    <a routerLink="/recipes" class="back-link">
+    <a routerLink="/user/recipes" class="back-link">
       <mat-icon aria-hidden="true">arrow_back</mat-icon> Retour aux recettes
     </a>
     <button mat-icon-button (click)="toggleFavorite()" [class.favorite]="isFavorite" class="favorite-btn" [attr.title]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'" [attr.aria-label]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'">

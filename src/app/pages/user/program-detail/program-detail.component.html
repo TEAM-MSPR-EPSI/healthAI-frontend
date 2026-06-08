@@ -28,17 +28,38 @@
 
     @if (program.sessions && program.sessions.length) {
       <div class="sessions-list">
+
         @for (s of program.sessions; track s.sport_session_id) {
-          <a [routerLink]="'/user/sport-sessions/' + s.sport_session_id" class="session-link">
-            <mat-card class="session-row">
-              <mat-card-content>
-                <span class="session-rank">#{{ s.rank }}</span>
-                <span class="session-name">{{ s.sport_session_name }}</span>
-                <mat-icon class="session-arrow">chevron_right</mat-icon>
-              </mat-card-content>
-            </mat-card>
-          </a>
+          <div class="session-row-wrapper">
+
+            <!-- Lien vers la séance (visualisation) -->
+            <a [routerLink]="'/user/sport-sessions/' + s.sport_session_id" class="session-link">
+            <mat-card class="session-row" [class.session-done]="isSessionDone(s.sport_session_id, s.rank)">
+                <mat-card-content>
+                  <span class="session-rank">#{{ s.rank }}</span>
+                  <span class="session-name">{{ s.sport_session_name }}</span>
+                  @if (isSessionDone(s.sport_session_id, s.rank)) {
+                    <mat-icon class="done-icon">check_circle</mat-icon>
+                  } @else {
+                    <mat-icon class="session-arrow">chevron_right</mat-icon>
+                  }
+                </mat-card-content>
+              </mat-card>
+            </a>
+
+            <!-- Bouton pour ouvrir le panneau de lancement -->
+            <button
+              mat-raised-button
+              color="primary"
+              class="start-btn"
+              (click)="startSession(s.sport_session_id, s.rank)"
+            >
+              Lancer
+            </button>
+
+          </div>
         }
+
       </div>
     } @else {
       <p class="empty-text">Aucune séance associée à ce programme.</p>

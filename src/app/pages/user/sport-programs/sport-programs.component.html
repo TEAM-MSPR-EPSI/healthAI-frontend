@@ -2,8 +2,21 @@
   <h1>Programmes Sportifs</h1>
   <p class="page-description">Choisissez un programme adapté à vos objectifs</p>
 
+  @if (!loading && objectives.length) {
+    <div class="type-filters">
+      <button class="filter-btn" [class.active]="selectedObjective === null" (click)="selectObjective(null)">
+        Tous
+      </button>
+      @for (obj of objectives; track obj) {
+        <button class="filter-btn" [class.active]="selectedObjective === obj" (click)="selectObjective(obj)">
+          {{ obj }}
+        </button>
+      }
+    </div>
+  }
+
   <div class="programs-grid">
-    @for (prog of programs; track prog.id) {
+    @for (prog of filteredPrograms; track prog.id) {
       <a [routerLink]="'/user/sport-programs/' + prog.id" class="program-card-link">
         <mat-card class="program-card">
           <mat-card-content>

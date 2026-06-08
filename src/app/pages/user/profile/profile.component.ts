@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ApiService } from '../../../services/api.service';
 
@@ -97,11 +97,13 @@ export class ProfileComponent implements OnInit {
   ];
 
   private userId: string | null = null;
+  private healthProfileId: number | null = null;
 
   constructor(
     private auth: AuthService,
     private api: ApiService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -154,6 +156,20 @@ export class ProfileComponent implements OnInit {
     this.loadUserBiometrics();
     this.loadUserConsumes();
     this.loadIngredients();
+    this.loadHealthProfile();
+  }
+
+  private loadHealthProfile(): void {
+    if (!this.userId) return;
+    this.api.getUserHealthProfile(this.userId).subscribe({
+      next: (hp) => {
+        if (hp) {
+          this.healthProfileId = hp.users_health_profile_id ?? null;
+          this.profile.goal = hp.user_health_profile_objective ?? '';
+        }
+      },
+      error: () => {},
+    });
   }
 
   private loadUserAllergies(): void {
@@ -236,16 +252,27 @@ export class ProfileComponent implements OnInit {
       user_last_weight: this.profile.weight,
       sport_program_id: this.profile.sportProgramId,
     };
-    this.api.updateUser(this.userId, payload).subscribe({
-      next: () => {
-        this.savingProfile = false;
-        this.snackBar.open('Profil sauvegardé', 'OK', { duration: 2500 });
-      },
-      error: () => {
-        this.savingProfile = false;
-        this.snackBar.open('Erreur lors de la sauvegarde', 'OK', { duration: 3000 });
-      },
+    this.auth.updateCurrentUserProfile(payload).then(() => {
+      this.savingProfile = false;
+      this.snackBar.open('Profil sauvegardé', 'OK', { duration: 2500 });
+      this.saveGoal();
+    }).catch(() => {
+      this.savingProfile = false;
+      this.snackBar.open('Erreur lors de la sauvegarde', 'OK', { duration: 3000 });
     });
+  }
+
+  private saveGoal(): void {
+    if (!this.userId) return;
+    const goalPayload = { user_health_profile_objective: this.profile.goal || null };
+    if (this.healthProfileId) {
+      this.api.updateUserHealthProfile(this.healthProfileId, goalPayload).subscribe({ error: () => {} });
+    } else {
+      this.api.createUserHealthProfile({ ...goalPayload, user_id: this.userId }).subscribe({
+        next: (hp) => { this.healthProfileId = hp?.users_health_profile_id ?? null; },
+        error: () => {},
+      });
+    }
   }
 
   onProgramChange() {
@@ -347,6 +374,22 @@ export class ProfileComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open('Erreur lors de la suppression', 'OK', { duration: 3000 });
+      },
+    });
+  }
+
+  deleteAccount(): void {
+    const confirmed = window.confirm(
+      'Supprimer définitivement ton compte ?\n\nToutes tes données personnelles seront effacées (profil, allergies, biométriques, historique alimentaire). Cette action est irréversible.'
+    );
+    if (!confirmed || !this.userId) return;
+
+    this.api.deleteUser(this.userId).subscribe({
+      next: () => {
+        this.auth.logout();
+      },
+      error: () => {
+        this.snackBar.open('Erreur lors de la suppression du compte', 'OK', { duration: 3000 });
       },
     });
   }
