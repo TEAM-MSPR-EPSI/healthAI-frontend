@@ -53,7 +53,7 @@ export class App {
     { label: 'Programmes Sportifs', icon: 'fitness_center', route: '/user/sport-programs' },
     // { label: 'Séances de Sport', icon: 'directions_run', route: '/user/sport-sessions' },
     // { label: 'Exercices', icon: 'sports_gymnastics', route: '/user/exercises' },
-    { label: 'Matériel', icon: 'sports_kabaddi', route: '/user/equipment' },
+    // { label: 'Matériel', icon: 'sports_kabaddi', route: '/user/equipment' },
     { label: 'Données Biométriques', icon: 'monitor_heart', route: '/user/biometrics' },
     { label: 'Mon Profil', icon: 'person', route: '/user/profile' },
   ];

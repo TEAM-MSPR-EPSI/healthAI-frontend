@@ -18,6 +18,9 @@ import { forkJoin, of } from 'rxjs';
 })
 export class SportProgramsComponent implements OnInit {
   programs: any[] = [];
+  filteredPrograms: any[] = [];
+  objectives: string[] = [];
+  selectedObjective: string | null = null;
   loading = true;
 
   constructor(private api: ApiService, private auth: AuthService) {}
@@ -61,9 +64,25 @@ export class SportProgramsComponent implements OnInit {
             icon: 'fitness_center',
           };
         });
+
+        this.objectives = [...new Set(
+          this.programs.map(p => p.level).filter((l): l is string => !!l)
+        )];
+        this.applyFilter();
         this.loading = false;
       },
       error: () => { this.loading = false; },
     });
+  }
+
+  selectObjective(obj: string | null) {
+    this.selectedObjective = obj;
+    this.applyFilter();
+  }
+
+  private applyFilter() {
+    this.filteredPrograms = this.selectedObjective
+      ? this.programs.filter(p => p.level === this.selectedObjective)
+      : this.programs;
   }
 }

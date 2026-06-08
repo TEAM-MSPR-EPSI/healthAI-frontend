@@ -1,4 +1,38 @@
 /* ================================
+   FILTRES PAR OBJECTIF
+================================ */
+.type-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  color: var(--text-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+  background: var(--highlight-soft-color);
+}
+
+.filter-btn.active {
+  background: var(--admin-primary-400);
+  color: #fff;
+  border-color: var(--admin-primary-400);
+}
+
+/* ================================
    STRUCTURE GLOBALE
 ================================ */
 .page-content {

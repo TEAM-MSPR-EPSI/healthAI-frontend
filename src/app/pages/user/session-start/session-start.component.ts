@@ -139,7 +139,7 @@ export class SessionStartComponent implements OnInit, OnDestroy {
     else if (this.screen === 'exercise') this.startExercise(this.currentIndex + 1);
   }
 
-  backToSessions() { this.router.navigate(['/user/sport-sessions']); }
+  backToSessions() { this.router.navigate(['/user/sport-programs']); }
 
   // ── Timer helpers ─────────────────────────────────────
   private computeTotalDuration(exercises: any[]): number {
