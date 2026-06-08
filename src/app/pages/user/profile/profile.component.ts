@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ApiService } from '../../../services/api.service';
 
@@ -103,6 +103,7 @@ export class ProfileComponent implements OnInit {
     private auth: AuthService,
     private api: ApiService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -373,6 +374,22 @@ export class ProfileComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open('Erreur lors de la suppression', 'OK', { duration: 3000 });
+      },
+    });
+  }
+
+  deleteAccount(): void {
+    const confirmed = window.confirm(
+      'Supprimer définitivement ton compte ?\n\nToutes tes données personnelles seront effacées (profil, allergies, biométriques, historique alimentaire). Cette action est irréversible.'
+    );
+    if (!confirmed || !this.userId) return;
+
+    this.api.deleteUser(this.userId).subscribe({
+      next: () => {
+        this.auth.logout();
+      },
+      error: () => {
+        this.snackBar.open('Erreur lors de la suppression du compte', 'OK', { duration: 3000 });
       },
     });
   }
