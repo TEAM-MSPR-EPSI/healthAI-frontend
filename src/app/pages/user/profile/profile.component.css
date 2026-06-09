@@ -251,12 +251,12 @@
 
 .reset-btn {
   background: transparent !important;
-  border: 1.5px solid var(--admin-primary-400, #5a7a3a) !important;
-  color: var(--admin-primary-400, #5a7a3a) !important;
+  border: 1.5px solid #c0392b !important;
+  color: #c0392b !important;
 }
 
 .reset-btn mat-icon {
-  color: #e8a000 !important;
+  color: #c0392b !important;
 }
 
 /* Skeleton */
@@ -320,9 +320,69 @@
   color: #fff !important;
   border: none !important;
   grid-column: 1 / -1;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.save-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.save-btn:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .save-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Allergies card */
+.allergies-card {
+  margin-top: 16px !important;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 4px 12px;
+  border-bottom: 1px solid var(--admin-gray-100, #f0f0ee);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-color, #222);
+}
+
+.allergies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0 6px;
+}
+
+.allergy-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--admin-gray-200, #e0e0da);
+  background: transparent;
+  color: var(--text-color-subtle, #666);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.allergy-chip--selected {
+  background: var(--admin-primary-400, #5a7a3a);
+  border-color: var(--admin-primary-400, #5a7a3a);
+  color: #fff;
+}
+
+.allergy-chip:hover:not(.allergy-chip--selected) {
+  border-color: var(--admin-primary-400, #5a7a3a);
+  color: var(--admin-primary-400, #5a7a3a);
 }

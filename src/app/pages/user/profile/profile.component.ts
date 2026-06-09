@@ -56,6 +56,8 @@ export class ProfileComponent implements OnInit {
     sportProgramId: null as number | null,
     sportProgramName: '',
     goal: '',
+    activity: '',
+    foodDiet: '',
   };
 
   sportPrograms: Array<{ sport_program_id: number; sport_program_name: string }> = [];
@@ -92,8 +94,28 @@ export class ProfileComponent implements OnInit {
   goals = [
     { value: 'weight_loss', label: 'Perte de poids' },
     { value: 'muscle_gain', label: 'Prise de masse' },
-    { value: 'fitness', label: 'Remise en forme' },
+    { value: 'endurance', label: 'Endurance' },
+    { value: 'flexibility', label: 'Flexibilité' },
     { value: 'maintenance', label: 'Maintien' },
+  ];
+
+  activityLevels = [
+    { value: 'sedentary', label: 'Sédentaire' },
+    { value: 'lightly_active', label: 'Légèrement actif' },
+    { value: 'moderately_active', label: 'Modérément actif' },
+    { value: 'very_active', label: 'Très actif' },
+    { value: 'extra_active', label: 'Extrêmement actif' },
+  ];
+
+  foodDiets = [
+    { value: 'none', label: 'Aucun' },
+    { value: 'vegan', label: 'Vegan' },
+    { value: 'vegetarian', label: 'Végétarien' },
+    { value: 'pescatarian', label: 'Pescatarien' },
+    { value: 'gluten_free', label: 'Sans gluten' },
+    { value: 'lactose_free', label: 'Sans lactose' },
+    { value: 'halal', label: 'Halal' },
+    { value: 'kosher', label: 'Kasher' },
   ];
 
   private userId: string | null = null;
@@ -127,6 +149,8 @@ export class ProfileComponent implements OnInit {
         sportProgramId: user.sport_program_id ? Number(user.sport_program_id) : null,
         sportProgramName: '',
         goal: '',
+        activity: '',
+        foodDiet: '',
       };
     }
 
@@ -166,6 +190,8 @@ export class ProfileComponent implements OnInit {
         if (hp) {
           this.healthProfileId = hp.users_health_profile_id ?? null;
           this.profile.goal = hp.user_health_profile_objective ?? '';
+          this.profile.activity = hp.user_health_profile_activity ?? '';
+          this.profile.foodDiet = hp.user_health_profile_food_diet ?? '';
         }
       },
       error: () => {},
@@ -235,6 +261,36 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  saveAll(): void {
+    if (!this.userId) return;
+    this.savingProfile = true;
+    const payload = {
+      user_firstname: this.profile.firstName,
+      user_lastname: this.profile.lastName,
+      user_email: this.profile.email,
+      user_phone: this.profile.phone,
+      user_birth: this.profile.birthDate?.toISOString().split('T')[0],
+      user_gender: this.profile.gender,
+      user_city: this.profile.city || null,
+      user_country: this.profile.country || null,
+      user_size: this.profile.height,
+      user_weight: this.profile.weight,
+      user_last_weight: this.profile.weight,
+      sport_program_id: this.profile.sportProgramId,
+    };
+    this.auth.updateCurrentUserProfile(payload)
+      .then(() => {
+        this.saveGoal();
+        this.saveAllergies(true);
+        this.savingProfile = false;
+        this.snackBar.open('Profil enregistré', 'OK', { duration: 2500 });
+      })
+      .catch(() => {
+        this.savingProfile = false;
+        this.snackBar.open('Erreur lors de la sauvegarde', 'OK', { duration: 3000 });
+      });
+  }
+
   save() {
     if (!this.userId) return;
     this.savingProfile = true;
@@ -264,7 +320,11 @@ export class ProfileComponent implements OnInit {
 
   private saveGoal(): void {
     if (!this.userId) return;
-    const goalPayload = { user_health_profile_objective: this.profile.goal || null };
+    const goalPayload = {
+      user_health_profile_objective: this.profile.goal || null,
+      user_health_profile_activity: this.profile.activity || null,
+      user_health_profile_food_diet: this.profile.foodDiet || null,
+    };
     if (this.healthProfileId) {
       this.api.updateUserHealthProfile(this.healthProfileId, goalPayload).subscribe({ error: () => {} });
     } else {
@@ -282,15 +342,19 @@ export class ProfileComponent implements OnInit {
     this.profile.sportProgramName = selected?.sport_program_name ?? '';
   }
 
-  saveAllergies(): void {
+  saveAllergies(silent = false): void {
     if (!this.userId) return;
     this.api.setUserAllergies(this.userId, this.selectedAllergies).subscribe({
       next: () => {
         this.userAllergies = [...this.selectedAllergies];
-        this.snackBar.open('Allergies mises à jour', 'OK', { duration: 2500 });
+        if (!silent) {
+          this.snackBar.open('Allergies mises à jour', 'OK', { duration: 2500 });
+        }
       },
       error: () => {
-        this.snackBar.open('Erreur lors de la mise à jour des allergies', 'OK', { duration: 3000 });
+        if (!silent) {
+          this.snackBar.open('Erreur lors de la mise à jour des allergies', 'OK', { duration: 3000 });
+        }
       },
     });
   }
