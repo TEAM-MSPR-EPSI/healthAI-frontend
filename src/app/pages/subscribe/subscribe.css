@@ -174,3 +174,32 @@
   0%  { background-position: 100% 50%; }
   100%{ background-position: 0 50%; }
 }
+/* ── Plan actif ── */
+.plan-card.current {
+  border-color: #2563eb !important;
+  background: #eff6ff !important;
+}
+
+.current-badge {
+  position: absolute;
+  top: -1px;
+  right: 16px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 0 0 8px 8px;
+  letter-spacing: 0.03em;
+}
+
+.current-btn {
+  background: #bfdbfe !important;
+  color: #1d4ed8 !important;
+  cursor: default !important;
+  opacity: 0.85 !important;
+}
+
+button[disabled] {
+  pointer-events: none;
+}

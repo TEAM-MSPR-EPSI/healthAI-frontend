@@ -377,6 +377,28 @@ export class ApiService {
     return this.http.delete(`${this.base}/consumes/${id}`);
   }
 
+  // --- Subscriptions ---
+  getSubscriptions(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/subscriptions`);
+  }
+
+  // --- User Subscriptions ---
+  getUserSubscriptions(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-subscriptions/user/${userId}`);
+  }
+
+  getActiveUserSubscription(): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-subscriptions/me/active`);
+  }
+
+  createUserSubscription(data: { user_id: number; subscription_id: number; user_subscription_end?: string | null }): Observable<any> {
+    return this.http.post(`${this.base}/user-subscriptions`, data);
+  }
+
+  cancelUserSubscription(userSubscriptionId: number): Observable<any> {
+    return this.http.patch(`${this.base}/user-subscriptions/${userSubscriptionId}/cancel`, {});
+  }
+
   // --- Analytics Endpoints ---
   getDailyCalories(): Observable<any> {
     return this.http.get(`${this.base}/analytics/admin/nutrition/daily-calories`);

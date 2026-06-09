@@ -27,9 +27,12 @@
   } @else {
     <div class="plans-list">
       @for (plan of plans; track plan.id) {
-        <mat-card class="plan-card" [class.popular]="plan.popular">
-          @if (plan.popular) {
+        <mat-card class="plan-card" [class.popular]="plan.popular" [class.current]="isCurrentPlan(plan)">
+          @if (plan.popular && !isCurrentPlan(plan)) {
             <span class="popular-badge">Populaire</span>
+          }
+          @if (isCurrentPlan(plan)) {
+            <span class="current-badge">Mon abonnement</span>
           }
           <mat-card-content>
             <h3 class="plan-name">{{ plan.name }}</h3>
@@ -41,10 +44,18 @@
             <button
               mat-flat-button
               class="try-btn"
-              [class.popular-btn]="plan.popular"
+              [class.popular-btn]="plan.popular && !isCurrentPlan(plan)"
+              [class.current-btn]="isCurrentPlan(plan)"
+              [disabled]="isCurrentPlan(plan) || subscribing"
               (click)="selectPlan(plan)"
             >
-              Essaie pour {{ plan.price | currency:'USD':'symbol':'1.2-2' }}
+              @if (isCurrentPlan(plan)) {
+                Abonnement actif
+              } @else if (plan.price === 0) {
+                Gratuit
+              } @else {
+                Essaie pour {{ plan.price | currency:'USD':'symbol':'1.2-2' }}
+              }
             </button>
           </mat-card-content>
         </mat-card>
