@@ -1,0 +1,168 @@
+<div class="exercices-page">
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="header-icon" aria-hidden="true">
+      <mat-icon>fitness_center</mat-icon>
+    </div>
+    <h2>Coach Fitness IA</h2>
+    <p class="header-sub">Génère ton programme d'entraînement personnalisé en quelques secondes</p>
+  </section>
+
+  <!-- Form Card -->
+  <div class="content-wrap">
+    <div class="form-card" [class.loading]="isLoading">
+
+      <h3 class="form-title">Ton profil sportif</h3>
+
+      <!-- Goal -->
+      <div class="field-group">
+        <label class="field-label">Objectif</label>
+        <div class="chip-group" role="group" aria-label="Objectif">
+          <button
+            *ngFor="let g of goals"
+            class="chip"
+            [class.active]="form.goal === g.value"
+            (click)="form.goal = g.value"
+            type="button">
+            <span class="chip-icon">{{ g.icon }}</span>
+            {{ g.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Level -->
+      <div class="field-group">
+        <label class="field-label">Niveau</label>
+        <div class="chip-group" role="group" aria-label="Niveau">
+          <button
+            *ngFor="let l of levels"
+            class="chip"
+            [class.active]="form.level === l.value"
+            (click)="form.level = l.value"
+            type="button">
+            {{ l.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Sessions + Duration -->
+      <div class="two-col">
+        <div class="field-group">
+          <label class="field-label">Séances / semaine</label>
+          <div class="stepper">
+            <button class="step-btn" (click)="decrement('sessions')" [disabled]="form.sessions_per_week <= 2" type="button" aria-label="Diminuer">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <span class="step-value">{{ form.sessions_per_week }}</span>
+            <button class="step-btn" (click)="increment('sessions')" [disabled]="form.sessions_per_week >= 6" type="button" aria-label="Augmenter">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Durée par séance</label>
+          <div class="chip-group" role="group" aria-label="Durée">
+            <button
+              *ngFor="let d of durations"
+              class="chip chip-sm"
+              [class.active]="form.session_duration_minutes === d"
+              (click)="form.session_duration_minutes = d"
+              type="button">
+              {{ d }} min
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Equipment -->
+      <div class="field-group">
+        <label class="field-label">Équipement disponible</label>
+        <div class="chip-group" role="group" aria-label="Équipement">
+          <button
+            *ngFor="let e of equipments"
+            class="chip"
+            [class.active]="isEquipmentSelected(e.value)"
+            (click)="toggleEquipment(e.value)"
+            type="button">
+            <span class="chip-icon">{{ e.icon }}</span>
+            {{ e.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Limitations -->
+      <div class="field-group">
+        <label class="field-label">Limitations physiques <span class="optional">(optionnel)</span></label>
+        <div class="chip-group" role="group" aria-label="Limitations">
+          <button
+            *ngFor="let lim of limitations"
+            class="chip chip-warning"
+            [class.active]="isLimitationSelected(lim.value)"
+            (click)="toggleLimitation(lim.value)"
+            type="button">
+            {{ lim.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button
+        class="generate-btn"
+        (click)="generate()"
+        [disabled]="isLoading"
+        type="button"
+        aria-label="Générer mon programme">
+        <span *ngIf="!isLoading" class="btn-content">
+          <mat-icon>auto_awesome</mat-icon>
+          Générer mon programme
+        </span>
+        <span *ngIf="isLoading" class="btn-content">
+          <span class="spinner" aria-hidden="true"></span>
+          Génération en cours…
+        </span>
+      </button>
+
+      <!-- Error -->
+      <div *ngIf="errorMsg" class="error-banner" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        {{ errorMsg }}
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div *ngIf="result" class="result-card" aria-live="polite">
+      <div class="result-header">
+        <mat-icon class="result-icon">event_note</mat-icon>
+        <div>
+          <h3>Ton programme de la semaine</h3>
+          <p class="result-meta">Généré par IA · {{ result.exercices_scores.length }} exercices sélectionnés</p>
+        </div>
+        <button class="icon-btn" (click)="reset()" type="button" aria-label="Nouveau programme">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <!-- Exercise chips -->
+      <div class="exercise-tags">
+        <span *ngFor="let ex of result.exercices_scores" class="ex-tag">
+          {{ ex.name }}
+          <span class="ex-score">{{ (ex.score * 100).toFixed(0) }}%</span>
+        </span>
+      </div>
+
+      <!-- Plan -->
+      <div class="plan-content">
+        <pre>{{ result.plan_genere }}</pre>
+      </div>
+
+      <div class="result-actions">
+        <button class="action-btn" (click)="copyPlan()" type="button">
+          <mat-icon>content_copy</mat-icon>
+          Copier le plan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,5 +16,11 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "warn"
+  },
+  "/exercices": {
+    "target": "http://exercices_service:8002",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
   }
 }

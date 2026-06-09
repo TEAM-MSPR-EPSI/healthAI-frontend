@@ -36,6 +36,7 @@ import { ExercisesComponent } from './pages/user/exercises/exercises.component';
 import { EquipmentComponent } from './pages/user/equipment/equipment.component';
 import { SessionStartComponent } from './pages/user/session-start/session-start.component';
 import { FoodLogComponent } from './pages/user/food-log/food-log.component';
+import { AiCoachExercicesComponent } from './pages/user/ai-coach-exercices/ai-coach-exercices.component';
 
 
 // Admin pages
@@ -87,6 +88,7 @@ export const routes: Routes = [
   { path: 'user/equipment', component: EquipmentComponent },
   { path: 'user/sport-sessions/:id/start', component: SessionStartComponent },
   { path: 'user/food-log', component: FoodLogComponent },
+  { path: 'user/ai-coach/exercises', component: AiCoachExercicesComponent },
 
   
   // Admin
