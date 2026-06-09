@@ -11,7 +11,7 @@
 
   <!-- Form Card -->
   <div class="content-wrap">
-    <div class="form-card" [class.loading]="isLoading">
+    <div class="form-card" [class.loading]="isLoading || isLoadingProfile">
 
       <h3 class="form-title">Ton profil nutritionnel</h3>
 
@@ -128,29 +128,30 @@
         </button>
       </div>
 
-      <!-- Macros summary -->
-      <div *ngIf="result.daily_macros" class="macros-row">
-        <div class="macro-chip macro-kcal">
-          <span class="macro-value">{{ result.daily_macros.calories }}</span>
-          <span class="macro-label">kcal/jour</span>
-        </div>
-        <div class="macro-chip macro-protein">
-          <span class="macro-value">{{ result.daily_macros.proteins }}g</span>
-          <span class="macro-label">Protéines</span>
-        </div>
-        <div class="macro-chip macro-carbs">
-          <span class="macro-value">{{ result.daily_macros.carbs }}g</span>
-          <span class="macro-label">Glucides</span>
-        </div>
-        <div class="macro-chip macro-fat">
-          <span class="macro-value">{{ result.daily_macros.fat }}g</span>
-          <span class="macro-label">Lipides</span>
-        </div>
-      </div>
-
-      <!-- Plan -->
+      <!-- Plan par jour -->
       <div class="plan-content">
-        <pre>{{ result.meal_plan }}</pre>
+        <div *ngFor="let day of result.plan" class="day-block">
+          <div class="day-header">
+            <strong>Jour {{ day.day }}</strong>
+            <span class="day-kcal">{{ day.total_calories }} kcal</span>
+          </div>
+          <div *ngFor="let meal of day.meals" class="meal-row">
+            <span class="meal-type">{{ meal.type }}</span>
+            <div class="meal-info">
+              <span class="meal-name">{{ meal.name }}</span>
+              <span class="meal-meta">{{ meal.estimated_calories }} kcal · {{ meal.prep_time_min }} min</span>
+              <span class="meal-foods">{{ meal.foods.join(', ') }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes hebdomadaires -->
+        <div *ngIf="result.weekly_notes?.length" class="weekly-notes">
+          <strong>Conseils</strong>
+          <ul>
+            <li *ngFor="let note of result.weekly_notes">{{ note }}</li>
+          </ul>
+        </div>
       </div>
 
       <div class="result-actions">

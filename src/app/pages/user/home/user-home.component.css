@@ -303,6 +303,10 @@
   background: linear-gradient(135deg, #f57c00 0%, #ffb300 100%);
 }
 
+.module-icon--analyze {
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+}
+
 .module-body {
   flex: 1;
   min-width: 0;

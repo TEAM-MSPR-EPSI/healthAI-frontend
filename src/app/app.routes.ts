@@ -38,6 +38,7 @@ import { SessionStartComponent } from './pages/user/session-start/session-start.
 import { FoodLogComponent } from './pages/user/food-log/food-log.component';
 import { AiCoachExercicesComponent } from './pages/user/ai-coach-exercices/ai-coach-exercices.component';
 import { AiCoachNutritionComponent } from './pages/user/ai-coach-nutrition/ai-coach-nutrition.component';
+import { AiCoachAnalyzeComponent } from './pages/user/ai-coach-analyze/ai-coach-analyze.component';
 
 
 // Admin pages
@@ -91,6 +92,7 @@ export const routes: Routes = [
   { path: 'user/food-log', component: FoodLogComponent },
   { path: 'user/ai-coach/exercises', component: AiCoachExercicesComponent },
   { path: 'user/ai-coach/nutrition', component: AiCoachNutritionComponent },
+  { path: 'user/ai-coach/analyze',   component: AiCoachAnalyzeComponent },
 
   
   // Admin

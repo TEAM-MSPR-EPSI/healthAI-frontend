@@ -24,9 +24,12 @@
     "logLevel": "warn"
   },
   "/nutrition": {
-  "target": "http://nutrition_service:8001",
-  "secure": false,
-  "changeOrigin": true,
-  "logLevel": "warn"
+    "target": "http://nutrition_service:8001",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn",
+    "pathRewrite": {
+      "^/nutrition": ""
+    }
   }
 }
