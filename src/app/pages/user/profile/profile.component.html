@@ -125,7 +125,6 @@
             <span class="field-label">Régime alimentaire</span>
             <div class="field-right">
               <mat-select class="field-select" [(ngModel)]="profile.foodDiet" name="foodDiet">
-                <mat-option value="">Aucun</mat-option>
                 @for (d of foodDiets; track d.value) {
                   <mat-option [value]="d.value">{{ d.label }}</mat-option>
                 }
