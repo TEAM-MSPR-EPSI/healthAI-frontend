@@ -9,6 +9,7 @@
         <div class="skeleton-card"></div>
         <div class="skeleton-card"></div>
       </div>
+      <div class="skeleton-card skeleton-form"></div>
       <div class="charts-grid">
         <div class="skeleton-chart"></div>
         <div class="skeleton-chart"></div>
@@ -16,7 +17,8 @@
       </div>
     </div>
   } @else {
-    <!-- Current stats cards -->
+
+    <!-- ── Stat cards ── -->
     <div class="stat-cards">
       <mat-card class="stat-card sleep">
         <mat-card-content>
@@ -32,7 +34,7 @@
           <mat-icon>directions_walk</mat-icon>
           <div class="stat-info">
             <span class="stat-value">{{ currentStats.steps | number }}</span>
-            <span class="stat-label">Pas aujourd'hui</span>
+            <span class="stat-label">Pas (dernière entrée)</span>
           </div>
         </mat-card-content>
       </mat-card>
@@ -47,46 +49,69 @@
       </mat-card>
     </div>
 
-    <!-- Charts -->
+    <!-- ── Saisie du jour ── -->
+    <mat-card class="today-card">
+      <mat-card-content>
+        <h3 class="today-title">
+          <mat-icon>edit_calendar</mat-icon>
+          Saisir mes données du jour
+          <span class="today-date">{{ today }}</span>
+        </h3>
+        <div class="today-fields">
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Poids (kg)</mat-label>
+            <input matInput type="number" step="0.1" min="0" [(ngModel)]="todayWeight" placeholder="ex : 72.5" />
+            <mat-icon matSuffix>monitor_weight</mat-icon>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Sommeil (min)</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="todaySleep" placeholder="ex : 450" />
+            <mat-icon matSuffix>bedtime</mat-icon>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Pas</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="todaySteps" placeholder="ex : 8500" />
+            <mat-icon matSuffix>directions_walk</mat-icon>
+          </mat-form-field>
+        </div>
+        <button
+          mat-flat-button
+          class="save-btn"
+          [disabled]="isSaving"
+          (click)="saveToday()"
+        >
+          <mat-icon>{{ isSaving ? 'hourglass_empty' : 'save' }}</mat-icon>
+          {{ isSaving ? 'Enregistrement…' : (todayEntryId !== null ? 'Mettre à jour' : 'Enregistrer') }}
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- ── Charts ── -->
     <div class="charts-grid">
-      <!-- Sleep chart -->
       <mat-card>
         <mat-card-content>
-          <h3 class="chart-title">
-            <mat-icon>bedtime</mat-icon> Sommeil cette semaine
-          </h3>
-          <canvas
-            baseChart
+          <h3 class="chart-title"><mat-icon>bedtime</mat-icon> Sommeil cette semaine</h3>
+          <canvas baseChart
             [data]="sleepChartData"
             [type]="sleepChartType"
             [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
           ></canvas>
         </mat-card-content>
       </mat-card>
-
-      <!-- Steps chart -->
       <mat-card>
         <mat-card-content>
-          <h3 class="chart-title">
-            <mat-icon>directions_walk</mat-icon> Pas cette semaine
-          </h3>
-          <canvas
-            baseChart
+          <h3 class="chart-title"><mat-icon>directions_walk</mat-icon> Pas cette semaine</h3>
+          <canvas baseChart
             [data]="stepsChartData"
             [type]="stepsChartType"
             [options]="{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }"
           ></canvas>
         </mat-card-content>
       </mat-card>
-
-      <!-- Weight chart -->
       <mat-card>
         <mat-card-content>
-          <h3 class="chart-title">
-            <mat-icon>monitor_weight</mat-icon> Évolution du poids
-          </h3>
-          <canvas
-            baseChart
+          <h3 class="chart-title"><mat-icon>monitor_weight</mat-icon> Évolution du poids</h3>
+          <canvas baseChart
             [data]="weightChartData"
             [type]="weightChartType"
             [options]="{ responsive: true, plugins: { legend: { display: false } } }"

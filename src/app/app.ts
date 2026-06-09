@@ -49,11 +49,7 @@ export class App {
   protected userMenuItems: MenuItem[] = [
     { label: 'Accueil', icon: 'home', route: '/user/home' },
     { label: 'Recettes', icon: 'restaurant_menu', route: '/user/recipes' },
-    // { label: 'Ingrédients', icon: 'egg', route: '/user/ingredients' },
     { label: 'Programmes Sportifs', icon: 'fitness_center', route: '/user/sport-programs' },
-    // { label: 'Séances de Sport', icon: 'directions_run', route: '/user/sport-sessions' },
-    // { label: 'Exercices', icon: 'sports_gymnastics', route: '/user/exercises' },
-    // { label: 'Matériel', icon: 'sports_kabaddi', route: '/user/equipment' },
     { label: 'Données Biométriques', icon: 'monitor_heart', route: '/user/biometrics' },
     { label: 'Mon Profil', icon: 'person', route: '/user/profile' },
   ];
@@ -63,6 +59,7 @@ export class App {
     { label: 'Accueil', icon: 'home', route: '/user/home' },
     { label: 'Programmes', icon: 'fitness_center', route: '/user/sport-programs' },
     { label: 'Recettes', icon: 'restaurant_menu', route: '/user/recipes' },
+    { label: 'Données Biométriques', icon: 'monitor_heart', route: '/user/biometrics' },
     { label: 'Profil', icon: 'person', route: '/user/profile' },
   ];
 

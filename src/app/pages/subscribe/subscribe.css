@@ -203,3 +203,16 @@
 button[disabled] {
   pointer-events: none;
 }
+
+/* ── Surcharge : plan actif (prime sur .popular) ── */
+.plan-card.current .plan-name {
+  color: #1e40af !important;
+}
+
+.plan-card.current .plan-features li {
+  color: #3b5998 !important;
+}
+
+.plan-card.current .plan-features li::before {
+  color: #2563eb !important;
+}

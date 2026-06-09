@@ -1,4 +1,4 @@
-/* ===== Stat cards ===== */
+/* ── Stat cards ─────────────────────────────────── */
 .stat-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -19,29 +19,84 @@
   height: 32px;
 }
 
-.stat-card.sleep mat-icon { color: #7c6dc7; }
-.stat-card.steps mat-icon { color: var(--admin-success); }
+.stat-card.sleep  mat-icon { color: #7c6dc7; }
+.stat-card.steps  mat-icon { color: var(--admin-success); }
 .stat-card.weight mat-icon { color: var(--admin-warning); }
 
-.stat-info {
-  display: flex;
-  flex-direction: column;
-}
+.stat-info { display: flex; flex-direction: column; }
 
-.stat-info .stat-value {
+.stat-value {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--admin-primary-400);
   line-height: 1;
 }
 
-.stat-info .stat-label {
+.stat-label {
   font-size: 0.78rem;
   color: var(--admin-gray-500);
   margin-top: 4px;
 }
 
-/* ===== Charts grid ===== */
+/* ── Saisie du jour ─────────────────────────────── */
+.today-card {
+  margin-bottom: 20px;
+  border-radius: var(--admin-radius, 12px) !important;
+  border: 1px solid var(--glass-border, #e5e7eb) !important;
+  box-shadow: none !important;
+}
+
+.today-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-primary-500);
+  margin: 0 0 16px;
+}
+
+.today-title mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--admin-primary-300);
+}
+
+.today-date {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--admin-gray-500);
+}
+
+.today-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.field { width: 100%; }
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--admin-primary-400, #4a7c59) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  height: 42px !important;
+  padding: 0 20px !important;
+}
+
+.save-btn[disabled] {
+  opacity: 0.6 !important;
+  pointer-events: none;
+}
+
+/* ── Charts ─────────────────────────────────────── */
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -71,37 +126,29 @@ canvas {
   margin-top: 8px;
 }
 
-/* ===== Skeleton Loaders ===== */
-.skeleton-loader {
-  width: 100%;
-}
+/* ── Skeleton ───────────────────────────────────── */
+.skeleton-loader { width: 100%; }
 
-.skeleton-card {
-  height: 120px;
-  background: linear-gradient(90deg, #e3e3e3 25%, #f5f5f5 50%, #e3e3e3 75%);
-  background-size: 200% 100%;
-  animation: skeleton-pulse 1.2s infinite linear;
-  border-radius: 8px;
-}
-
+.skeleton-card,
 .skeleton-chart {
-  height: 300px;
   background: linear-gradient(90deg, #e3e3e3 25%, #f5f5f5 50%, #e3e3e3 75%);
   background-size: 200% 100%;
   animation: skeleton-pulse 1.2s infinite linear;
   border-radius: 8px;
 }
+
+.skeleton-card  { height: 120px; }
+.skeleton-form  { height: 140px; margin-bottom: 20px; }
+.skeleton-chart { height: 300px; }
 
 @keyframes skeleton-pulse {
-  0% { background-position: 200% 0; }
+  0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
+/* ── Responsive ─────────────────────────────────── */
 @media (max-width: 768px) {
-  .stat-cards {
-    grid-template-columns: 1fr;
-  }
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
+  .stat-cards,
+  .charts-grid { grid-template-columns: 1fr; }
+  .today-fields { grid-template-columns: 1fr; }
 }
