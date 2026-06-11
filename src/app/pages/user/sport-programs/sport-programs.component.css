@@ -1,0 +1,181 @@
+/* ================================
+   FILTRES PAR OBJECTIF
+================================ */
+.type-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  color: var(--text-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+  background: var(--highlight-soft-color);
+}
+
+.filter-btn.active {
+  background: var(--admin-primary-400);
+  color: #fff;
+  border-color: var(--admin-primary-400);
+}
+
+/* ================================
+   STRUCTURE GLOBALE
+================================ */
+.page-content {
+  padding: 24px;
+}
+
+/* ================================
+   GRILLE RESPONSIVE
+================================ */
+.programs-grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* PC : ≥ 1024px */
+@media (min-width: 1024px) {
+  .programs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+}
+
+/* Mobile / Tablette : ≤ 1024px */
+@media (max-width: 1024px) {
+  .programs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================
+   CARTE PROGRAMME
+================================ */
+.program-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.program-card {
+  border-radius: 12px;
+  padding: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  background: #fff;
+}
+
+/* Effet hover uniquement sur PC */
+@media (hover: hover) and (pointer: fine) {
+  .program-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ================================
+   HEADER PROGRAMME
+================================ */
+.program-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.program-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: var(--admin-primary-400);
+}
+
+.program-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-primary-600);
+  margin: 0 0 4px;
+}
+
+/* ================================
+   DESCRIPTION
+================================ */
+.program-desc {
+  font-size: 0.9rem;
+  color: var(--admin-gray-800);
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+/* ================================
+   META (durée, séances)
+================================ */
+.program-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.program-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--admin-gray-700);
+}
+
+.program-meta mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--admin-primary-400);
+}
+
+/* ================================
+   PROGRESSION
+================================ */
+.progress-section {
+  margin-top: 8px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--admin-gray-600);
+  margin-bottom: 6px;
+}
+
+.progress-pct {
+  font-weight: 700;
+  color: var(--admin-primary-500);
+}
+
+/* ================================
+   ACCESSIBILITÉ RGAA
+================================ */
+mat-card,
+.program-card {
+  outline: none;
+}
+
+.program-card-link:focus-visible mat-card {
+  outline: 3px solid var(--admin-primary-500);
+  outline-offset: 4px;
+  border-radius: 12px;
+}

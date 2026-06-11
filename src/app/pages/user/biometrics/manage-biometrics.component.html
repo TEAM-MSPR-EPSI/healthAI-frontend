@@ -1,0 +1,72 @@
+<mat-card class="manage-card">
+  <mat-card-title>Gestion des données biométriques</mat-card-title>
+
+  <div class="controls">
+    <mat-form-field appearance="outline">
+      <mat-label>Utilisateur</mat-label>
+      <mat-select [(ngModel)]="userId" (selectionChange)="onUserChange($event.value)" *ngIf="users.length">
+        <mat-option *ngFor="let u of users" [value]="u.user_id">{{ u.user_firstname }} {{ u.user_lastname }} ({{ u.user_email }})</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="loading">Chargement...</div>
+
+  <div class="new-form">
+    <h4>Ajouter une entrée biométrique</h4>
+    <div class="row">
+      <input type="date" [(ngModel)]="newBiometricDate" />
+      <input placeholder="Poids (kg)" type="number" step="0.1" [(ngModel)]="newBiometricWeight" />
+      <input placeholder="Sommeil (min)" type="number" [(ngModel)]="newBiometricSleep" />
+      <input placeholder="Pas" type="number" [(ngModel)]="newBiometricSteps" />
+      <button mat-stroked-button (click)="createBiometric()">Ajouter</button>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="biometrics" class="mat-elevation-z1" *ngIf="!loading">
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.biometric_id]">{{ el.biometric_date }}</div>
+        <input *ngIf="editing[el.biometric_id]" [(ngModel)]="el.biometric_date" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef>Poids</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.biometric_id]">{{ el.biometric_weight ?? '-' }}</div>
+        <input *ngIf="editing[el.biometric_id]" type="number" step="0.1" [(ngModel)]="el.biometric_weight" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sleep">
+      <th mat-header-cell *matHeaderCellDef>Sommeil (min)</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.biometric_id]">{{ el.biometric_sleep ?? '-' }}</div>
+        <input *ngIf="editing[el.biometric_id]" type="number" [(ngModel)]="el.biometric_sleep" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="steps">
+      <th mat-header-cell *matHeaderCellDef>Pas</th>
+      <td mat-cell *matCellDef="let el">
+        <div *ngIf="!editing[el.biometric_id]">{{ el.biometric_steps ?? '-' }}</div>
+        <input *ngIf="editing[el.biometric_id]" type="number" [(ngModel)]="el.biometric_steps" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let el">
+        <button mat-icon-button *ngIf="!editing[el.biometric_id]" (click)="startEdit(el.biometric_id)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="primary" *ngIf="editing[el.biometric_id]" (click)="saveEdit(el)"><mat-icon>save</mat-icon></button>
+        <button mat-icon-button color="warn" *ngIf="editing[el.biometric_id]" (click)="cancelEdit(el.biometric_id)"><mat-icon>close</mat-icon></button>
+        <button mat-icon-button color="warn" aria-label="Supprimer" (click)="deleteBiometric(el.biometric_id)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['date','weight','sleep','steps','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['date','weight','sleep','steps','actions'];"></tr>
+  </table>
+</mat-card>

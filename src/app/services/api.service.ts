@@ -39,6 +39,18 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/users`);
   }
 
+  getUserHealthProfile(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-health-profiles/user/${userId}`);
+  }
+
+  createUserHealthProfile(data: any): Observable<any> {
+    return this.http.post(`${this.base}/user-health-profiles`, data);
+  }
+
+  updateUserHealthProfile(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/user-health-profiles/${id}`, data);
+  }
+
   getUserHealthProfiles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/user-health-profiles`);
   }
@@ -74,8 +86,33 @@ export class ApiService {
     );
   }
 
+  // --- Ingredients (admin editable) ---
+  getIngredients(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/ingredients`);
+  }
+
+  updateIngredient(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/ingredients/${id}`, data);
+  }
+
+  createIngredient(data: any): Observable<any> {
+    return this.http.post(`${this.base}/ingredients`, data);
+  }
+
+  deleteIngredient(id: number): Observable<any> {
+    return this.http.delete(`${this.base}/ingredients/${id}`);
+  }
+
   getConsumesAll(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/consumes`);
+  }
+
+  createSessionProgress(data: any): Observable<any> {
+    return this.http.post(`${this.base}/session-progress`, data);
+  }
+
+  getSessionProgressesByUserId(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/session-progress/user/${userId}`);
   }
 
   getSessionProgresses(): Observable<any[]> {
@@ -151,6 +188,11 @@ export class ApiService {
     return this.http.get<any>(`${this.base}/sport-programs/${id}`).pipe(
       map((program) => ({
         ...program,
+        sport_program_id: program.sport_program_id ?? program.id,
+        sport_program_name: program.sport_program_name ?? program.name,
+        sport_program_objective: program.sport_program_objective ?? program.objective,
+        sport_program_duration: program.sport_program_duration ?? program.duration,
+        sport_program_sessions: program.sport_program_sessions ?? program.sessions,
         sessions: Array.isArray(program.programSessions)
           ? program.programSessions.map((relation: any) => ({
               sport_session_id: relation.sport_session?.sport_session_id ?? relation.sport_session_id,
@@ -298,6 +340,10 @@ export class ApiService {
     return this.http.get<any>(`${this.base}/user-biometrics/${id}`);
   }
 
+  getMyBiometricsSummary(): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-biometrics/me/summary`);
+  }
+
   createUserBiometric(data: any): Observable<any> {
     return this.http.post(`${this.base}/user-biometrics`, data);
   }
@@ -329,6 +375,28 @@ export class ApiService {
 
   deleteConsume(id: number): Observable<any> {
     return this.http.delete(`${this.base}/consumes/${id}`);
+  }
+
+  // --- Subscriptions ---
+  getSubscriptions(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/subscriptions`);
+  }
+
+  // --- User Subscriptions ---
+  getUserSubscriptions(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/user-subscriptions/user/${userId}`);
+  }
+
+  getActiveUserSubscription(): Observable<any> {
+    return this.http.get<any>(`${this.base}/user-subscriptions/me/active`);
+  }
+
+  createUserSubscription(data: { user_id: number; subscription_id: number; user_subscription_end?: string | null }): Observable<any> {
+    return this.http.post(`${this.base}/user-subscriptions`, data);
+  }
+
+  cancelUserSubscription(userSubscriptionId: number): Observable<any> {
+    return this.http.patch(`${this.base}/user-subscriptions/${userSubscriptionId}/cancel`, {});
   }
 
   // --- Analytics Endpoints ---

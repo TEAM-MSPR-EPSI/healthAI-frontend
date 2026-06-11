@@ -8,7 +8,10 @@
     "start:local": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:coverage": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "prettier": {
     "printWidth": 100,
@@ -33,6 +36,7 @@
     "@angular/material": "20.2.14",
     "@angular/platform-browser": "20.3.17",
     "@angular/router": "20.3.17",
+    "@angular/service-worker": "20.3.17",
     "@fortawesome/angular-fontawesome": "^3.0.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
@@ -47,6 +51,7 @@
     "@angular/build": "20.3.13",
     "@angular/cli": "20.3.9",
     "@angular/compiler-cli": "20.3.17",
+    "@playwright/test": "^1.60.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",

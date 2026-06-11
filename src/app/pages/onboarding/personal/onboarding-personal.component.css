@@ -114,6 +114,7 @@
   outline: none;
   transition: border-color 0.2s;
   box-sizing: border-box;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
 
 .form-input:focus {
@@ -157,6 +158,13 @@
 .btn-continuer:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.field-error {
+  color: #b3261e;
+  font-size: 0.75rem;
+  margin: 4px 0 0;
+  font-weight: 500;
 }
 
 @media (max-width: 480px) {

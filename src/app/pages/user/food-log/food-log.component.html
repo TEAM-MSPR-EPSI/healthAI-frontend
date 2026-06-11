@@ -1,0 +1,275 @@
+<div class="page-content">
+
+  <!-- Header -->
+  <div class="fl-header-bar">
+    <a routerLink="/user/recipes" class="back-link">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon> Retour
+    </a>
+  </div>
+
+  <div class="fl-title">
+    <span class="fl-title-emoji">🍽️</span>
+    <div>
+      <h1>Journal alimentaire</h1>
+      <p class="fl-subtitle">Suivez ce que vous mangez jour par jour</p>
+    </div>
+  </div>
+
+  <!-- ===== SÉLECTEUR DE DATE ===== -->
+  <div class="fl-date-nav">
+    <button class="fl-date-arrow" (click)="goToPrevDay()" aria-label="Jour précédent">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="fl-date-center">
+      <div class="fl-date-label">
+        @if (isToday) {
+          <span class="fl-date-today-badge">Aujourd'hui</span>
+        }
+        <span class="fl-date-text">{{ formatDisplayDate(selectedDate) }}</span>
+      </div>
+      <input
+        class="fl-date-input"
+        type="date"
+        [(ngModel)]="selectedDate"
+        [max]="today"
+      />
+    </div>
+
+    <button
+      class="fl-date-arrow"
+      (click)="goToNextDay()"
+      [disabled]="isNextDayDisabled"
+      aria-label="Jour suivant">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  @if (!isToday) {
+    <div class="fl-back-today">
+      <button class="fl-back-today-btn" (click)="goToToday()">
+        <mat-icon>today</mat-icon> Revenir à aujourd'hui
+      </button>
+    </div>
+  }
+
+  <!-- ===== TABS ===== -->
+  <div class="fl-tabs">
+    <button class="fl-tab" [class.active]="mode === 'recipe'" (click)="setMode('recipe')">
+      <mat-icon>menu_book</mat-icon> Recette
+    </button>
+    <button class="fl-tab" [class.active]="mode === 'ingredient'" (click)="setMode('ingredient')">
+      <mat-icon>egg</mat-icon> Ingrédient
+    </button>
+  </div>
+
+  <!-- ===== RECIPE MODE ===== -->
+  @if (mode === 'recipe') {
+    <div class="fl-add-block">
+      <p class="fl-add-hint">
+        <mat-icon>info_outline</mat-icon>
+        Recherchez une recette et appuyez sur <strong>+</strong> pour l'ajouter
+      </p>
+      <div class="fl-search-row">
+        <mat-icon class="fl-search-icon">search</mat-icon>
+        <input
+          class="fl-search-input"
+          type="text"
+          placeholder="Ex : Salade César, Poulet grillé…"
+          [(ngModel)]="recipeSearch"
+          autocomplete="off"
+        />
+        @if (recipeSearch) {
+          <button class="fl-clear-btn" (click)="recipeSearch = ''" aria-label="Effacer">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </div>
+
+      @if (loadingRecipes) {
+        <p class="fl-hint-text">Chargement…</p>
+      } @else if (!recipeSearch) {
+        <p class="fl-hint-text">Tapez le nom d'une recette pour la trouver</p>
+      } @else if (filteredRecipes.length === 0) {
+        <p class="fl-hint-text">Aucune recette trouvée pour "{{ recipeSearch }}"</p>
+      } @else {
+        <div class="fl-results">
+          @for (recipe of filteredRecipes; track recipe.recipe_id) {
+            <div class="fl-result-item">
+              <div class="fl-result-info">
+                <span class="fl-result-name">{{ recipe.recipe_name }}</span>
+                @if (recipe.recipe_type) {
+                  <span class="fl-result-tag">{{ recipe.recipe_type }}</span>
+                }
+              </div>
+              <button
+                class="fl-add-circle-btn"
+                (click)="addRecipe(recipe)"
+                [disabled]="loadingRecipeId === recipe.recipe_id || isAlreadyAdded(recipe.recipe_id)"
+                [class.added]="isAlreadyAdded(recipe.recipe_id)"
+                aria-label="Ajouter">
+                @if (loadingRecipeId === recipe.recipe_id) {
+                  <mat-icon class="fl-spin">sync</mat-icon>
+                } @else if (isAlreadyAdded(recipe.recipe_id)) {
+                  <mat-icon>check</mat-icon>
+                } @else {
+                  <mat-icon>add</mat-icon>
+                }
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ===== INGREDIENT MODE ===== -->
+  @if (mode === 'ingredient') {
+    <div class="fl-add-block">
+
+      @if (!selectedIngredient) {
+        <p class="fl-add-hint">
+          <mat-icon>info_outline</mat-icon>
+          Recherchez un ingrédient, sélectionnez-le puis indiquez la quantité en grammes
+        </p>
+        <div class="fl-search-row">
+          <mat-icon class="fl-search-icon">search</mat-icon>
+          <input
+            class="fl-search-input"
+            type="text"
+            placeholder="Ex : Riz, Poulet, Avocat…"
+            [(ngModel)]="ingredientSearch"
+            autocomplete="off"
+          />
+          @if (ingredientSearch) {
+            <button class="fl-clear-btn" (click)="ingredientSearch = ''" aria-label="Effacer">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+
+        @if (loadingIngredients) {
+          <p class="fl-hint-text">Chargement…</p>
+        } @else if (!ingredientSearch) {
+          <p class="fl-hint-text">Tapez le nom d'un ingrédient pour le trouver</p>
+        } @else if (filteredIngredients.length === 0) {
+          <p class="fl-hint-text">Aucun ingrédient trouvé pour "{{ ingredientSearch }}"</p>
+        } @else {
+          <div class="fl-results">
+            @for (ing of filteredIngredients; track ing.ingredient_id) {
+              <div class="fl-result-item">
+                <div class="fl-result-info">
+                  <span class="fl-result-name">{{ ing.ingredient_name }}</span>
+                  @if (ing.ingredient_type) {
+                    <span class="fl-result-tag">{{ ing.ingredient_type }}</span>
+                  }
+                </div>
+                <button class="fl-select-btn" (click)="selectIngredient(ing)">
+                  Sélectionner
+                </button>
+              </div>
+            }
+          </div>
+        }
+      }
+
+      @if (selectedIngredient) {
+        <div class="fl-grams-block">
+          <div class="fl-grams-selected">
+            <mat-icon>egg</mat-icon>
+            <span>{{ selectedIngredient.ingredient_name }}</span>
+            <button class="fl-cancel-link" (click)="selectedIngredient = null; ingredientSearch = ''">
+              Changer
+            </button>
+          </div>
+          <p class="fl-grams-label">Combien de grammes avez-vous mangé ?</p>
+          <div class="fl-grams-row">
+            <input
+              class="fl-grams-input"
+              type="number"
+              min="1"
+              placeholder="0"
+              [(ngModel)]="gramsInput"
+              autofocus
+            />
+            <span class="fl-grams-unit">g</span>
+            <button class="fl-add-btn" (click)="addIngredient()" [disabled]="!gramsInput || gramsInput <= 0">
+              <mat-icon>add</mat-icon> Ajouter
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ===== LOG ===== -->
+  @if (log.length > 0) {
+    <div class="fl-log">
+      <h2 class="fl-log-title">
+        {{ isToday ? 'Ce que vous avez mangé aujourd\'hui' : 'Journal du ' + formatDisplayDate(selectedDate) }}
+      </h2>
+
+      @for (entry of log; let i = $index; track i) {
+        <mat-card class="fl-log-card">
+          <mat-card-content>
+            <div class="fl-log-row">
+              <div class="fl-log-info">
+                <span class="fl-log-name">
+                  {{ entry.kind === 'recipe' ? entry.recipe_name : entry.ingredient_name }}
+                </span>
+                <span class="fl-log-meta">
+                  @if (entry.kind === 'recipe') {
+                    📋 Recette@if (entry.recipe_type) { · {{ entry.recipe_type }} }
+                  } @else {
+                    🥄 {{ entry.grams }}g · {{ entry.ingredient_type }}
+                  }
+                </span>
+              </div>
+              <button class="fl-remove-btn" (click)="removeEntry(i)" aria-label="Supprimer">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+            <div class="fl-macros">
+              <span class="fl-macro">🔥 {{ entryMacros(entry).calories }} kcal</span>
+              <span class="fl-macro">💪 {{ entryMacros(entry).protein }}g prot.</span>
+              <span class="fl-macro">🌾 {{ entryMacros(entry).carbs }}g gluc.</span>
+              <span class="fl-macro">💧 {{ entryMacros(entry).fats }}g lip.</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <!-- Totals -->
+      <div class="fl-totals">
+        <h3 class="fl-totals-title">Total · {{ formatDisplayDate(selectedDate) }}</h3>
+        <div class="fl-totals-grid">
+          <div class="fl-total-item">
+            <span class="fl-total-value">{{ totals.calories }}</span>
+            <span class="fl-total-label">🔥 kcal</span>
+          </div>
+          <div class="fl-total-item">
+            <span class="fl-total-value">{{ totals.protein }}g</span>
+            <span class="fl-total-label">💪 Protéines</span>
+          </div>
+          <div class="fl-total-item">
+            <span class="fl-total-value">{{ totals.carbs }}g</span>
+            <span class="fl-total-label">🌾 Glucides</span>
+          </div>
+          <div class="fl-total-item">
+            <span class="fl-total-value">{{ totals.fats }}g</span>
+            <span class="fl-total-label">💧 Lipides</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="fl-empty-log">
+      <span class="fl-empty-icon">🥗</span>
+      <p>Aucun aliment enregistré</p>
+      <span class="fl-empty-sub">
+        {{ isToday ? 'Utilisez la recherche ci-dessus pour ajouter ce que vous avez mangé' : 'Rien n\'a été enregistré pour ce jour' }}
+      </span>
+    </div>
+  }
+
+</div>

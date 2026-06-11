@@ -114,6 +114,7 @@
   outline: none;
   transition: border-color 0.2s;
   box-sizing: border-box;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
 
 .form-input:focus {

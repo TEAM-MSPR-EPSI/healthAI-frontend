@@ -1,0 +1,437 @@
+.exercices-page {
+  min-height: 100vh;
+  background: var(--admin-gray-50);
+}
+
+/* ===== Header ===== */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 20px 36px;
+  background: linear-gradient(135deg, var(--admin-primary-500) 0%, var(--admin-primary-300) 100%);
+  color: #fff;
+}
+
+.header-icon mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+.page-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.header-sub {
+  font-size: 0.95rem;
+  opacity: 0.88;
+  margin: 0;
+  max-width: 400px;
+}
+
+/* ===== Layout ===== */
+.content-wrap {
+  max-width: 720px;
+  margin: 28px auto 48px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ===== Form Card ===== */
+.form-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 24px rgba(43, 54, 38, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: opacity 0.2s;
+}
+
+.form-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.form-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-primary-500);
+  margin: 0 0 24px;
+}
+
+/* ===== Field Group ===== */
+.field-group {
+  margin-bottom: 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-gray-700, #555);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.8rem;
+  color: var(--admin-gray-500, #888);
+}
+
+/* ===== Chips ===== */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--admin-gray-200, #e0e0e0);
+  background: var(--admin-gray-50, #f8f8f8);
+  color: var(--admin-gray-700, #444);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--admin-primary-300);
+  background: var(--admin-primary-50, #f0f8ee);
+}
+
+.chip.active {
+  border-color: var(--admin-primary-500);
+  background: var(--admin-primary-500);
+  color: #fff;
+}
+
+.chip.chip-warning.active {
+  border-color: #e65100;
+  background: #fff3e0;
+  color: #bf360c;
+}
+
+.chip-sm {
+  padding: 5px 11px;
+  font-size: 0.8rem;
+}
+
+.chip-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ===== Two Col ===== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ===== Stepper ===== */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid var(--admin-gray-200, #e0e0e0);
+  border-radius: 10px;
+  padding: 4px 8px;
+  background: var(--admin-gray-50, #f8f8f8);
+}
+
+.step-btn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--admin-primary-500);
+  transition: background 0.15s;
+}
+
+.step-btn:hover:not(:disabled) {
+  background: var(--admin-primary-50, #f0f8ee);
+}
+
+.step-btn:disabled {
+  color: var(--admin-gray-300, #ccc);
+  cursor: default;
+}
+
+.step-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.step-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-gray-800, #222);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ===== Generate Button ===== */
+.generate-btn {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: var(--admin-primary-500);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: var(--admin-primary-600, #3a7a30);
+}
+
+.generate-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-content mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Spinner ===== */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Error ===== */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #fff3e0;
+  color: #bf360c;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border: 1px solid #ffcc80;
+}
+
+.error-banner mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== Result Card ===== */
+.result-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 24px rgba(43, 54, 38, 0.10);
+  border: 1.5px solid var(--admin-primary-200, #b8e6a0);
+}
+
+.result-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.result-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--admin-primary-500);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.result-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--admin-primary-500);
+  margin: 0 0 2px;
+}
+
+.result-meta {
+  font-size: 0.8rem;
+  color: var(--admin-gray-500, #888);
+  margin: 0;
+}
+
+.icon-btn {
+  all: unset;
+  box-sizing: border-box;
+  margin-left: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--admin-gray-600, #666);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background: var(--admin-gray-100, #f0f0f0);
+}
+
+/* ===== Exercise Tags ===== */
+.exercise-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ex-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--admin-primary-50, #f0f8ee);
+  border: 1px solid var(--admin-primary-200, #c8e8b8);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--admin-primary-600, #2e6622);
+}
+
+.ex-score {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--admin-primary-400, #5aaa40);
+}
+
+/* ===== Plan ===== */
+.plan-content {
+  background: var(--admin-gray-50, #f8f8f8);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--admin-gray-100, #eee);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.plan-content pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--admin-gray-800, #222);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ===== Result Actions ===== */
+.result-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--admin-gray-200, #e0e0e0);
+  color: var(--admin-gray-700, #444);
+  transition: background 0.15s;
+}
+
+.action-btn:hover {
+  background: var(--admin-gray-100, #f0f0f0);
+}
+
+.action-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .page-header {
+    padding: 36px 16px 28px;
+  }
+
+  .page-header h2 {
+    font-size: 1.45rem;
+  }
+
+  .content-wrap {
+    padding: 0 16px;
+    margin-top: 20px;
+  }
+
+  .form-card {
+    padding: 20px 16px;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}

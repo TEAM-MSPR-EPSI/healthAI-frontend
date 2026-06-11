@@ -15,19 +15,37 @@ export class OnboardingMetricsComponent {
   weight: number | null = null;
   saving = false;
   errorMessage = '';
+  sizeError = '';
+  weightError = '';
+
+  private static readonly DEFAULT_SIZE = 170;
+  private static readonly DEFAULT_WEIGHT = 70;
 
   constructor(
     private router: Router,
     private auth: AuthService,
   ) {
     const user = this.auth.currentUser();
-    this.size = user?.user_size ? Number(user.user_size) : null;
-    this.weight = user?.user_weight ? Number(user.user_weight) : null;
+
+    const rawSize = user?.user_size ? Number(user.user_size) : null;
+    const rawWeight = user?.user_weight ? Number(user.user_weight) : null;
+
+    this.size = rawSize !== null && rawSize !== OnboardingMetricsComponent.DEFAULT_SIZE ? rawSize : null;
+    this.weight = rawWeight !== null && rawWeight !== OnboardingMetricsComponent.DEFAULT_WEIGHT ? rawWeight : null;
   }
 
   async next() {
-    this.saving = true;
     this.errorMessage = '';
+
+    const trimmedSize = this.size?.toString().trim();
+    const trimmedWeight = this.weight?.toString().trim();
+
+    if (!this.isValidSize(trimmedSize ?? '') || !this.isValidWeight(trimmedWeight ?? '')) {
+      this.errorMessage = 'La taille doit être comprise entre 50 et 250 cm, et le poids entre 20 et 300 kg.';
+      return;
+    }
+
+    this.saving = true;
 
     const payload: Record<string, any> = {};
     if (this.size && this.size > 0) {
@@ -52,5 +70,37 @@ export class OnboardingMetricsComponent {
 
   back() {
     this.router.navigate(['/onboarding/personal']);
+  }
+
+  isValidSize(size: string): boolean {
+    const sizeNum = Number(size);
+    return !isNaN(sizeNum) && sizeNum >= 50 && sizeNum <= 300;
+  }
+
+  isValidWeight(weight: string): boolean {
+    const weightNum = Number(weight);
+    return !isNaN(weightNum) && weightNum >= 20 && weightNum <= 300;
+  }
+
+  validate() {
+    const trimmedSize = this.size?.toString().trim();
+    const trimmedWeight = this.weight?.toString().trim();
+
+    if (!trimmedSize || !trimmedWeight) {
+      this.errorMessage = '';
+      return;
+    }
+
+    const valid =
+      this.isValidSize(trimmedSize) &&
+      this.isValidWeight(trimmedWeight);
+
+    this.errorMessage = valid
+      ? ''
+      : 'La taille doit être comprise entre 50 et 300 cm, et le poids entre 20 et 300 kg.';
+  }
+
+  canContinue(): boolean {
+    return this.errorMessage === '' && this.size !== null && this.weight !== null;
   }
 }

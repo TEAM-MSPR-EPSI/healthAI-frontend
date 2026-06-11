@@ -1,0 +1,196 @@
+/* ================================
+   PAGE
+================================ */
+.page-content {
+  padding: 28px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ================================
+   BACK LINK
+================================ */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--admin-primary-500);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  margin-bottom: 22px;
+  transition: color .2s ease;
+}
+.back-link:hover {
+  color: var(--admin-primary-600);
+  text-decoration: underline;
+}
+
+/* ================================
+   LOADING / EMPTY
+================================ */
+.loading-text,
+.empty-text {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 1rem;
+  color: var(--admin-gray-600);
+}
+
+/* ================================
+   HEADER PROGRAMME
+================================ */
+.program-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.program-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--admin-primary-400);
+}
+
+.program-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--admin-primary-600);
+}
+
+.program-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.program-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--admin-gray-700);
+}
+
+.program-meta mat-icon {
+  font-size: 18px;
+  color: var(--admin-primary-400);
+}
+
+/* ================================
+   SECTION TITLE
+================================ */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--admin-primary-600);
+  margin: 0 0 20px;
+}
+
+.section-title mat-icon {
+  font-size: 26px;
+  color: var(--admin-primary-400);
+}
+
+/* ================================
+   LISTE DES SÉANCES
+================================ */
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Wrapper lien + bouton */
+.session-row-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+
+/* ================================
+   CARTE SÉANCE
+================================ */
+.session-link {
+  flex: 1;
+  text-decoration: none;
+}
+
+.session-row {
+  border-radius: 14px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--admin-gray-200);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .session-row:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
+}
+
+.session-row mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.session-rank {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--admin-primary-500);
+  min-width: 34px;
+}
+
+.session-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--admin-primary-600);
+}
+
+.session-arrow {
+  color: var(--admin-gray-500);
+}
+
+/* ================================
+   BOUTON LANCER (NOUVELLE VERSION)
+================================ */
+.start-btn {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 700px) {
+  .program-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .session-row-wrapper {
+    flex-direction: column;
+  }
+
+  .start-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
