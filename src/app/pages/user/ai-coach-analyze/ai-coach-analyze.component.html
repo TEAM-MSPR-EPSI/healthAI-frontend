@@ -1,0 +1,168 @@
+<div class="analyze-page">
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="header-icon">
+      <mat-icon>camera_alt</mat-icon>
+    </div>
+    <h2>Analyse de repas</h2>
+    <p class="header-sub">Prends en photo ton repas et obtiens son analyse nutritionnelle en quelques secondes</p>
+  </section>
+
+  <div class="content-wrap">
+
+    <!-- Upload Card -->
+    <div class="upload-card" [class.loading]="isLoading">
+
+      <!-- Drop zone -->
+      <div
+        class="drop-zone"
+        [class.has-preview]="previewUrl"
+        (click)="fileInput.click()"
+        (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)"
+        role="button"
+        tabindex="0"
+        aria-label="Déposer ou sélectionner une photo">
+
+        <img *ngIf="previewUrl" [src]="previewUrl" alt="Aperçu du repas" class="preview-img" />
+
+        <div *ngIf="!previewUrl" class="drop-placeholder">
+          <mat-icon class="drop-icon">add_photo_alternate</mat-icon>
+          <p>Glisse ta photo ici ou <span class="link">clique pour sélectionner</span></p>
+          <p class="drop-hint">JPG, PNG, WEBP · Max 10 Mo</p>
+        </div>
+      </div>
+
+      <input #fileInput type="file" accept="image/*" class="file-input" (change)="onFileSelected($event)" />
+
+      <!-- Actions -->
+      <div class="upload-actions">
+        <button class="analyze-btn" (click)="analyze()" [disabled]="!selectedFile || isLoading" type="button">
+          <span *ngIf="!isLoading" class="btn-content">
+            <mat-icon>search</mat-icon>
+            Analyser ce repas
+          </span>
+          <span *ngIf="isLoading" class="btn-content">
+            <span class="spinner"></span>
+            Analyse en cours…
+          </span>
+        </button>
+
+        <button *ngIf="previewUrl" class="reset-btn" (click)="reset()" type="button">
+          <mat-icon>refresh</mat-icon>
+          Nouvelle photo
+        </button>
+      </div>
+
+      <div *ngIf="errorMsg" class="error-banner" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        {{ errorMsg }}
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div *ngIf="result" class="result-card" aria-live="polite">
+
+      <!-- Aliments détectés -->
+      <h3 class="result-section-title">
+        <mat-icon>restaurant_menu</mat-icon>
+        Aliments détectés
+      </h3>
+      <div class="foods-list">
+        <div *ngFor="let food of result.detected_foods" class="food-row">
+          <div class="food-name-wrap">
+            <span class="food-name">{{ food.name }}</span>
+            <span class="food-confidence">{{ confidencePct(food.confidence) }}</span>
+          </div>
+          <div *ngIf="food.calories" class="food-macros">
+            <span>{{ food.calories }} kcal</span>
+            <span>P {{ food.protein_g }}g</span>
+            <span>G {{ food.carbs_g }}g</span>
+            <span>L {{ food.fat_g }}g</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Totaux -->
+      <h3 class="result-section-title">
+        <mat-icon>bar_chart</mat-icon>
+        Valeurs nutritionnelles totales
+      </h3>
+      <div class="macros-row">
+        <div class="macro-chip macro-kcal">
+          <span class="macro-value">{{ result.total_calories }}</span>
+          <span class="macro-label">kcal</span>
+        </div>
+        <div class="macro-chip macro-protein">
+          <span class="macro-value">{{ result.total_protein_g }}g</span>
+          <span class="macro-label">Protéines</span>
+        </div>
+        <div class="macro-chip macro-carbs">
+          <span class="macro-value">{{ result.total_carbs_g }}g</span>
+          <span class="macro-label">Glucides</span>
+        </div>
+        <div class="macro-chip macro-fat">
+          <span class="macro-value">{{ result.total_fat_g }}g</span>
+          <span class="macro-label">Lipides</span>
+        </div>
+      </div>
+
+      <div *ngIf="result.target_calories" class="target-line">
+        Objectif calorique journalier : <strong>{{ result.target_calories }} kcal</strong>
+      </div>
+
+      <!-- Déséquilibres -->
+      <div *ngIf="result.imbalances.length" class="imbalances-block">
+        <h3 class="result-section-title">
+          <mat-icon>warning_amber</mat-icon>
+          Déséquilibres détectés
+        </h3>
+        <ul class="imbalances-list">
+          <li *ngFor="let item of result.imbalances">{{ item }}</li>
+        </ul>
+      </div>
+
+      <!-- Recommandations -->
+      <div *ngIf="result.suggestions.length" class="suggestions-block">
+        <h3 class="result-section-title">
+          <mat-icon>lightbulb</mat-icon>
+          Recommandations
+        </h3>
+
+        <!-- Score de confiance du Random Forest -->
+        <div *ngIf="result.ml_label && result.ml_confidence !== null" class="confidence-block">
+          <div class="confidence-header">
+            <span class="confidence-label">
+              Analyse IA · <strong>{{ result.ml_label }}</strong>
+            </span>
+            <span class="confidence-pct" [class.confidence-high]="result.ml_confidence! >= 0.75"
+                                         [class.confidence-mid]="result.ml_confidence! >= 0.5 && result.ml_confidence! < 0.75"
+                                         [class.confidence-low]="result.ml_confidence! < 0.5">
+              {{ (result.ml_confidence! * 100).toFixed(0) }}% de confiance
+            </span>
+          </div>
+          <div class="confidence-bar-bg">
+            <div class="confidence-bar-fill"
+                 [style.width.%]="result.ml_confidence! * 100"
+                 [class.confidence-high]="result.ml_confidence! >= 0.75"
+                 [class.confidence-mid]="result.ml_confidence! >= 0.5 && result.ml_confidence! < 0.75"
+                 [class.confidence-low]="result.ml_confidence! < 0.5">
+            </div>
+          </div>
+          <p class="confidence-hint">
+            <mat-icon>info</mat-icon>
+            {{ result.ml_confidence! >= 0.75 ? 'Déséquilibre clairement identifié par ton coachIA.'
+               : result.ml_confidence! >= 0.5 ? 'Déséquilibre probable, tu es proche de la zone d\'équilibre.'
+               : 'Repas proche de l\'équilibre' }}
+          </p>
+        </div>
+
+        <ul class="suggestions-list">
+          <li *ngFor="let s of result.suggestions">{{ s }}</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

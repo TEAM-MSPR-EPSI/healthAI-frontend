@@ -4,5 +4,32 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "warn"
+  },
+  "/etl": {
+    "target": "http://etl_backend:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
+  },
+  "/csv": {
+    "target": "http://etl_backend:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
+  },
+  "/exercices": {
+    "target": "http://exercices_service:8002",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
+  },
+  "/nutrition": {
+    "target": "http://nutrition_service:8001",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn",
+    "pathRewrite": {
+      "^/nutrition": ""
+    }
   }
 }

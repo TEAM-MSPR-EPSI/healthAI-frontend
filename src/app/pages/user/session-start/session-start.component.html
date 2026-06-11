@@ -1,0 +1,222 @@
+<!-- ══ INTRO ══════════════════════════════════════════════ -->
+@if (screen === 'intro') {
+<div class="page intro-page">
+  <button class="back-btn" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <div class="intro-layout">
+
+    <!-- Colonne / zone vidéo -->
+    <div class="intro-media">
+      @if (session?.sport_session_video_url) {
+        <video #videoRef class="session-video" [src]="session.sport_session_video_url"
+          preload="metadata" playsinline (click)="toggleVideo()"></video>
+        <button class="play-btn" (click)="toggleVideo()" [class.playing]="isPlaying">
+          <span class="play-circle-btn">
+            <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+          </span>
+        </button>
+      } @else {
+        <div class="video-placeholder">
+          <span class="play-circle-btn muted">
+            <mat-icon>play_arrow</mat-icon>
+          </span>
+          <span class="placeholder-label">Aperçu vidéo</span>
+        </div>
+      }
+      <div class="media-overlay"></div>
+    </div>
+
+    <!-- Colonne / zone infos -->
+    <div class="intro-content">
+      <div class="intro-tag">SÉANCE</div>
+      <h1 class="intro-title">{{ session?.sport_session_name ?? '…' }}</h1>
+
+      <div class="intro-stats">
+        @if (totalDuration != null) {
+          <div class="stat-chip">
+            <mat-icon>timer</mat-icon>
+            <span class="chip-value">{{ totalDuration }}</span>
+            <span class="chip-unit">min</span>
+          </div>
+        }
+        <div class="stat-chip">
+          <mat-icon>fitness_center</mat-icon>
+          <span class="chip-value">{{ steps.length }}</span>
+          <span class="chip-unit">exercices</span>
+        </div>
+      </div>
+
+      <p class="intro-hint">Équipez-vous et trouvez un espace suffisant avant de commencer.</p>
+
+      <button class="start-cta" (click)="confirmStart()">
+        <span>C'est parti</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</div>
+}
+
+<!-- ══ WARMUP ════════════════════════════════════════════ -->
+@if (screen === 'warmup') {
+<div class="player-page warmup-screen">
+
+  <div class="player-layout">
+
+    <div class="player-left">
+      <div class="screen-badge warmup-badge">ÉCHAUFFEMENT</div>
+      <h2 class="player-title">Préparez<br>vous !</h2>
+      @if (steps.length > 0) {
+        <div class="coming-next">
+          <span class="coming-label">Premier exercice</span>
+          <span class="coming-name">{{ steps[0].name }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="player-center">
+      <div class="ring-wrapper">
+        <svg class="ring-svg" viewBox="0 0 240 240">
+          <circle class="ring-track" cx="120" cy="120" [attr.r]="RADIUS" />
+          <circle class="ring-fill warmup-fill" cx="120" cy="120"
+            [attr.r]="RADIUS"
+            [attr.stroke-dasharray]="CIRCUMFERENCE"
+            [attr.stroke-dashoffset]="strokeDashoffset" />
+        </svg>
+        <div class="ring-inner">
+          <span class="ring-time">{{ formattedTime }}</span>
+          <span class="ring-sub">restant</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <div class="controls-stack">
+        <button class="ctrl-pause" (click)="togglePause()">
+          <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
+          <span>{{ isPaused ? 'Reprendre' : 'Pause' }}</span>
+        </button>
+        <button class="ctrl-skip" (click)="skip()">
+          <mat-icon>skip_next</mat-icon>
+          <span>Passer</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  @if (isPaused) { <div class="paused-overlay"><span>PAUSE</span></div> }
+</div>
+}
+
+<!-- ══ EXERCISE ══════════════════════════════════════════ -->
+@if (screen === 'exercise' && currentStep) {
+<div class="player-page exercise-screen">
+
+  <!-- Barre de progression top -->
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill"
+      [style.width.%]="(currentIndex / steps.length) * 100"></div>
+  </div>
+
+  <div class="player-layout">
+
+    <div class="player-left">
+      <div class="screen-badge exercise-badge">
+        {{ currentIndex + 1 }} / {{ steps.length }}
+      </div>
+      <h2 class="player-title">{{ currentStep.name }}</h2>
+      @if (currentStep.description) {
+        <p class="player-desc">{{ currentStep.description }}</p>
+      }
+      @if (currentIndex + 1 < steps.length) {
+        <div class="coming-next">
+          <span class="coming-label">Suivant</span>
+          <span class="coming-name">{{ steps[currentIndex + 1].name }}</span>
+        </div>
+      } @else {
+        <div class="coming-next last">
+          <span class="coming-label">Dernier exercice</span>
+          <span class="coming-name">Presque fini 💪</span>
+        </div>
+      }
+    </div>
+
+    <div class="player-center">
+      <!-- Dots -->
+      <div class="steps-dots">
+        @for (step of steps; track step.order; let i = $index) {
+          <span class="dot"
+            [class.dot-done]="i < currentIndex"
+            [class.dot-active]="i === currentIndex">
+          </span>
+        }
+      </div>
+
+      <div class="ring-wrapper">
+        <svg class="ring-svg" viewBox="0 0 240 240">
+          <circle class="ring-track" cx="120" cy="120" [attr.r]="RADIUS" />
+          <circle class="ring-fill exercise-fill" cx="120" cy="120"
+            [attr.r]="RADIUS"
+            [attr.stroke-dasharray]="CIRCUMFERENCE"
+            [attr.stroke-dashoffset]="strokeDashoffset" />
+        </svg>
+        <div class="ring-inner">
+          <span class="ring-time">{{ formattedTime }}</span>
+          <span class="ring-sub">restant</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <div class="controls-stack">
+        <button class="ctrl-pause" (click)="togglePause()">
+          <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
+          <span>{{ isPaused ? 'Reprendre' : 'Pause' }}</span>
+        </button>
+        <button class="ctrl-skip" (click)="skip()">
+          <mat-icon>skip_next</mat-icon>
+          <span>Passer</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  @if (isPaused) { <div class="paused-overlay"><span>PAUSE</span></div> }
+</div>
+}
+
+<!-- ══ DONE ══════════════════════════════════════════════ -->
+@if (screen === 'done') {
+<div class="player-page done-screen">
+  <div class="done-inner">
+    <div class="done-trophy">🏆</div>
+    <div class="done-tag">SÉANCE TERMINÉE</div>
+    <h2 class="done-title">Bravo !</h2>
+    @if (session?.sport_session_name) {
+      <p class="done-session">{{ session.sport_session_name }}</p>
+    }
+    <div class="done-stats-row">
+      <div class="done-stat">
+        <span class="done-stat-val">{{ steps.length }}</span>
+        <span class="done-stat-lbl">exercices</span>
+      </div>
+      @if (totalDuration != null) {
+        <div class="done-divider"></div>
+        <div class="done-stat">
+          <span class="done-stat-val">{{ totalDuration }}</span>
+          <span class="done-stat-lbl">minutes</span>
+        </div>
+      }
+    </div>
+    <button class="done-cta" (click)="backToSessions()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Retour aux séances</span>
+    </button>
+  </div>
+</div>
+}

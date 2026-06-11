@@ -1,0 +1,63 @@
+<section class="all-recipes-section">
+  <h2>Toutes les recettes</h2>
+
+  <!-- TYPE FILTERS -->
+  @if (!loading && recipeTypes.length) {
+    <div class="type-filters">
+      <button
+        class="filter-btn"
+        [class.active]="selectedType === null"
+        (click)="selectType(null)">
+        Tous
+      </button>
+      @for (type of recipeTypes; track type) {
+        <button
+          class="filter-btn"
+          [class.active]="selectedType === type"
+          (click)="selectType(type)">
+          {{ type }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- SKELETON LOADING -->
+  @if (loading) {
+    <div class="recipe-grid">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <div class="skeleton-card">
+          <div class="skeleton-emoji"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line" style="width: 70%;"></div>
+            <div class="skeleton-line" style="width: 100%; margin-top: 8px;"></div>
+            <div class="skeleton-line" style="width: 50%; margin-top: 8px;"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- REAL CONTENT -->
+  @if (!loading && filteredRecipes.length) {
+    <div class="recipe-grid">
+      @for (recipe of filteredRecipes; track recipe.recipe_id) {
+        <a [routerLink]="'/user/recipes/' + recipe.recipe_id" class="recipe-card-link">
+          <mat-card class="recipe-card">
+            <div class="recipe-emoji">{{ getRecipeEmoji(recipe) }}</div>
+            <mat-card-content>
+              <h3 class="recipe-name">{{ recipe.recipe_name }}</h3>
+              <p class="recipe-desc">{{ recipe.recipe_description }}</p>
+              @if (recipe.recipe_type) {
+                <mat-chip-set class="recipe-tags">
+                  <mat-chip>{{ recipe.recipe_type }}</mat-chip>
+                </mat-chip-set>
+              }
+            </mat-card-content>
+          </mat-card>
+        </a>
+      }
+    </div>
+  } @else if (!loading && !filteredRecipes.length) {
+    <p class="empty-text">Aucune recette pour ce type.</p>
+  }
+</section>

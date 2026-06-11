@@ -58,7 +58,7 @@ export class OnboardingGoalComponent {
       await this.auth.updateCurrentUserProfile({
         sport_program_id: this.selectedProgramId,
       });
-      this.router.navigate(['/recipes']);
+      this.router.navigate(['/user/home']);
     } catch {
       this.errorMessage = 'Impossible de sauvegarder votre programme sportif.';
     } finally {

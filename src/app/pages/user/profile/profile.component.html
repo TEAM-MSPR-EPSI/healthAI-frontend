@@ -1,0 +1,180 @@
+<div class="page-content">
+
+  <!-- Header bar (masquée sur desktop) -->
+  <div class="profile-header-bar desktop-hidden">
+    <button class="header-back" routerLink="/" aria-label="Retour à l'accueil">
+      <mat-icon aria-hidden="true">chevron_left</mat-icon> Retour
+    </button>
+    <span class="header-title">Réglage</span>
+    <button class="header-save" mat-button (click)="saveAll()" [disabled]="savingProfile" aria-label="Enregistrer toutes les modifications">
+      {{ savingProfile ? '...' : 'Enregistrer' }}
+    </button>
+  </div>
+
+  <!-- Avatar -->
+  <div class="avatar-section">
+    <div class="avatar-circle">
+      <mat-icon>person</mat-icon>
+    </div>
+    <p class="avatar-change-label">Changer ton avatar</p>
+  </div>
+
+  <!-- Profile fields card -->
+  <mat-card class="profile-card">
+    <mat-card-content>
+      <form class="profile-form" name="profileForm">
+
+        <div class="field-row">
+          <span class="field-label">Prénom</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.firstName" name="firstName" placeholder="Prénom" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Nom</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.lastName" name="lastName" placeholder="Nom" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Téléphone</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.phone" name="phone" placeholder="Téléphone" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Date de naissance</span>
+          <div class="field-right">
+            <input class="field-input" [matDatepicker]="picker" [(ngModel)]="profile.birthDate" name="birthDate" placeholder="JJ/MM/AAAA" />
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Genre</span>
+          <div class="field-right">
+            <mat-select class="field-select" [(ngModel)]="profile.gender" name="gender">
+              <mat-option value="male">Homme</mat-option>
+              <mat-option value="female">Femme</mat-option>
+              <mat-option value="other">Autre</mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="field-row has-action">
+          <span class="field-label">Mail</span>
+          <div class="field-right">
+            <input class="field-input" type="email" [(ngModel)]="profile.email" name="email" placeholder="Email" />
+          </div>
+          <span class="field-action">Changer</span>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Ville</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.city" name="city" placeholder="Ville" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">Pays</span>
+          <div class="field-right">
+            <input class="field-input" [(ngModel)]="profile.country" name="country" placeholder="Pays" />
+          </div>
+        </div>
+
+        @if (!loadingPrograms) {
+          <div class="field-row">
+            <span class="field-label">Programme sportif</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.sportProgramId" name="sportProgramId" (selectionChange)="onProgramChange()">
+                <mat-option [value]="null">Aucun</mat-option>
+                @for (program of sportPrograms; track program.sport_program_id) {
+                  <mat-option [value]="program.sport_program_id">{{ program.sport_program_name }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Objectif</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.goal" name="goal">
+                <mat-option value="">Aucun</mat-option>
+                @for (g of goals; track g.value) {
+                  <mat-option [value]="g.value">{{ g.label }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Activité physique</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.activity" name="activity">
+                <mat-option value="">Aucune</mat-option>
+                @for (a of activityLevels; track a.value) {
+                  <mat-option [value]="a.value">{{ a.label }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Régime alimentaire</span>
+            <div class="field-right">
+              <mat-select class="field-select" [(ngModel)]="profile.foodDiet" name="foodDiet">
+                @for (d of foodDiets; track d.value) {
+                  <mat-option [value]="d.value">{{ d.label }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+        }
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Allergies section -->
+  <mat-card class="profile-card allergies-card">
+    <mat-card-content>
+      <div class="section-header">
+        <span class="section-title">Allergies alimentaires</span>
+      </div>
+      @if (loadingAllergies) {
+        <div class="skeleton-line"></div>
+      } @else {
+        <div class="allergies-grid">
+          @for (allergy of allergiesList; track allergy) {
+            <button
+              class="allergy-chip"
+              [class.allergy-chip--selected]="isAllergySelected(allergy)"
+              (click)="toggleAllergy(allergy)"
+              type="button">
+              {{ formatAllergyLabel(allergy) }}
+            </button>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Action buttons -->
+  <div class="action-buttons">
+    <button class="action-btn save-btn desktop-only" mat-stroked-button (click)="saveAll()" [disabled]="savingProfile" aria-label="Enregistrer toutes les modifications">
+      <mat-icon aria-hidden="true">{{ savingProfile ? 'hourglass_empty' : 'save' }}</mat-icon>
+      <span>{{ savingProfile ? 'Enregistrement…' : 'Enregistrer' }}</span>
+    </button>
+    <button class="action-btn" mat-stroked-button aria-label="Centre d'aide">
+      <mat-icon aria-hidden="true">help_outline</mat-icon>
+      <span>Help center</span>
+    </button>
+    <button class="action-btn reset-btn" mat-stroked-button (click)="deleteAccount()" aria-label="Supprimer mon compte">
+      <mat-icon aria-hidden="true">warning</mat-icon>
+      <span>Supprimer mon compte</span>
+    </button>
+  </div>
+
+</div>

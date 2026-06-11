@@ -7,23 +7,23 @@ import { Observable } from 'rxjs';
 })
 export class EtlNutritionService {
 
-  private baseUrl = 'http://localhost:8000';
+  private baseUrl = '/etl';
 
   constructor(private http: HttpClient) {}
 
   extractIngredients(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/etl/extract-transform/ingredient`, {});
+    return this.http.post(`${this.baseUrl}/extract-transform/ingredient`, {});
   }
 
   getIngredientData(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/csv/ingredient`);
+    return this.http.get('/csv/ingredient');
   }
 
   saveIngredientData(data: any[]): Observable<any> {
-  return this.http.put(`${this.baseUrl}/csv/ingredient`, { data });
+  return this.http.put('/csv/ingredient', { data });
   }
 
   loadIngredientsToDb(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/etl/load-to-db/ingredient`, {});
+    return this.http.post(`${this.baseUrl}/load-to-db/ingredient`, {});
   }
 }
