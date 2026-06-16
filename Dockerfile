@@ -1,6 +1,14 @@
 # ── ÉTAPE 1 : Builder (compilation Angular) ────────────
 FROM node:22-alpine AS builder
 
+LABEL org.opencontainers.image.title="healthAI-frontend"
+LABEL org.opencontainers.image.description="Interface Angular du projet healthAI"
+LABEL org.opencontainers.image.vendor="MSPR Team"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.source="https://github.com/TEAM-MSPR-EPSI/healthAI-frontend"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.created="2026-06-16T12:00:00+02:00"
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -16,6 +24,14 @@ RUN npx ng build --configuration=production
 # ── ÉTAPE 2 : Runner (Nginx sert les fichiers statiques) ─
 # Node.js + Angular CLI + node_modules disparaissent complètement
 FROM nginx:alpine AS runner
+
+LABEL org.opencontainers.image.title="healthAI-frontend"
+LABEL org.opencontainers.image.description="Interface Angular du projet healthAI"
+LABEL org.opencontainers.image.vendor="MSPR Team"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.source="https://github.com/TEAM-MSPR-EPSI/healthAI-frontend"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.created="2026-06-16T12:00:00+02:00"
 
 # Supprime la page par défaut de nginx
 RUN rm -rf /usr/share/nginx/html/*
